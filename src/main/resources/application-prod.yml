@@ -1,0 +1,35 @@
+spring:
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+  application:
+    name: AnimalChipization
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+
+logging:
+  file:
+    path: /var/log/AnimalChipization
+    name: /var/log/AnimalChipization/app.log
+  level:
+    root: INFO
+    org.springframework: WARN
+
+server:
+  port: 8080
+  error:
+    include-stacktrace: never
+  tomcat:
+    connection-timeout: 1s
+    keep-alive-timeout: 30s
+    max-keep-alive-requests: 100

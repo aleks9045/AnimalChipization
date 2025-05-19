@@ -1,0 +1,35 @@
+services:
+  webapi:
+    build:
+      context: .
+      dockerfile: spring.Dockerfile
+    container_name: webapi
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+
+  database:
+    build:
+      context: postgres
+      dockerfile: postgres.Dockerfile
+    container_name: database
+    env_file:
+      - .env
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - database_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+
+volumes:
+  database_data:
+#  logs:
+#  static:
