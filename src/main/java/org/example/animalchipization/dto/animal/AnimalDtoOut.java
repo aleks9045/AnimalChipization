@@ -30,7 +30,7 @@ public class AnimalDtoOut {
 
     @NotNull
     @Positive
-    private Long animalId;
+    private Long id;
 
     @NotNull
     @Positive
