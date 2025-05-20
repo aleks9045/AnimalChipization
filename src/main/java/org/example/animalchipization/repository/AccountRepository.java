@@ -1,0 +1,17 @@
+package org.example.animalchipization.repository;
+
+import org.example.animalchipization.models.Account;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+/**
+ * Works with Account entity
+ * <p>Implements JpaRepository, so it has a set of ready-made methods
+ *
+ * @author Aleksey
+ * @see Account Location entity
+ */
+@Repository
+public interface AccountRepository extends JpaRepository<Account, Long> {
+
+}
