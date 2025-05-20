@@ -29,17 +29,17 @@ import java.util.Set;
 public class AnimalDtoIn {
 
     @Schema(description = "animal weight", example = "4.4")
-    @NotNull @NotBlank
+    @NotNull
     @Positive
     private Float weight;
 
     @Schema(description = "animal length", example = "0.8")
-    @NotNull @NotBlank
+    @NotNull
     @Positive
     private Float length;
 
     @Schema(description = "animal height", example = "0.4")
-    @NotNull @NotBlank
+    @NotNull
     @Positive
     private Float height;
 
@@ -48,15 +48,15 @@ public class AnimalDtoIn {
     private AnimalGender gender;
 
     @Schema(description = "animal chipper id", example = "1")
-    @NotNull @NotBlank
+    @NotNull
     private Integer chipperId;
 
     @Schema(description = "animal chipping location id", example = "1")
-    @NotNull @NotBlank
+    @NotNull
     private Long chippingLocationId;
 
     @Schema(description = "animal animal types", example = "1, 2")
-    @NotNull @NotBlank
+    @NotNull
     private Set<Long> animalTypes;
 
 }

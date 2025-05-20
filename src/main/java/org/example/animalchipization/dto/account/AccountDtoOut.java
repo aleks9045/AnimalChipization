@@ -20,7 +20,7 @@ import org.example.animalchipization.models.Account;
 @Getter
 public class AccountDtoOut {
 
-    @NotNull @NotBlank
+    @NotNull
     @Positive
     private Integer id;
 

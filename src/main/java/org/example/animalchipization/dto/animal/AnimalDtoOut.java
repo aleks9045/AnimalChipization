@@ -49,6 +49,7 @@ public class AnimalDtoOut {
     private Float height;
 
     @NotNull
+    @NotBlank
     private AnimalGender gender;
 
     @NotNull
