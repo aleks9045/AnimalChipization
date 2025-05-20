@@ -1,7 +1,6 @@
 package org.example.animalchipization.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 
 /**

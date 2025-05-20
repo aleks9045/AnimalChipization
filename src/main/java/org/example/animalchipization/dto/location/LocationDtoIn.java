@@ -1,15 +1,12 @@
 package org.example.animalchipization.dto.location;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.example.animalchipization.models.AnimalType;
 import org.example.animalchipization.models.Location;
 
 /**
