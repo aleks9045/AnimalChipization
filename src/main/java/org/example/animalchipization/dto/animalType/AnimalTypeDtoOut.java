@@ -8,8 +8,16 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.animalchipization.models.Account;
+import org.example.animalchipization.models.AnimalType;
 
 /**
+ * Represents animal type data transfer object
+ *
+ * <p>Used to display output data in responses<br>
+ * All fields must be not null or blank<br>
+ *
+ * @see AnimalType Animal type entity
  * @author Aleksey
  */
 @AllArgsConstructor

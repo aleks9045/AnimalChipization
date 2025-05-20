@@ -5,8 +5,15 @@ import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.animalchipization.models.Account;
 
 /**
+ * Represents account data transfer object
+ *
+ * <p>Used to display output data in responses<br>
+ * All fields must be not null or blank<br>
+ *
+ * @see Account Account entity
  * @author Aleksey
  */
 @AllArgsConstructor

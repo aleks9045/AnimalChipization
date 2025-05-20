@@ -7,8 +7,16 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.animalchipization.models.AnimalType;
 
 /**
+ * Represents animal type data transfer object
+ *
+ * <p>Used to validate input data in requests via jakarta validation<br>
+ * All fields must be not null or blank<br>
+ * Includes schemas definitions for display in swagger
+ *
+ * @see AnimalType Animal type entity
  * @author Aleksey
  */
 @AllArgsConstructor

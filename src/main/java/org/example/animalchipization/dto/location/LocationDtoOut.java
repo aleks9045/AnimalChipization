@@ -9,8 +9,15 @@ import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.animalchipization.models.Location;
 
 /**
+ * Represents location data transfer object
+ *
+ * <p>Used to display output data in responses<br>
+ * All fields must be not null or blank<br>
+ *
+ * @see Location Location entity
  * @author Aleksey
  */
 @AllArgsConstructor

@@ -12,6 +12,7 @@ import lombok.Setter;
 import org.example.animalchipization.enums.AnimalGender;
 import org.example.animalchipization.enums.AnimalLifeStatus;
 import org.example.animalchipization.models.Account;
+import org.example.animalchipization.models.Animal;
 import org.example.animalchipization.models.AnimalType;
 import org.example.animalchipization.models.Location;
 import org.hibernate.annotations.OnDelete;
@@ -22,6 +23,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * Represents animal data transfer object
+ *
+ * <p>Used to validate input data in requests via jakarta validation<br>
+ * All fields must be not null or blank<br>
+ * Includes schemas definitions for display in swagger
+ *
+ * @see Animal Animal entity
  * @author Aleksey
  */
 @AllArgsConstructor

@@ -9,8 +9,18 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.animalchipization.models.AnimalType;
+import org.example.animalchipization.models.Location;
 
 /**
+ * Represents location data transfer object
+ *
+ * <p>Used to validate input data in requests via jakarta validation<br>
+ * All fields must be not null or blank<br>
+ *
+ * Includes schemas definitions for display in swagger
+ *
+ * @see Location Location entity
  * @author Aleksey
  */
 @AllArgsConstructor
