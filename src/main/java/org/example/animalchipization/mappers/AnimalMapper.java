@@ -13,7 +13,7 @@ import org.mapstruct.Mapping;
 public interface AnimalMapper {
 
     @Mapping(target = "animalId", ignore = true)
-    Animal toModel(AnimalDtoIn dto);
+    Animal toEntity(AnimalDtoIn dto);
 
     @Mapping(target = "id", source = "animalId")
     AnimalDtoOut toDto(Animal dto);

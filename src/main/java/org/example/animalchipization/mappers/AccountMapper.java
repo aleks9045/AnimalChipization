@@ -13,7 +13,7 @@ import org.mapstruct.Mapping;
 public interface AccountMapper {
 
     @Mapping(target = "accountId", ignore = true)
-    Account toModel(AccountDtoIn dto);
+    Account toEntity(AccountDtoIn dto);
 
     @Mapping(target = "id", source = "accountId")
     AccountDtoOut toDto(Account model);
