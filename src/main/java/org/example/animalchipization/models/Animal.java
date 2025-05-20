@@ -15,6 +15,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * Represents an animal entity.
+ *
+ * <p>Has Many-to-Many relationships with {@link AnimalType} and {@link Location} entities.<br>
+ * Has One-to-Many relationship with {@link Account} entity.<br><br>
+ *
+ * Stores base information of animal (weight, length, height, gender)<br>
+ * Includes animal's lifecycle mechanism -
+ * death_date_time field sets automatically when life_status of animal is "DEAD"
+ *
+ * <p>Mapped with "animal" table in the database.
+ *
  * @author Aleksey
  */
 @Setter

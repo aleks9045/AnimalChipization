@@ -5,6 +5,10 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 /**
+ * Represents a location for animal entity
+ *
+ * <p>Mapped with "location" table in the database.
+ *
  * @author Aleksey
  */
 @Setter

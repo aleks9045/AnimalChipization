@@ -8,6 +8,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
+ * Represents a user account entity.<br>
+ * Contains personal identification information (first name, last name, email)
+ * and authentication credentials (password).
+ *
+ * <p>Mapped to the "account" table in the database.
+ *
  * @author Aleksey
  */
 

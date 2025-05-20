@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 /**
+ * Represents an animal type for animal entity
+ *
+ * <p>Mapped with "animal_type" table in the database.
+ *
  * @author Aleksey
  */
 @Setter
