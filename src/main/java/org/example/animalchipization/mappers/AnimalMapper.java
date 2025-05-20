@@ -2,7 +2,7 @@ package org.example.animalchipization.mappers;
 
 import org.example.animalchipization.dto.animal.AnimalDtoIn;
 import org.example.animalchipization.dto.animal.AnimalDtoOut;
-import org.example.animalchipization.models.Animal;
+import org.example.animalchipization.entities.Animal;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

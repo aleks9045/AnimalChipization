@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.example.animalchipization.models.Location;
+import org.example.animalchipization.entities.Location;
 
 /**
  * Represents location data transfer object

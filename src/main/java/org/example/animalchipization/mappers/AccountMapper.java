@@ -3,7 +3,7 @@ package org.example.animalchipization.mappers;
 import org.example.animalchipization.dto.account.AccountDtoIn;
 import org.example.animalchipization.dto.account.AccountDtoOut;
 import org.mapstruct.Mapper;
-import org.example.animalchipization.models.Account;
+import org.example.animalchipization.entities.Account;
 import org.mapstruct.Mapping;
 
 /**

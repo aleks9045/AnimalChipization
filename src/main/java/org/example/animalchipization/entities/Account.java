@@ -1,4 +1,4 @@
-package org.example.animalchipization.models;
+package org.example.animalchipization.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

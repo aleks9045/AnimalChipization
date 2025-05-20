@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.example.animalchipization.models.AnimalType;
+import org.example.animalchipization.entities.AnimalType;
 
 /**
  * Represents animal type data transfer object

@@ -1,6 +1,6 @@
 package org.example.animalchipization.repository;
 
-import org.example.animalchipization.models.Animal;
+import org.example.animalchipization.entities.Animal;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

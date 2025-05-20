@@ -3,7 +3,7 @@ package org.example.animalchipization.mappers;
 
 import org.example.animalchipization.dto.animalType.AnimalTypeDtoIn;
 
-import org.example.animalchipization.models.AnimalType;
+import org.example.animalchipization.entities.AnimalType;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

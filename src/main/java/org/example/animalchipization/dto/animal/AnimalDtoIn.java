@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.example.animalchipization.enums.AnimalGender;
 
-import org.example.animalchipization.models.Animal;
+import org.example.animalchipization.entities.Animal;
 
 import java.util.Set;
 

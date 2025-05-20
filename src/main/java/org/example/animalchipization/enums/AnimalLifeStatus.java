@@ -1,6 +1,6 @@
 package org.example.animalchipization.enums;
 
-import org.example.animalchipization.models.Animal;
+import org.example.animalchipization.entities.Animal;
 
 /**
  * Represents possible life status values for animal.

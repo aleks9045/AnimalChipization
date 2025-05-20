@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.example.animalchipization.models.Account;
+import org.example.animalchipization.entities.Account;
 
 /**
  * Represents account data transfer object
