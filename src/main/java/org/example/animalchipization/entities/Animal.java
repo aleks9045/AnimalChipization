@@ -1,10 +1,7 @@
 package org.example.animalchipization.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.example.animalchipization.enums.AnimalGender;
 import org.example.animalchipization.enums.AnimalLifeStatus;
 import org.hibernate.annotations.OnDelete;
@@ -32,6 +29,7 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Table(name = "animal", indexes = {
         @Index(name = "idx_animal_id", columnList = "animal_id")
 })

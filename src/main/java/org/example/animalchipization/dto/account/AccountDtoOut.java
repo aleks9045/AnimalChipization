@@ -4,6 +4,7 @@ import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.example.animalchipization.entities.Account;
 
 /**
@@ -18,6 +19,7 @@ import org.example.animalchipization.entities.Account;
 @AllArgsConstructor
 @Setter
 @Getter
+@ToString
 public class AccountDtoOut {
 
     @NotNull

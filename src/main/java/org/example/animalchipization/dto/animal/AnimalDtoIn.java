@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.example.animalchipization.enums.AnimalGender;
 
 import org.example.animalchipization.entities.Animal;
@@ -26,6 +27,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Setter
 @Getter
+@ToString
 public class AnimalDtoIn {
 
     @Schema(description = "animal weight", example = "4.4")

@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.example.animalchipization.entities.AnimalType;
 
 /**
@@ -22,6 +23,7 @@ import org.example.animalchipization.entities.AnimalType;
 @AllArgsConstructor
 @Setter
 @Getter
+@ToString
 public class AnimalTypeDtoOut {
 
     @NotNull

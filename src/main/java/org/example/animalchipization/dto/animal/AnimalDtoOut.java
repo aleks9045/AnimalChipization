@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.example.animalchipization.enums.AnimalGender;
 import org.example.animalchipization.enums.AnimalLifeStatus;
 
@@ -30,6 +31,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Setter
 @Getter
+@ToString
 public class AnimalDtoOut {
 
     @NotNull

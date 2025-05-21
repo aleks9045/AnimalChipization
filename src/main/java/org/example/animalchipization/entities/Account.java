@@ -1,10 +1,7 @@
 package org.example.animalchipization.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * Represents a user account entity.<br>
@@ -20,6 +17,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Entity
 @Table(name = "account", indexes = {
         @Index(name = "idx_account_id", columnList = "account_id")

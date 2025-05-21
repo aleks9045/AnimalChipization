@@ -15,6 +15,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
+@ToString
 @Table(name = "animal_type", indexes = {
         @Index(name = "idx_animal_type_id", columnList = "animal_type_id")
 })
