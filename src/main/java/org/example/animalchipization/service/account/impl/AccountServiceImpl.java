@@ -38,7 +38,6 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDtoOut addAccount(AccountDtoIn accountDtoIn) {
 
-        System.out.println(accountDtoIn);
         Account account = accountMapper.toEntity(accountDtoIn);
         Account savedAccount = accountRepository.save(account);
 
