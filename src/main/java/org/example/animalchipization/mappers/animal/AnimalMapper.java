@@ -1,10 +1,16 @@
-package org.example.animalchipization.mappers;
+package org.example.animalchipization.mappers.animal;
 
 import org.example.animalchipization.dto.animal.AnimalDtoIn;
 import org.example.animalchipization.dto.animal.AnimalDtoOut;
+import org.example.animalchipization.entities.Account;
 import org.example.animalchipization.entities.Animal;
+import org.example.animalchipization.entities.AnimalType;
+import org.example.animalchipization.entities.Location;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Mapper for {@link Animal} entity
@@ -13,7 +19,7 @@ import org.mapstruct.Mapping;
  *
  * @author Aleksey
  */
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = AnimalMapperHelper.class)
 public interface AnimalMapper {
 
     @Mapping(target = "animalId", ignore = true)
@@ -21,4 +27,5 @@ public interface AnimalMapper {
 
     @Mapping(target = "id", source = "animalId")
     AnimalDtoOut toDto(Animal dto);
+
 }

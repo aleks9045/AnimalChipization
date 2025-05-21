@@ -3,6 +3,7 @@ package org.example.animalchipization.mappers;
 
 import org.example.animalchipization.dto.animalType.AnimalTypeDtoIn;
 
+import org.example.animalchipization.dto.animalType.AnimalTypeDtoOut;
 import org.example.animalchipization.entities.AnimalType;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -21,5 +22,5 @@ public interface AnimalTypeMapper {
     AnimalType toEntity(AnimalTypeDtoIn dto);
 
     @Mapping(target = "id", source = "animalTypeId")
-    AnimalTypeDtoIn toDto(AnimalType model);
+    AnimalTypeDtoOut toDto(AnimalType model);
 }
