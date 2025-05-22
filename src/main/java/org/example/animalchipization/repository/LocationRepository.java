@@ -13,6 +13,6 @@ import org.springframework.stereotype.Repository;
  * @see Location Location entity
  */
 @Repository
-public interface LocationRepository extends JpaRepository<Location, Integer> {
+public interface LocationRepository extends JpaRepository<Location, Long> {
 
 }

@@ -39,9 +39,12 @@ public class AccountServiceImpl implements AccountService {
     public AccountDtoOut addAccount(AccountDtoIn accountDtoIn) {
 
         Account account = accountMapper.toEntity(accountDtoIn);
-        Account savedAccount = accountRepository.save(account);
-
-        return accountMapper.toDto(savedAccount);
+        try {
+            Account savedAccount = accountRepository.save(account);
+            return accountMapper.toDto(savedAccount);
+        } catch (Exception e) {
+            throw new AccountException(AccountError.ACCOUNT_ALREADY_EXISTS);
+        }
     }
 
     @Override
@@ -49,9 +52,13 @@ public class AccountServiceImpl implements AccountService {
 
         Account account = accountMapper.toEntity(accountDtoIn);
         account.setAccountId(accountId);
-        Account savedAccount = accountRepository.save(account);
+        try {
+            Account savedAccount = accountRepository.save(account);
+            return accountMapper.toDto(savedAccount);
+        } catch (Exception e) {
+            throw new AccountException(AccountError.ACCOUNT_ALREADY_EXISTS);
+        }
 
-        return accountMapper.toDto(savedAccount);
     }
 
     @Override

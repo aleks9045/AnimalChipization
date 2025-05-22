@@ -7,14 +7,14 @@ import org.springframework.http.HttpStatus;
  * @author Aleksey
  */
 @Getter
-public enum AccountError {
-    ACCOUNT_NOT_FOUND("Account with this id not found", HttpStatus.NOT_FOUND),
-    ACCOUNT_ALREADY_EXISTS("Account with this email already exists", HttpStatus.CONFLICT);
+public enum AnimalTypeError {
+    ANIMAL_TYPE_NOT_FOUND("Animal type with this id not found", HttpStatus.NOT_FOUND),
+    ANIMAL_TYPE_ALREADY_EXISTS("Animal type with this data already exists", HttpStatus.CONFLICT);
 
     private final String message;
     private final HttpStatus httpStatus;
 
-    AccountError(String message, HttpStatus httpStatus) {
+    AnimalTypeError(String message, HttpStatus httpStatus) {
         this.message = message;
         this.httpStatus = httpStatus;
     }

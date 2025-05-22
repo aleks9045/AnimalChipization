@@ -4,7 +4,6 @@ import org.example.animalchipization.dto.account.AccountDtoIn;
 import org.example.animalchipization.dto.account.AccountDtoOut;
 import org.example.animalchipization.entities.Account;
 import org.example.animalchipization.service.account.impl.AccountServiceImpl;
-import org.springframework.stereotype.Service;
 
 /**
  *  A set of methods for business logic with {@link Account} entity
