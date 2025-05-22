@@ -24,6 +24,7 @@ public class AuthController {
     }
 
     @PostMapping("/registration")
+    @Validated
     public ResponseEntity<AccountDtoOut> registerAccount(@Validated @RequestBody AccountDtoIn accountDtoIn) {
         // check
         AccountDtoOut accountDtoOut = accountService.addAccount(accountDtoIn);
