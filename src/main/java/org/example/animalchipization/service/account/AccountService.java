@@ -2,8 +2,13 @@ package org.example.animalchipization.service.account;
 
 import org.example.animalchipization.dto.account.AccountDtoIn;
 import org.example.animalchipization.dto.account.AccountDtoOut;
+import org.example.animalchipization.dto.account.AccountSearchCriteria;
 import org.example.animalchipization.entities.Account;
 import org.example.animalchipization.service.account.impl.AccountServiceImpl;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 /**
  *  A set of methods for business logic with {@link Account} entity
@@ -45,5 +50,14 @@ public interface AccountService {
      * @param accountId account id
      */
     void deleteAccountById(Integer accountId);
+
+    /**
+     * Search accounts entries from database
+     *
+     * @param accountSearchCriteria Account search dto
+     */
+
+    List<AccountDtoOut> searchAccount(AccountSearchCriteria accountSearchCriteria,
+                                      Pageable pageable);
 
 }
