@@ -1,9 +1,8 @@
 package org.example.animalchipization.dto.account;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.annotation.Nullable;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import org.example.animalchipization.entities.Account;
 
 
@@ -12,7 +11,6 @@ import org.example.animalchipization.entities.Account;
  *
  * @author Aleksey
  */
-public record AccountSearchCriteria(@NotNull @NotBlank @Size(max = 255) String firstName,
-                                    @NotNull @NotBlank @Size(max = 255) String lastName,
-                                    @NotNull @NotBlank @Size(max = 255) @Email String email) {
-}
+public record AccountSearchCriteria(@Nullable @Size(max = 255) String firstName,
+                                    @Nullable @Size(max = 255) String lastName,
+                                    @Nullable @Size(max = 255) @Email String email) {}

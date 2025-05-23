@@ -1,5 +1,6 @@
 package org.example.animalchipization.controllers.auth;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.animalchipization.dto.account.AccountDtoIn;
 import org.example.animalchipization.dto.account.AccountDtoOut;
 import org.example.animalchipization.service.account.AccountService;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Aleksey
  */
 @RestController
+@Tag(name = "auth")
 public class AuthController {
     private final AccountService accountService;
 

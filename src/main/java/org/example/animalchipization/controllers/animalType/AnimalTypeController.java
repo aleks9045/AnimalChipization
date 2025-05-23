@@ -1,5 +1,6 @@
 package org.example.animalchipization.controllers.animalType;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 import org.example.animalchipization.dto.animalType.AnimalTypeDtoIn;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("animals/types")
+@Tag(name = "animals types")
 public class AnimalTypeController {
     private final AnimalTypeService animalTypeService;
 

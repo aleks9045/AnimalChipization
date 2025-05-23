@@ -37,31 +37,27 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
 
     @Override
     public AnimalTypeDtoOut addAnimalType(AnimalTypeDtoIn animalTypeDtoIn) {
-
-        AnimalType animalType = animalTypeMapper.toEntity(animalTypeDtoIn);
-        try {
-
-            AnimalType savedAnimalType = animalTypeRepository.save(animalType);
-            return animalTypeMapper.toDto(savedAnimalType);
-
-        } catch (Exception e) {
+        if (animalTypeRepository.existsAnimalTypeByType(animalTypeDtoIn.getType())) {
             throw new AnimalTypeException(AnimalTypeError.ANIMAL_TYPE_ALREADY_EXISTS);
         }
+
+        AnimalType animalType = animalTypeMapper.toEntity(animalTypeDtoIn);
+        AnimalType savedAnimalType = animalTypeRepository.save(animalType);
+
+        return animalTypeMapper.toDto(savedAnimalType);
     }
 
     @Override
     public AnimalTypeDtoOut updateAnimalType(Long animalTypeId, AnimalTypeDtoIn animalTypeDtoIn) {
+        if (animalTypeRepository.existsAnimalTypeByType(animalTypeDtoIn.getType())) {
+            throw new AnimalTypeException(AnimalTypeError.ANIMAL_TYPE_ALREADY_EXISTS);
+        }
 
         AnimalType animalType = animalTypeMapper.toEntity(animalTypeDtoIn);
         animalType.setAnimalTypeId(animalTypeId);
-        try {
+        AnimalType savedAnimalType = animalTypeRepository.save(animalType);
 
-            AnimalType savedAnimalType = animalTypeRepository.save(animalType);
-            return animalTypeMapper.toDto(savedAnimalType);
-
-        } catch (Exception e) {
-            throw new AnimalTypeException(AnimalTypeError.ANIMAL_TYPE_ALREADY_EXISTS);
-        }
+        return animalTypeMapper.toDto(savedAnimalType);
     }
 
     @Override

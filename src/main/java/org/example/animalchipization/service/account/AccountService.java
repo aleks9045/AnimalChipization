@@ -54,9 +54,10 @@ public interface AccountService {
     /**
      * Search accounts entries from database
      *
-     * @param accountSearchCriteria Account search dto
+     * @param accountSearchCriteria account search criteria DTO
+     * @param pageable Pageable object
+     * @return List of Account DTO for output
      */
-
     List<AccountDtoOut> searchAccount(AccountSearchCriteria accountSearchCriteria,
                                       Pageable pageable);
 

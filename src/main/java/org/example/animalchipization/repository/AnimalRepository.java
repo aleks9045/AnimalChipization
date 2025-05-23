@@ -2,6 +2,7 @@ package org.example.animalchipization.repository;
 
 import org.example.animalchipization.entities.Animal;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -12,5 +13,7 @@ import org.springframework.stereotype.Repository;
  * @see Animal Animal entity
  */
 @Repository
-public interface AnimalRepository extends JpaRepository<Animal, Long> {
+public interface AnimalRepository extends JpaRepository<Animal, Long>, JpaSpecificationExecutor<Animal> {
+
+
 }

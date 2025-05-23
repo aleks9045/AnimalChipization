@@ -15,4 +15,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long>, JpaSpecificationExecutor<Account> {
 
+    Boolean existsAccountByEmail(String email);
+
 }

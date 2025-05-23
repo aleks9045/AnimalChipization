@@ -2,6 +2,7 @@ package org.example.animalchipization.dto.animal;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -46,7 +47,7 @@ public class AnimalDtoIn {
     private Float height;
 
     @Schema(description = "animal gender", example = "MALE")
-    @NotNull @NotBlank
+    @NotNull
     private AnimalGender gender;
 
     @Schema(description = "animal chipper id", example = "1")
@@ -57,8 +58,9 @@ public class AnimalDtoIn {
     @NotNull
     private Long chippingLocationId;
 
-    @Schema(description = "animal animal types", example = "1, 2")
+    @Schema(description = "animal animal types", example = "[1]")
     @NotNull
-    private Set<Long> animalTypes;
+    @NotEmpty
+    private Set<@NotNull Long> animalTypes;
 
 }

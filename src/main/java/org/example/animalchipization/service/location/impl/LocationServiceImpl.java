@@ -39,29 +39,32 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public LocationDtoOut addLocation(LocationDtoIn locationDtoIn) {
-
-        Location location = locationMapper.toEntity(locationDtoIn);
-        try {
-
-            Location savedLocation = locationRepository.save(location);
-            return locationMapper.toDto(savedLocation);
-
-        } catch (Exception e) {
+        if (locationRepository.existsLocationByLatitudeAndLongitude(
+                locationDtoIn.getLatitude(),
+                locationDtoIn.getLongitude())
+        ) {
             throw new LocationException(LocationError.LOCATION_ALREADY_EXISTS);
         }
+
+        Location location = locationMapper.toEntity(locationDtoIn);
+        Location savedLocation = locationRepository.save(location);
+
+        return locationMapper.toDto(savedLocation);
     }
 
     @Override
     public LocationDtoOut updateLocation(Long locationId, LocationDtoIn locationDtoIn) {
-
-        Location location = locationMapper.toEntity(locationDtoIn);
-        location.setLocationId(locationId);
-        try {
-            Location savedLocation = locationRepository.save(location);
-            return locationMapper.toDto(savedLocation);
-        } catch (Exception e) {
+        if (locationRepository.existsLocationByLatitudeAndLongitude(
+                locationDtoIn.getLatitude(),
+                locationDtoIn.getLongitude())
+        ) {
             throw new LocationException(LocationError.LOCATION_ALREADY_EXISTS);
         }
+        Location location = locationMapper.toEntity(locationDtoIn);
+        location.setLocationId(locationId);
+        Location savedLocation = locationRepository.save(location);
+
+        return locationMapper.toDto(savedLocation);
     }
 
     @Override

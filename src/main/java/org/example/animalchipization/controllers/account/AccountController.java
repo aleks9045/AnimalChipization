@@ -1,7 +1,9 @@
 package org.example.animalchipization.controllers.account;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import org.example.animalchipization.dto.account.AccountDtoIn;
 import org.example.animalchipization.dto.account.AccountDtoOut;
 import org.example.animalchipization.dto.account.AccountSearchCriteria;
@@ -22,6 +24,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("accounts")
+@Tag(name = "accounts")
 public class AccountController {
     private final AccountService accountService;
 
@@ -61,8 +64,8 @@ public class AccountController {
             @RequestParam(required = false) String firstName,
             @RequestParam(required = false) String lastName,
             @RequestParam(required = false) String email,
-            @RequestParam(defaultValue = "0") Integer from,
-            @RequestParam(defaultValue = "10") Integer size) {
+            @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
+            @RequestParam(defaultValue = "10") @Positive @Min(1) Integer size) {
 
         AccountSearchCriteria accountSearchCriteria = new AccountSearchCriteria(
                 firstName,
@@ -70,8 +73,10 @@ public class AccountController {
                 email
         );
 
-        List<AccountDtoOut> accountDtoOutList = accountService.searchAccount(accountSearchCriteria,
-                PageRequest.of(from, size));
+        List<AccountDtoOut> accountDtoOutList = accountService.searchAccount(
+                accountSearchCriteria,
+                PageRequest.of(from, size)
+        );
 
         return ResponseEntity.status(HttpStatus.OK).body(accountDtoOutList);
     }

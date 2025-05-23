@@ -69,14 +69,14 @@ public class Animal {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Location chippingLocationId;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "animal_animalType",
             joinColumns = @JoinColumn(name = "animal_id"),
             inverseJoinColumns = @JoinColumn(name = "animal_type_id")
     )
     private Set<AnimalType> animalTypes = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "animal_location",
             joinColumns = @JoinColumn(name = "animal_id"),
             inverseJoinColumns = @JoinColumn(name = "location_id")
@@ -89,7 +89,6 @@ public class Animal {
     @Column(name = "death_date_time")
     private Instant deathDateTime;
 
-    @PrePersist
     @PreUpdate
     private void updateDeathDateTime() {
         if (this.lifeStatus == AnimalLifeStatus.DEAD && this.deathDateTime == null) {
@@ -98,17 +97,3 @@ public class Animal {
     }
 
 }
-
-
-//"id":"long",                // Идентификатор животного
-//        "animalTypes":"[long]",        // Массив идентификаторов типов животного
-//        "weight":"float",            // Масса животного, кг
-//        "length":"float",            // Длина животного, м
-//        "height":"float",            // Высота животного, м
-//        "gender":"string",            // Гендерный признак животного, доступные значения “MALE”, “FEMALE”, “OTHER”
-//        "lifeStatus":"string",            // Жизненный статус животного, доступные значения “ALIVE”(устанавливается автоматически при добавлении нового животного), “DEAD”(можно установить при обновлении информации о животном)
-//        "chippingDateTime":"dateTime",    // Дата и время чипирования в формате ISO-8601 (устанавливается автоматически на момент добавления животного)
-//        "chipperId":"int",            // Идентификатор аккаунта пользователя, чипировавшего животное
-//        "chippingLocationId":"long",        // Идентификатор точки локации животных
-//        "visitedLocations":"[long]",        // Массив идентификаторов объектов с информацией о посещенных точках локаций
-//        "deathDateTime":"dateTime"

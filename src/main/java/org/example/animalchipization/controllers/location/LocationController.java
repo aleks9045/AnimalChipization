@@ -1,5 +1,6 @@
 package org.example.animalchipization.controllers.location;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 import org.example.animalchipization.dto.location.LocationDtoIn;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("locations")
+@Tag(name = "locations")
 public class LocationController {
     private final LocationService locationService;
 

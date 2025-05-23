@@ -14,4 +14,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface AnimalTypeRepository extends JpaRepository<AnimalType, Long> {
+
+    Boolean existsAnimalTypeByType(String type);
+
 }

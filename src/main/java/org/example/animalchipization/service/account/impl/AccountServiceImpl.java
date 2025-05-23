@@ -47,28 +47,27 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountDtoOut addAccount(AccountDtoIn accountDtoIn) {
+        if (accountRepository.existsAccountByEmail(accountDtoIn.getEmail())) {
+            throw new AccountException(AccountError.ACCOUNT_WITH_EMAIL_ALREADY_EXISTS);
+        }
 
         Account account = accountMapper.toEntity(accountDtoIn);
-        try {
-            Account savedAccount = accountRepository.save(account);
-            return accountMapper.toDto(savedAccount);
-        } catch (Exception e) {
-            throw new AccountException(AccountError.ACCOUNT_ALREADY_EXISTS);
-        }
+        Account savedAccount = accountRepository.save(account);
+
+        return accountMapper.toDto(savedAccount);
     }
 
     @Override
     public AccountDtoOut updateAccount(Integer accountId, AccountDtoIn accountDtoIn) {
+        if (accountRepository.existsAccountByEmail(accountDtoIn.getEmail())) {
+            throw new AccountException(AccountError.ACCOUNT_WITH_EMAIL_ALREADY_EXISTS);
+        }
 
         Account account = accountMapper.toEntity(accountDtoIn);
         account.setAccountId(accountId);
-        try {
-            Account savedAccount = accountRepository.save(account);
-            return accountMapper.toDto(savedAccount);
-        } catch (Exception e) {
-            throw new AccountException(AccountError.ACCOUNT_ALREADY_EXISTS);
-        }
+        Account savedAccount = accountRepository.save(account);
 
+        return accountMapper.toDto(savedAccount);
     }
 
     @Override
@@ -82,9 +81,9 @@ public class AccountServiceImpl implements AccountService {
 
         Specification<Account> spec = Specification.where(
                 jpaSpecificationBuilder.likeString("firstName", accountSearchCriteria.firstName())
-                ).and(
+        ).and(
                 jpaSpecificationBuilder.likeString("lastName", accountSearchCriteria.lastName())
-                ).and(
+        ).and(
                 jpaSpecificationBuilder.likeString("email", accountSearchCriteria.email())
         );
 
