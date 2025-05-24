@@ -17,4 +17,6 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
 
     Boolean existsLocationByLatitudeAndLongitude(Double latitude, Double longitude);
 
+    Boolean existsLocationByLocationId(Long locationId);
+
 }

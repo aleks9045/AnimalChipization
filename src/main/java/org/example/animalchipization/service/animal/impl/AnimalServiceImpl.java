@@ -9,8 +9,10 @@ import org.example.animalchipization.entities.AnimalType;
 import org.example.animalchipization.enums.errors.AnimalError;
 import org.example.animalchipization.exception.entities.AnimalException;
 import org.example.animalchipization.mappers.animal.AnimalMapper;
+import org.example.animalchipization.repository.AccountRepository;
 import org.example.animalchipization.repository.AnimalRepository;
 import org.example.animalchipization.repository.AnimalTypeRepository;
+import org.example.animalchipization.repository.LocationRepository;
 import org.example.animalchipization.service.JpaSpecificationBuilder;
 import org.example.animalchipization.service.animal.AnimalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,16 +32,21 @@ import java.util.Set;
 @Service
 public class AnimalServiceImpl implements AnimalService {
     private final AnimalRepository animalRepository;
+    private final AccountRepository accountRepository;
+    private final LocationRepository locationRepository;
     private final AnimalTypeRepository animalTypeRepository;
     private final AnimalMapper animalMapper;
     private final JpaSpecificationBuilder<Animal> jpaSpecificationBuilder;
 
+
     @Autowired
-    public AnimalServiceImpl(AnimalRepository animalRepository, AnimalTypeRepository animalTypeRepository, AnimalMapper animalMapper, JpaSpecificationBuilder<Animal> jpaSpecificationBuilder) {
+    public AnimalServiceImpl(AnimalRepository animalRepository, AccountRepository accountRepository, AnimalTypeRepository animalTypeRepository, AnimalMapper animalMapper, JpaSpecificationBuilder<Animal> jpaSpecificationBuilder, LocationRepository locationRepository) {
         this.animalRepository = animalRepository;
+        this.accountRepository = accountRepository;
         this.animalTypeRepository = animalTypeRepository;
         this.animalMapper = animalMapper;
         this.jpaSpecificationBuilder = jpaSpecificationBuilder;
+        this.locationRepository = locationRepository;
     }
 
 
@@ -60,6 +67,16 @@ public class AnimalServiceImpl implements AnimalService {
         Set<AnimalType> animalTypes = new HashSet<>(
                 animalTypeRepository.findAllById(animalDtoIn.getAnimalTypes())
         );
+        if (animalTypes.size() < animalDtoIn.getAnimalTypes().size()){
+            throw new AnimalException(AnimalError.ANIMAL_TYPE_NOT_FOUND);
+        }
+        if (!accountRepository.existsAccountByAccountId(animalDtoIn.getChipperId())) {
+            throw new AnimalException(AnimalError.ANIMAL_CHIPPER_NOT_FOUND);
+        }
+        if (!locationRepository.existsLocationByLocationId(animalDtoIn.getChippingLocationId())) {
+            throw new AnimalException(AnimalError.ANIMAL_CHIPPING_LOCATION_NOT_FOUND);
+        }
+
 
         Animal animal = animalMapper.toEntity(animalDtoIn);
         animal.setAnimalTypes(animalTypes);

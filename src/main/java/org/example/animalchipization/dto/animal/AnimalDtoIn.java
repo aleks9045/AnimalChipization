@@ -12,7 +12,9 @@ import lombok.ToString;
 import org.example.animalchipization.enums.AnimalGender;
 
 import org.example.animalchipization.entities.Animal;
+import org.example.animalchipization.validation.annotation.NoDuplicates;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -58,9 +60,10 @@ public class AnimalDtoIn {
     @NotNull
     private Long chippingLocationId;
 
-    @Schema(description = "animal animal types", example = "[1]")
+    @Schema(description = "animal types", example = "[1]")
     @NotNull
     @NotEmpty
-    private Set<@NotNull Long> animalTypes;
+    @NoDuplicates
+    private List<Long> animalTypes;
 
 }

@@ -1,0 +1,22 @@
+package org.example.animalchipization.validation.annotation;
+
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
+import org.example.animalchipization.validation.validator.NoDuplicatesValidator;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/**
+ * @author Aleksey
+ */
+@Target({ElementType.FIELD, ElementType.ANNOTATION_TYPE, ElementType.PARAMETER})
+@Retention(RetentionPolicy.RUNTIME)
+@Constraint(validatedBy = NoDuplicatesValidator.class)
+public @interface NoDuplicates {
+    String message() default "must not contain duplicates";
+    Class<?>[] groups() default {};
+    Class<? extends Payload>[] payload() default {};
+}
