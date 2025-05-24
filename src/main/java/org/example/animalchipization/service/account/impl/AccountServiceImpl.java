@@ -10,6 +10,7 @@ import org.example.animalchipization.mappers.AccountMapper;
 import org.example.animalchipization.repository.AccountRepository;
 import org.example.animalchipization.service.JpaSpecificationBuilder;
 import org.example.animalchipization.service.account.AccountService;
+import org.example.animalchipization.service.auth.UserAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -51,7 +52,12 @@ public class AccountServiceImpl implements AccountService {
             throw new AccountException(AccountError.ACCOUNT_WITH_EMAIL_ALREADY_EXISTS);
         }
 
+        String hash = UserAuthentication.hashEmailAndPassword(
+                accountDtoIn.getEmail(),
+                accountDtoIn.getPassword());
+
         Account account = accountMapper.toEntity(accountDtoIn);
+        account.setHash(hash);
         Account savedAccount = accountRepository.save(account);
 
         return accountMapper.toDto(savedAccount);
@@ -63,8 +69,13 @@ public class AccountServiceImpl implements AccountService {
             throw new AccountException(AccountError.ACCOUNT_WITH_EMAIL_ALREADY_EXISTS);
         }
 
+        String hash = UserAuthentication.hashEmailAndPassword(
+                accountDtoIn.getEmail(),
+                accountDtoIn.getPassword());
+
         Account account = accountMapper.toEntity(accountDtoIn);
         account.setAccountId(accountId);
+        account.setHash(hash);
         Account savedAccount = accountRepository.save(account);
 
         return accountMapper.toDto(savedAccount);
