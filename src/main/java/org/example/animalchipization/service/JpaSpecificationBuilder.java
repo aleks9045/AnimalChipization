@@ -1,5 +1,7 @@
 package org.example.animalchipization.service;
 
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
@@ -10,9 +12,9 @@ import java.util.Optional;
  * @author Aleksey
  */
 @Component
-public class JpaSpecificationBuilder<T> {
+public class JpaSpecificationBuilder {
 
-    public Specification<T> likeString(String fieldName, String value) {
+    public static <T> Specification<T> likeString(String fieldName, String value) {
         if (value == null) return null;
         return ((root, query, criteriaBuilder) ->
                 criteriaBuilder.like(
@@ -20,7 +22,7 @@ public class JpaSpecificationBuilder<T> {
                         "%" + value.toLowerCase() + "%"));
     }
 
-    public Specification<T> equal(String fieldName, Object value) {
+    public static <T> Specification<T> equal(String fieldName, Object value) {
         if (value == null) return null;
         return (root, query, criteriaBuilder) -> {
 
@@ -33,15 +35,22 @@ public class JpaSpecificationBuilder<T> {
         };
     }
 
-    public Specification<T> dateTimeFrom(String fieldName, Instant value) {
+    public static <T> Specification<T> dateTimeFrom(String fieldName, Instant value) {
         if (value == null) return null;
         return ((root, query, criteriaBuilder) ->
                 criteriaBuilder.greaterThan(root.get(fieldName), value));
     }
 
-    public Specification<T> dateTimeTo(String fieldName, Instant value) {
+    public static <T> Specification<T> dateTimeTo(String fieldName, Instant value) {
         if (value == null) return null;
         return ((root, query, criteriaBuilder) ->
                 criteriaBuilder.lessThan(root.get(fieldName), value));
+    }
+
+    public static <T> Specification<T> joinManyToMany(String collectionFieldName, String joinedFieldName, Object value, JoinType joinType) {
+        return (root, query, criteriaBuilder) -> {
+            Join<?, ?> join = root.join(collectionFieldName, joinType);
+            return criteriaBuilder.equal(join.get(joinedFieldName), value);
+        };
     }
 }

@@ -3,6 +3,9 @@ package org.example.animalchipization.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Represents a location for animal entity
  *
@@ -38,4 +41,6 @@ public class Location {
     @Column(name = "longitude", nullable = false)
     private Double longitude;
 
+    @ManyToMany(mappedBy = "visitedLocations")
+    private Set<Animal> animals = new HashSet<>();
 }

@@ -62,6 +62,10 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
 
     @Override
     public void deleteAnimalTypeById(Long animalTypeId) {
+
+        animalTypeRepository.findById(animalTypeId)
+                .orElseThrow(() -> new AnimalTypeException(AnimalTypeError.ANIMAL_TYPE_NOT_FOUND));
+
         animalTypeRepository.deleteById(animalTypeId);
     }
 }

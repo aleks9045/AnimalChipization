@@ -1,12 +1,13 @@
 package org.example.animalchipization.controllers.animal;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import org.example.animalchipization.dto.animal.*;
 import org.example.animalchipization.dto.animal.AnimalDtoOut;
+import org.example.animalchipization.dto.location.LocationDtoOut;
+import org.example.animalchipization.dto.location.LocationSearchCriteria;
 import org.example.animalchipization.enums.AnimalGender;
 import org.example.animalchipization.enums.AnimalLifeStatus;
 import org.example.animalchipization.service.animal.AnimalService;
@@ -87,10 +88,62 @@ public class AnimalController {
                 lifeStatus,
                 gender);
 
-        List<AnimalDtoOut> animalDtoOutList = animalService.searchAnimal(
+        List<AnimalDtoOut> animalDtoOutList = animalService.searchAnimals(
                 animalSearchCriteria,
                 PageRequest.of(from, size));
 
         return ResponseEntity.status(HttpStatus.OK).body(animalDtoOutList);
+    }
+
+    @PostMapping("/{animalId}/types/{typeId}")
+    @Validated
+    public ResponseEntity<AnimalDtoOut> addAnimalType(@PathVariable @Positive @Min(1) Long animalId,
+                                                      @PathVariable @Positive @Min(1) Long typeId) {
+
+        AnimalDtoOut animalDtoOut = animalService.addAnimalType(animalId, typeId);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(animalDtoOut);
+    }
+
+    @PutMapping("/{animalId}/types")
+    @Validated
+    public ResponseEntity<AnimalDtoOut> updateAnimalType(@PathVariable @Positive @Min(1) Long animalId,
+                                                         @Validated @RequestBody UpdateAnimalTypeDto updateAnimalTypeDto) {
+
+        AnimalDtoOut animalDtoOut = animalService.updateAnimalType(animalId, updateAnimalTypeDto);
+
+        return ResponseEntity.status(HttpStatus.OK).body(animalDtoOut);
+    }
+
+    @DeleteMapping("/{animalId}/types/{typeId}")
+    @Validated
+    public ResponseEntity<AnimalDtoOut> deleteAnimalType(@PathVariable @Positive @Min(1) Long animalId,
+                                                         @PathVariable @Positive @Min(1) Long typeId) {
+
+        AnimalDtoOut animalDtoOut = animalService.deleteAnimalType(animalId, typeId);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(animalDtoOut);
+    }
+
+    @GetMapping("{animalId}/locations")
+    @Validated
+    public ResponseEntity<List<LocationDtoOut>> searchAnimalLocations(
+            @PathVariable @Positive @Min(1) Long animalId,
+            @RequestParam(required = false) Instant startDateTime,
+            @RequestParam(required = false) Instant endDateTime,
+            @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
+            @RequestParam(defaultValue = "10") @Positive @Min(1) Integer size) {
+
+        LocationSearchCriteria locationSearchCriteria = new LocationSearchCriteria(
+                animalId,
+                startDateTime,
+                endDateTime
+        );
+
+        List<LocationDtoOut> locationDtoOut = animalService.searchLocations(
+                locationSearchCriteria,
+                PageRequest.of(from, size));
+
+        return ResponseEntity.status(HttpStatus.OK).body(locationDtoOut);
     }
 }

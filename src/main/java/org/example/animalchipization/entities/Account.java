@@ -3,6 +3,9 @@ package org.example.animalchipization.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Represents a user account entity.<br>
  * Contains personal identification information (first name, last name, email)
@@ -43,5 +46,8 @@ public class Account {
 
     @Column(name = "hash", nullable = false)
     private String hash;
+
+    @OneToMany(mappedBy = "chipperId")
+    private Set<Animal> animals = new HashSet<>();
 
 }

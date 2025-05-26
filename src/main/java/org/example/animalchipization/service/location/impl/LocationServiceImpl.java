@@ -9,10 +9,8 @@ import org.example.animalchipization.mappers.LocationMapper;
 import org.example.animalchipization.repository.LocationRepository;
 import org.example.animalchipization.service.location.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 
 /**
  * @author Aleksey
@@ -69,6 +67,10 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public void deleteLocationById(Long locationId) {
+
+        locationRepository.findById(locationId)
+                .orElseThrow(() -> new LocationException(LocationError.LOCATION_NOT_FOUND));
+
         locationRepository.deleteById(locationId);
     }
 }

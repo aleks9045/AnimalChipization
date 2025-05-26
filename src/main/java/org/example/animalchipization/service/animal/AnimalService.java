@@ -1,15 +1,11 @@
 package org.example.animalchipization.service.animal;
 
-import org.example.animalchipization.dto.account.AccountDtoOut;
-import org.example.animalchipization.dto.account.AccountSearchCriteria;
-import org.example.animalchipization.dto.animal.AnimalDtoIn;
-import org.example.animalchipization.dto.animal.AnimalDtoOut;
-import org.example.animalchipization.dto.animal.AnimalDtoUpdate;
-import org.example.animalchipization.dto.animal.AnimalSearchCriteria;
+import org.example.animalchipization.dto.animal.*;
+import org.example.animalchipization.dto.location.LocationDtoOut;
+import org.example.animalchipization.dto.location.LocationSearchCriteria;
 import org.example.animalchipization.entities.Animal;
 import org.example.animalchipization.service.animal.impl.AnimalServiceImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -60,7 +56,17 @@ public interface AnimalService {
      * @param pageable Pageable object
      * @return List of Animal DTO for output
      */
-    List<AnimalDtoOut> searchAnimal(AnimalSearchCriteria animalSearchCriteria,
+    List<AnimalDtoOut> searchAnimals(AnimalSearchCriteria animalSearchCriteria,
                                      Pageable pageable);
+
+    List<LocationDtoOut> searchLocations(LocationSearchCriteria locationSearchCriteria,
+                                         Pageable pageable);
+
+
+    AnimalDtoOut addAnimalType(Long animalId, Long animalTypeId);
+
+    AnimalDtoOut updateAnimalType(Long animalId, UpdateAnimalTypeDto updateAnimalTypeDto);
+
+    AnimalDtoOut deleteAnimalType(Long animalId, Long animalTypeId);
 
 }

@@ -26,14 +26,12 @@ import java.util.List;
 public class AccountServiceImpl implements AccountService {
     private final AccountMapper accountMapper;
     private final AccountRepository accountRepository;
-    private final JpaSpecificationBuilder<Account> jpaSpecificationBuilder;
 
 
     @Autowired
-    public AccountServiceImpl(AccountMapper accountMapper, AccountRepository accountRepository, JpaSpecificationBuilder<Account> jpaSpecificationBuilder) {
+    public AccountServiceImpl(AccountMapper accountMapper, AccountRepository accountRepository) {
         this.accountMapper = accountMapper;
         this.accountRepository = accountRepository;
-        this.jpaSpecificationBuilder = jpaSpecificationBuilder;
     }
 
     @Override
@@ -83,6 +81,10 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void deleteAccountById(Integer accountId) {
+
+        accountRepository.findById((long) accountId)
+                .orElseThrow(() -> new AccountException(AccountError.ACCOUNT_NOT_FOUND));
+
         accountRepository.deleteById((long) accountId);
     }
 
@@ -91,11 +93,11 @@ public class AccountServiceImpl implements AccountService {
                                              Pageable pageable) {
 
         Specification<Account> spec = Specification.where(
-                jpaSpecificationBuilder.likeString("firstName", accountSearchCriteria.firstName())
+                JpaSpecificationBuilder.<Account>likeString("firstName", accountSearchCriteria.firstName())
         ).and(
-                jpaSpecificationBuilder.likeString("lastName", accountSearchCriteria.lastName())
+                JpaSpecificationBuilder.likeString("lastName", accountSearchCriteria.lastName())
         ).and(
-                jpaSpecificationBuilder.likeString("email", accountSearchCriteria.email())
+                JpaSpecificationBuilder.likeString("email", accountSearchCriteria.email())
         );
 
         Page<Account> accountPage = accountRepository.findAll(spec, pageable);

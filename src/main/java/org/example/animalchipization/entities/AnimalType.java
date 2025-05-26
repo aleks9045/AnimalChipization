@@ -3,6 +3,9 @@ package org.example.animalchipization.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Represents an animal type for animal entity
  *
@@ -32,4 +35,7 @@ public class AnimalType {
 
     @Column(name = "type", nullable = false, unique = true)
     private String type;
+
+    @ManyToMany(mappedBy = "animalTypes")
+    private Set<Animal> animals = new HashSet<>();
 }
