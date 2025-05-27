@@ -14,7 +14,9 @@ import org.springframework.stereotype.Repository;
  * @see Location Location entity
  */
 @Repository
-public interface LocationRepository extends JpaRepository<Location, Long>, JpaSpecificationExecutor<Location> {
+public interface LocationRepository extends
+        JpaRepository<Location, Long>,
+        JpaSpecificationExecutor<Location> {
 
     Boolean existsLocationByLatitudeAndLongitude(Double latitude, Double longitude);
 
