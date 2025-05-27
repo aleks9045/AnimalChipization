@@ -35,7 +35,7 @@ public class LocationController {
         return ResponseEntity.status(HttpStatus.OK).body(locationDtoOut);
     }
 
-    @PostMapping("/")
+    @PostMapping
     @Validated
     public ResponseEntity<LocationDtoOut> addLocation(@Validated @RequestBody LocationDtoIn locationDtoIn) {
 

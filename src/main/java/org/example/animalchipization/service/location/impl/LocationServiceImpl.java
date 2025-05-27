@@ -10,6 +10,7 @@ import org.example.animalchipization.repository.LocationRepository;
 import org.example.animalchipization.service.location.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -36,6 +37,7 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
+    @Transactional
     public LocationDtoOut addLocation(LocationDtoIn locationDtoIn) {
         if (locationRepository.existsLocationByLatitudeAndLongitude(
                 locationDtoIn.getLatitude(),
@@ -45,12 +47,13 @@ public class LocationServiceImpl implements LocationService {
         }
 
         Location location = locationMapper.toEntity(locationDtoIn);
-        Location savedLocation = locationRepository.save(location);
+        locationRepository.save(location);
 
-        return locationMapper.toDto(savedLocation);
+        return locationMapper.toDto(location);
     }
 
     @Override
+    @Transactional
     public LocationDtoOut updateLocation(Long locationId, LocationDtoIn locationDtoIn) {
         if (locationRepository.existsLocationByLatitudeAndLongitude(
                 locationDtoIn.getLatitude(),
@@ -60,9 +63,9 @@ public class LocationServiceImpl implements LocationService {
         }
         Location location = locationMapper.toEntity(locationDtoIn);
         location.setLocationId(locationId);
-        Location savedLocation = locationRepository.save(location);
+        locationRepository.save(location);
 
-        return locationMapper.toDto(savedLocation);
+        return locationMapper.toDto(location);
     }
 
     @Override

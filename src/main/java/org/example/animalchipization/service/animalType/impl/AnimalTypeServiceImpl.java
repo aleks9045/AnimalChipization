@@ -10,6 +10,7 @@ import org.example.animalchipization.repository.AnimalTypeRepository;
 import org.example.animalchipization.service.animalType.AnimalTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Aleksey
@@ -36,18 +37,20 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
     }
 
     @Override
+    @Transactional
     public AnimalTypeDtoOut addAnimalType(AnimalTypeDtoIn animalTypeDtoIn) {
         if (animalTypeRepository.existsAnimalTypeByType(animalTypeDtoIn.getType())) {
             throw new AnimalTypeException(AnimalTypeError.ANIMAL_TYPE_ALREADY_EXISTS);
         }
 
         AnimalType animalType = animalTypeMapper.toEntity(animalTypeDtoIn);
-        AnimalType savedAnimalType = animalTypeRepository.save(animalType);
+        animalTypeRepository.save(animalType);
 
-        return animalTypeMapper.toDto(savedAnimalType);
+        return animalTypeMapper.toDto(animalType);
     }
 
     @Override
+    @Transactional
     public AnimalTypeDtoOut updateAnimalType(Long animalTypeId, AnimalTypeDtoIn animalTypeDtoIn) {
         if (animalTypeRepository.existsAnimalTypeByType(animalTypeDtoIn.getType())) {
             throw new AnimalTypeException(AnimalTypeError.ANIMAL_TYPE_ALREADY_EXISTS);
@@ -55,9 +58,9 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
 
         AnimalType animalType = animalTypeMapper.toEntity(animalTypeDtoIn);
         animalType.setAnimalTypeId(animalTypeId);
-        AnimalType savedAnimalType = animalTypeRepository.save(animalType);
+        animalTypeRepository.save(animalType);
 
-        return animalTypeMapper.toDto(savedAnimalType);
+        return animalTypeMapper.toDto(animalType);
     }
 
     @Override

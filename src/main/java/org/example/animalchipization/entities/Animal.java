@@ -8,7 +8,9 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -78,7 +80,7 @@ public class Animal {
     private Set<AnimalType> animalTypes = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, mappedBy = "animal")
-    private Set<VisitedLocation> visitedLocations = new HashSet<>();
+    private List<VisitedLocation> visitedLocations = new ArrayList<>();
 
     @Column(name = "life_status", nullable = false)
     private AnimalLifeStatus lifeStatus = AnimalLifeStatus.ALIVE;

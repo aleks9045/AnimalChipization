@@ -35,5 +35,5 @@ public class VisitedLocation {
     private Location location;
 
     @Column(name = "visit_time", nullable = false)
-    private Instant dateTimeOfVisitLocationPoint;
+    private final Instant dateTimeOfVisitLocationPoint = Instant.now();
 }

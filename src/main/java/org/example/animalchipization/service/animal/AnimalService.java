@@ -1,8 +1,8 @@
 package org.example.animalchipization.service.animal;
 
 import org.example.animalchipization.dto.animal.*;
-import org.example.animalchipization.dto.location.LocationDtoOut;
-import org.example.animalchipization.dto.location.LocationSearchCriteria;
+import org.example.animalchipization.dto.location.VisitedLocationSearchCriteria;
+import org.example.animalchipization.dto.visitedLocation.VisitedLocationDtoOut;
 import org.example.animalchipization.entities.Animal;
 import org.example.animalchipization.service.animal.impl.AnimalServiceImpl;
 import org.springframework.data.domain.Pageable;
@@ -58,15 +58,5 @@ public interface AnimalService {
      */
     List<AnimalDtoOut> searchAnimals(AnimalSearchCriteria animalSearchCriteria,
                                      Pageable pageable);
-
-    List<LocationDtoOut> searchLocations(LocationSearchCriteria locationSearchCriteria,
-                                         Pageable pageable);
-
-
-    AnimalDtoOut addAnimalType(Long animalId, Long animalTypeId);
-
-    AnimalDtoOut updateAnimalType(Long animalId, UpdateAnimalTypeDto updateAnimalTypeDto);
-
-    AnimalDtoOut deleteAnimalType(Long animalId, Long animalTypeId);
 
 }

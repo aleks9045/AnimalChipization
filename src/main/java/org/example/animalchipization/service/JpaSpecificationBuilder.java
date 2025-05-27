@@ -47,10 +47,31 @@ public class JpaSpecificationBuilder {
                 criteriaBuilder.lessThan(root.get(fieldName), value));
     }
 
-    public static <T> Specification<T> joinManyToMany(String collectionFieldName, String joinedFieldName, Object value, JoinType joinType) {
+    public static <T> Specification<T> join(String joinFieldName,
+                                                      String comparisonFieldName,
+                                                      Object value, JoinType joinType) {
         return (root, query, criteriaBuilder) -> {
-            Join<?, ?> join = root.join(collectionFieldName, joinType);
-            return criteriaBuilder.equal(join.get(joinedFieldName), value);
+            Join<?, ?> join = root.join(joinFieldName, joinType);
+            return criteriaBuilder.equal(join.get(comparisonFieldName), value);
         };
     }
+
+//    public static <T> Specification<T> joinManyToManyWithDateFilter(
+//            String collectionFieldName,
+//            String secondFieldName,
+//            String comparisonFieldName,
+//            Object value,
+//            JoinType joinType,
+//            String dateFieldName,
+//            Instant startDateTime,
+//            Instant endDateTime
+//    ) {
+//        return Specification.where(
+//                joinManyToMany(collectionFieldName, secondFieldName, comparisonFieldName, value, joinType)
+//        ).and(
+//                dateTimeFrom(dateFieldName, startDateTime)
+//        ).and(
+//                dateTimeTo(dateFieldName, endDateTime)
+//        );
+//    }
 }

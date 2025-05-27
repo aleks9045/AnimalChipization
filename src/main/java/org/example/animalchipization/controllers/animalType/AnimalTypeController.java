@@ -35,7 +35,7 @@ public class AnimalTypeController {
         return ResponseEntity.status(HttpStatus.OK).body(animalTypeDtoOut);
     }
 
-    @PostMapping("/")
+    @PostMapping
     @Validated
     public ResponseEntity<AnimalTypeDtoOut> addAnimalType(@Validated @RequestBody AnimalTypeDtoIn animalTypeDtoIn) {
 

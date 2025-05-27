@@ -18,6 +18,7 @@ import org.example.animalchipization.entities.Animal;
 
 import java.time.Instant;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -68,7 +69,7 @@ public class AnimalDtoOut {
     private Set<Long> animalTypes;
 
     @NotNull
-    private Set<Long> visitedLocations;
+    private List<Long> visitedLocations;
 
     @NotNull
     @NotBlank

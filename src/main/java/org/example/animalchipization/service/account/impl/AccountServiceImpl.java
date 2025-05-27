@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -45,6 +46,7 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
+    @Transactional
     public AccountDtoOut addAccount(AccountDtoIn accountDtoIn) {
         if (accountRepository.existsAccountByEmail(accountDtoIn.getEmail())) {
             throw new AccountException(AccountError.ACCOUNT_WITH_EMAIL_ALREADY_EXISTS);
@@ -56,12 +58,13 @@ public class AccountServiceImpl implements AccountService {
 
         Account account = accountMapper.toEntity(accountDtoIn);
         account.setHash(hash);
-        Account savedAccount = accountRepository.save(account);
+        accountRepository.save(account);
 
-        return accountMapper.toDto(savedAccount);
+        return accountMapper.toDto(account);
     }
 
     @Override
+    @Transactional
     public AccountDtoOut updateAccount(Integer accountId, AccountDtoIn accountDtoIn) {
         if (accountRepository.existsAccountByEmail(accountDtoIn.getEmail())) {
             throw new AccountException(AccountError.ACCOUNT_WITH_EMAIL_ALREADY_EXISTS);
@@ -74,9 +77,9 @@ public class AccountServiceImpl implements AccountService {
         Account account = accountMapper.toEntity(accountDtoIn);
         account.setAccountId(accountId);
         account.setHash(hash);
-        Account savedAccount = accountRepository.save(account);
+        accountRepository.save(account);
 
-        return accountMapper.toDto(savedAccount);
+        return accountMapper.toDto(account);
     }
 
     @Override
