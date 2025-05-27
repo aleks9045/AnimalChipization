@@ -17,8 +17,9 @@ import org.mapstruct.Mapping;
 public interface LocationMapper {
 
     @Mapping(target = "locationId", ignore = true)
+    @Mapping(target = "visitedLocations", ignore = true)
     Location toEntity(LocationDtoIn dto);
 
     @Mapping(target = "id", source = "locationId")
-    LocationDtoOut toDto(Location dto);
+    LocationDtoOut toDto(Location entity);
 }

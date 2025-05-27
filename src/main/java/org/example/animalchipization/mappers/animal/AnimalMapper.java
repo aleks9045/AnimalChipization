@@ -26,14 +26,27 @@ public interface AnimalMapper {
 
     @Mapping(target = "animalId", ignore = true)
     @Mapping(target = "animalTypes", ignore = true)
+    @Mapping(target = "chippingDateTime", ignore = true)
+    @Mapping(target = "visitedLocations", ignore = true)
+    @Mapping(target = "lifeStatus", ignore = true)
+    @Mapping(target = "deathDateTime", ignore = true)
     Animal toEntity(AnimalDtoIn dto);
 
     @Mapping(target = "animalId", ignore = true)
+    @Mapping(target = "animalTypes", ignore = true)
+    @Mapping(target = "chippingDateTime", ignore = true)
+    @Mapping(target = "visitedLocations", ignore = true)
+    @Mapping(target = "deathDateTime", ignore = true)
     Animal toEntity(AnimalDtoUpdate dto);
 
     @Mapping(target = "id", source = "animalId")
-    AnimalDtoOut toDto(Animal dto);
+    AnimalDtoOut toDto(Animal entity);
 
+    @Mapping(target = "animalId", ignore = true)
+    @Mapping(target = "animalTypes", ignore = true)
+    @Mapping(target = "chippingDateTime", ignore = true)
+    @Mapping(target = "visitedLocations", ignore = true)
+    @Mapping(target = "deathDateTime", ignore = true)
     void updateEntity(@MappingTarget Animal animal, AnimalDtoUpdate animalDtoUpdate);
 
 }

@@ -3,6 +3,7 @@ package org.example.animalchipization.mappers.animal;
 import org.example.animalchipization.entities.Account;
 import org.example.animalchipization.entities.AnimalType;
 import org.example.animalchipization.entities.Location;
+import org.example.animalchipization.entities.VisitedLocation;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +12,7 @@ import java.util.Set;
  * @author Aleksey
  */
 public class AnimalMapperHelper {
+
     public static Integer mapAccountToInt(Account account) {
         return account.getAccountId();
     }
@@ -50,4 +52,14 @@ public class AnimalMapperHelper {
         }
         return animalTypeSet;
     }
+
+    public static Long mapVisitedLocationToLong(VisitedLocation visitedLocation) {
+        return visitedLocation.getLocation().getLocationId();
+    }
+
+//    public static Account mapIntToAccount(Integer id) {
+//        Account account = new Account();
+//        account.setAccountId(id);
+//        return account;
+//    }
 }

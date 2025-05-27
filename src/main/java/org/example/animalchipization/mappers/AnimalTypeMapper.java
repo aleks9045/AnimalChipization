@@ -19,8 +19,9 @@ import org.mapstruct.Mapping;
 public interface AnimalTypeMapper {
 
     @Mapping(target = "animalTypeId", ignore = true)
+    @Mapping(target = "animals", ignore = true)
     AnimalType toEntity(AnimalTypeDtoIn dto);
 
     @Mapping(target = "id", source = "animalTypeId")
-    AnimalTypeDtoOut toDto(AnimalType model);
+    AnimalTypeDtoOut toDto(AnimalType entity);
 }
