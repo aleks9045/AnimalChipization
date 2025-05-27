@@ -1,10 +1,10 @@
 package org.example.animalchipization.repository;
 
-import io.micrometer.common.lang.NonNullApi;
 import org.example.animalchipization.entities.Animal;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -17,7 +17,9 @@ import java.util.Optional;
  * @see Animal Animal entity
  */
 @Repository
-public interface AnimalRepository extends JpaRepository<Animal, Long>, JpaSpecificationExecutor<Animal> {
+public interface AnimalRepository extends
+        JpaRepository<Animal, Long>,
+        JpaSpecificationExecutor<Animal> {
 
     @EntityGraph(
             type = EntityGraph.EntityGraphType.FETCH,
@@ -27,8 +29,24 @@ public interface AnimalRepository extends JpaRepository<Animal, Long>, JpaSpecif
                     "animalTypes.animalTypeId",
                     "visitedLocations",
                     "visitedLocations.location"
-
             }
     )
-    Optional<Animal> findById(Long animalId);
+    @Query("""
+            SELECT a from Animal a WHERE a.animalId = :animalId
+            """)
+    Optional<Animal> findJoinedWithAllById(Long animalId);
+
+    @EntityGraph(
+            type = EntityGraph.EntityGraphType.FETCH,
+            attributePaths = {
+                    "visitedLocations",
+                    "visitedLocations.location"
+            }
+    )
+    @Query("""
+            SELECT a from Animal a WHERE a.animalId = :animalId
+            """)
+    Optional<Animal> findJoinedWithVisitedLocationById(Long animalId);
+
+
 }
