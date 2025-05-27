@@ -29,7 +29,8 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@EqualsAndHashCode(exclude = {"chipperId", "chippingLocationId", "animalTypes", "visitedLocations"})
+@ToString(exclude = {"chipperId", "chippingLocationId", "animalTypes", "visitedLocations"})
 @Table(name = "animal", indexes = {
         @Index(name = "idx_animal_id", columnList = "animal_id")
 })
@@ -70,18 +71,14 @@ public class Animal {
     private Location chippingLocationId;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "animal_animalType",
+    @JoinTable(name = "animal_types",
             joinColumns = @JoinColumn(name = "animal_id"),
             inverseJoinColumns = @JoinColumn(name = "animal_type_id")
     )
     private Set<AnimalType> animalTypes = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "animal_location",
-            joinColumns = @JoinColumn(name = "animal_id"),
-            inverseJoinColumns = @JoinColumn(name = "location_id")
-    )
-    private Set<Location> visitedLocations = new HashSet<>();
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, mappedBy = "animal")
+    private Set<VisitedLocation> visitedLocations = new HashSet<>();
 
     @Column(name = "life_status", nullable = false)
     private AnimalLifeStatus lifeStatus = AnimalLifeStatus.ALIVE;

@@ -17,8 +17,8 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
-@ToString
+@EqualsAndHashCode(exclude = {"visitedLocations"})
+@ToString(exclude = {"visitedLocations"})
 @Table(name = "location",
         indexes = {
         @Index(name = "idx_location_id", columnList = "location_id")
@@ -41,6 +41,6 @@ public class Location {
     @Column(name = "longitude", nullable = false)
     private Double longitude;
 
-    @ManyToMany(mappedBy = "visitedLocations")
-    private Set<Animal> animals = new HashSet<>();
+    @OneToMany(mappedBy = "location")
+    private Set<VisitedLocation> visitedLocations = new HashSet<>();
 }

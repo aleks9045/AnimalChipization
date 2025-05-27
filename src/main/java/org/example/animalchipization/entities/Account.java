@@ -20,7 +20,8 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@EqualsAndHashCode(exclude = {"animals"})
+@ToString(exclude = {"animals"})
 @Entity
 @Table(name = "account", indexes = {
         @Index(name = "idx_account_id", columnList = "account_id")
