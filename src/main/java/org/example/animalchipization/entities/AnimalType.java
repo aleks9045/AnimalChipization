@@ -20,7 +20,7 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"animals"})
 @ToString(exclude = {"animals"})
 @Table(name = "animal_type", indexes = {
-        @Index(name = "idx_animal_type_id", columnList = "animal_type_id")
+        @Index(name = "idx_animal_type_id", columnList = "animalTypeId")
 })
 @Entity
 public class AnimalType {

@@ -14,7 +14,9 @@ import java.time.Instant;
 @AllArgsConstructor
 @EqualsAndHashCode(exclude = {"animal", "location"})
 @ToString(exclude = {"animal", "location"})
-@Table(name = "visited_location")
+@Table(name = "visited_location", indexes = {
+        @Index(name = "idx_visit_time", columnList = "dateTimeOfVisitLocationPoint")
+})
 @Entity
 public class VisitedLocation {
 

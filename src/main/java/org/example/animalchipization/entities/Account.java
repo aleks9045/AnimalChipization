@@ -24,7 +24,7 @@ import java.util.Set;
 @ToString(exclude = {"animals"})
 @Entity
 @Table(name = "account", indexes = {
-        @Index(name = "idx_account_id", columnList = "account_id")
+        @Index(name = "idx_account_id", columnList = "accountId")
 })
 public class Account {
 

@@ -21,7 +21,7 @@ import java.util.Set;
 @ToString(exclude = {"visitedLocations"})
 @Table(name = "location",
         indexes = {
-        @Index(name = "idx_location_id", columnList = "location_id")
+        @Index(name = "idx_location_id", columnList = "locationId")
         },
         uniqueConstraints = {
         @UniqueConstraint(name = "location_cords_unique", columnNames = {"latitude", "longitude"})
