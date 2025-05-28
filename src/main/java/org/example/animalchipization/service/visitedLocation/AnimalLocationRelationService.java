@@ -1,4 +1,4 @@
-package org.example.animalchipization.service.animalLocationRelation;
+package org.example.animalchipization.service.visitedLocation;
 
 import org.example.animalchipization.dto.location.VisitedLocationSearchCriteria;
 import org.example.animalchipization.dto.visitedLocation.UpdateVisitedLocationDto;

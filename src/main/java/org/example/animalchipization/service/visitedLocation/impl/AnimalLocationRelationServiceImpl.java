@@ -1,4 +1,4 @@
-package org.example.animalchipization.service.animalLocationRelation.impl;
+package org.example.animalchipization.service.visitedLocation.impl;
 
 import jakarta.persistence.criteria.JoinType;
 import org.example.animalchipization.dto.location.VisitedLocationSearchCriteria;
@@ -18,7 +18,7 @@ import org.example.animalchipization.mappers.VisitedLocationMapper;
 import org.example.animalchipization.repository.AnimalRepository;
 import org.example.animalchipization.repository.LocationRepository;
 import org.example.animalchipization.repository.VisitedLocationRepository;
-import org.example.animalchipization.service.animalLocationRelation.AnimalLocationRelationService;
+import org.example.animalchipization.service.visitedLocation.AnimalLocationRelationService;
 import org.example.animalchipization.service.JpaSpecificationBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -11,7 +11,7 @@ import org.example.animalchipization.dto.visitedLocation.UpdateVisitedLocationDt
 import org.example.animalchipization.dto.visitedLocation.VisitedLocationDtoOut;
 import org.example.animalchipization.enums.AnimalGender;
 import org.example.animalchipization.enums.AnimalLifeStatus;
-import org.example.animalchipization.service.animalLocationRelation.AnimalLocationRelationService;
+import org.example.animalchipization.service.visitedLocation.AnimalLocationRelationService;
 import org.example.animalchipization.service.animal.AnimalService;
 import org.example.animalchipization.service.animalTypeRelation.AnimalTypeRelationsService;
 import org.springframework.beans.factory.annotation.Autowired;
