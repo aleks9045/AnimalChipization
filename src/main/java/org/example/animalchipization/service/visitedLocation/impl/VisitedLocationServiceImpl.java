@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Aleksey
@@ -86,11 +87,21 @@ public class AnimalLocationRelationServiceImpl implements AnimalLocationRelation
         if (existingAnimal.getLifeStatus() == AnimalLifeStatus.DEAD) {
             throw new AnimalException(AnimalError.ANIMAL_ALREADY_DEAD);
         }
-        if (existingAnimal.getChippingLocationId().getLocationId().equals(locationId)) {
+        if (existingAnimal.getVisitedLocations().isEmpty() &&
+                existingAnimal.getChippingLocationId().getLocationId().equals(locationId)) {
             throw new AnimalException(AnimalError.ANIMAL_CHIPPING_LOCATION_ALREADY_EXISTS);
         }
 
-        VisitedLocation visitedLocation = new VisitedLocation(null, existingAnimal, existingLocation);
+        Optional<VisitedLocation> latterVisitedLocation =
+                visitedLocationRepository.findLatterVisitedLocationByAnimalId(animalId);
+
+        if (latterVisitedLocation.isPresent() &&
+                latterVisitedLocation.get().getLocation().getLocationId().equals(locationId)) {
+            throw new AnimalException(AnimalError.ANIMAL_ALREADY_IN_LOCATION);
+        }
+
+        VisitedLocation visitedLocation =
+                new VisitedLocation(null, existingAnimal, existingLocation);
 
         visitedLocationRepository.save(visitedLocation);
 
@@ -108,6 +119,11 @@ public class AnimalLocationRelationServiceImpl implements AnimalLocationRelation
         Location existingLocation = locationRepository
                 .findById(updateVisitedLocationDto.getLocationPointId())
                 .orElseThrow(() -> new LocationException(LocationError.LOCATION_NOT_FOUND));
+
+        if (existingVisitedLocation.getLocation().getLocationId()
+                .equals(updateVisitedLocationDto.getLocationPointId())) {
+            throw new VisitedLocationException(VisitedLocationError.VISITED_LOCATION_EQUALS_LOCATION);
+        }
 
         Animal existingAnimal = animalRepository.findJoinedWithVisitedLocationById(animalId)
                 .orElseThrow(() -> new AnimalException(AnimalError.ANIMAL_NOT_FOUND));

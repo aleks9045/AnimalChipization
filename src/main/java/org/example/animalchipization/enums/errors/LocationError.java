@@ -8,8 +8,8 @@ import org.springframework.http.HttpStatus;
  */
 @Getter
 public enum LocationError {
-    LOCATION_NOT_FOUND("Location with this id not found", HttpStatus.NOT_FOUND),
-    LOCATION_ALREADY_EXISTS("Location with this data already exists", HttpStatus.CONFLICT);
+    LOCATION_NOT_FOUND("Location not found", HttpStatus.NOT_FOUND),
+    LOCATION_ALREADY_EXISTS("Location already exists", HttpStatus.CONFLICT);
 
     private final String message;
     private final HttpStatus httpStatus;

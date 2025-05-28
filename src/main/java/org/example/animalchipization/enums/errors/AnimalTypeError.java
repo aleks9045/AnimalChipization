@@ -8,8 +8,8 @@ import org.springframework.http.HttpStatus;
  */
 @Getter
 public enum AnimalTypeError {
-    ANIMAL_TYPE_NOT_FOUND("Animal type with this id not found", HttpStatus.NOT_FOUND),
-    ANIMAL_TYPE_ALREADY_EXISTS("Animal type with this data already exists", HttpStatus.CONFLICT);
+    ANIMAL_TYPE_NOT_FOUND("Animal type not found", HttpStatus.NOT_FOUND),
+    ANIMAL_TYPE_ALREADY_EXISTS("Animal type already exists", HttpStatus.CONFLICT);
 
     private final String message;
     private final HttpStatus httpStatus;

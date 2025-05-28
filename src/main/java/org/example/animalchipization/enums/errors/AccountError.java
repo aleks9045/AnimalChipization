@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
  */
 @Getter
 public enum AccountError {
-    ACCOUNT_NOT_FOUND("Account with this id not found", HttpStatus.NOT_FOUND),
+    ACCOUNT_NOT_FOUND("Account not found", HttpStatus.NOT_FOUND),
     ACCOUNT_WITH_EMAIL_ALREADY_EXISTS("Account with this email already exists", HttpStatus.CONFLICT);
 
     private final String message;
