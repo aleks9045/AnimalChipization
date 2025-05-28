@@ -18,7 +18,7 @@ import org.example.animalchipization.mappers.VisitedLocationMapper;
 import org.example.animalchipization.repository.AnimalRepository;
 import org.example.animalchipization.repository.LocationRepository;
 import org.example.animalchipization.repository.VisitedLocationRepository;
-import org.example.animalchipization.service.visitedLocation.AnimalLocationRelationService;
+import org.example.animalchipization.service.visitedLocation.VisitedLocationService;
 import org.example.animalchipization.service.JpaSpecificationBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,7 +34,7 @@ import java.util.Optional;
  * @author Aleksey
  */
 @Service
-public class AnimalLocationRelationServiceImpl implements AnimalLocationRelationService {
+public class VisitedLocationServiceImpl implements VisitedLocationService {
 
     private final VisitedLocationRepository visitedLocationRepository;
     private final VisitedLocationMapper visitedLocationMapper;
@@ -42,7 +42,7 @@ public class AnimalLocationRelationServiceImpl implements AnimalLocationRelation
     private final LocationRepository locationRepository;
 
     @Autowired
-    public AnimalLocationRelationServiceImpl(VisitedLocationRepository visitedLocationRepository, VisitedLocationMapper visitedLocationMapper, AnimalRepository animalRepository, LocationRepository locationRepository) {
+    public VisitedLocationServiceImpl(VisitedLocationRepository visitedLocationRepository, VisitedLocationMapper visitedLocationMapper, AnimalRepository animalRepository, LocationRepository locationRepository) {
         this.visitedLocationRepository = visitedLocationRepository;
         this.visitedLocationMapper = visitedLocationMapper;
         this.animalRepository = animalRepository;

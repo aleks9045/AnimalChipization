@@ -4,12 +4,11 @@ import org.example.animalchipization.dto.account.AccountDtoIn;
 import org.example.animalchipization.dto.account.AccountDtoOut;
 import org.example.animalchipization.dto.account.AccountSearchCriteria;
 import org.example.animalchipization.entities.Account;
-import org.example.animalchipization.enums.errors.AccountError;
-import org.example.animalchipization.exception.entities.AccountException;
 import org.example.animalchipization.mappers.AccountMapper;
 import org.example.animalchipization.repository.AccountRepository;
 import org.example.animalchipization.service.JpaSpecificationBuilder;
 import org.example.animalchipization.service.account.AccountService;
+import org.example.animalchipization.service.account.AccountValidator;
 import org.example.animalchipization.service.auth.UserAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,19 +26,20 @@ import java.util.List;
 public class AccountServiceImpl implements AccountService {
     private final AccountMapper accountMapper;
     private final AccountRepository accountRepository;
+    private final AccountValidator accountValidator;
 
 
     @Autowired
-    public AccountServiceImpl(AccountMapper accountMapper, AccountRepository accountRepository) {
+    public AccountServiceImpl(AccountMapper accountMapper, AccountRepository accountRepository, AccountValidator accountValidator) {
         this.accountMapper = accountMapper;
         this.accountRepository = accountRepository;
+        this.accountValidator = accountValidator;
     }
 
     @Override
     public AccountDtoOut getAccount(Integer accountId) {
 
-        Account account = accountRepository.findById((long) accountId)
-                .orElseThrow(() -> new AccountException(AccountError.ACCOUNT_NOT_FOUND));
+        Account account = accountValidator.validateAndGetAccount(accountId);
 
         return accountMapper.toDto(account);
     }
@@ -48,9 +48,8 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional
     public AccountDtoOut addAccount(AccountDtoIn accountDtoIn) {
-        if (accountRepository.existsAccountByEmail(accountDtoIn.getEmail())) {
-            throw new AccountException(AccountError.ACCOUNT_WITH_EMAIL_ALREADY_EXISTS);
-        }
+
+        accountValidator.checkEmailAlreadyExistence(accountDtoIn.getEmail());
 
         String hash = UserAuthentication.hashEmailAndPassword(
                 accountDtoIn.getEmail(),
@@ -66,9 +65,8 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional
     public AccountDtoOut updateAccount(Integer accountId, AccountDtoIn accountDtoIn) {
-        if (accountRepository.existsAccountByEmail(accountDtoIn.getEmail())) {
-            throw new AccountException(AccountError.ACCOUNT_WITH_EMAIL_ALREADY_EXISTS);
-        }
+
+        accountValidator.checkEmailAlreadyExistence(accountDtoIn.getEmail());
 
         String hash = UserAuthentication.hashEmailAndPassword(
                 accountDtoIn.getEmail(),
@@ -85,8 +83,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void deleteAccountById(Integer accountId) {
 
-        accountRepository.findById((long) accountId)
-                .orElseThrow(() -> new AccountException(AccountError.ACCOUNT_NOT_FOUND));
+        accountValidator.checkAccountExistence(accountId);
 
         accountRepository.deleteById((long) accountId);
     }

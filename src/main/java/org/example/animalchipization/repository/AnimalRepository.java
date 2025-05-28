@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -32,9 +33,11 @@ public interface AnimalRepository extends
             }
     )
     @Query("""
-            SELECT a from Animal a WHERE a.animalId = :animalId
+            SELECT a
+            FROM Animal a
+            WHERE a.animalId = :id
             """)
-    Optional<Animal> findJoinedWithAllById(Long animalId);
+    Optional<Animal> findJoinedWithAllById(@Param("id") Long id);
 
     @EntityGraph(
             type = EntityGraph.EntityGraphType.FETCH,
@@ -44,9 +47,11 @@ public interface AnimalRepository extends
             }
     )
     @Query("""
-            SELECT a from Animal a WHERE a.animalId = :animalId
+            SELECT a
+            FROM Animal a
+            WHERE a.animalId = :id
             """)
-    Optional<Animal> findJoinedWithVisitedLocationById(Long animalId);
+    Optional<Animal> findJoinedWithVisitedLocationById(@Param("id") Long id);
 
 
 }

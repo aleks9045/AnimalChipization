@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author Aleksey
  */
-public interface AnimalLocationRelationService {
+public interface VisitedLocationService {
 
     List<VisitedLocationDtoOut> searchLocations(VisitedLocationSearchCriteria visitedLocationSearchCriteria,
                                                 Pageable pageable);

@@ -8,6 +8,8 @@ import org.example.animalchipization.enums.errors.AnimalError;
 import org.example.animalchipization.exception.entities.AnimalException;
 import org.example.animalchipization.mappers.animal.AnimalMapper;
 import org.example.animalchipization.repository.*;
+import org.example.animalchipization.service.animal.AnimalValidator;
+import org.example.animalchipization.service.animalType.AnimalTypeValidator;
 import org.example.animalchipization.service.animalTypeRelation.AnimalTypeRelationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,23 +25,25 @@ public class AnimalTypeRelationsServiceImpl implements AnimalTypeRelationsServic
     private final AnimalRepository animalRepository;
     private final AnimalTypeRepository animalTypeRepository;
     private final AnimalMapper animalMapper;
+    private final AnimalValidator animalValidator;
+    private final AnimalTypeValidator animalTypeValidator;
 
     @Autowired
-    public AnimalTypeRelationsServiceImpl(AnimalRepository animalRepository, AnimalTypeRepository animalTypeRepository, AnimalMapper animalMapper) {
+    public AnimalTypeRelationsServiceImpl(AnimalRepository animalRepository, AnimalTypeRepository animalTypeRepository, AnimalMapper animalMapper, AnimalValidator animalValidator, AnimalTypeValidator animalTypeValidator) {
         this.animalRepository = animalRepository;
         this.animalTypeRepository = animalTypeRepository;
         this.animalMapper = animalMapper;
+        this.animalValidator = animalValidator;
+        this.animalTypeValidator = animalTypeValidator;
     }
     
     @Override
     @Transactional
     public AnimalDtoOut addTypeToAnimal(Long animalId, Long animalTypeId) {
 
-        Animal existingAnimal = animalRepository.findJoinedWithAllById(animalId)
-                .orElseThrow(() -> new AnimalException(AnimalError.ANIMAL_NOT_FOUND));
+        Animal existingAnimal = animalValidator.validateAndGetAnimal(animalId);
 
-        AnimalType existingType = animalTypeRepository.findById(animalTypeId)
-                .orElseThrow(() -> new AnimalException(AnimalError.ANIMAL_TYPE_NOT_FOUND));
+        AnimalType existingType = animalTypeValidator.validateAndGetAnimalType(animalTypeId);
 
         Set<AnimalType> existingAnimalTypes = existingAnimal.getAnimalTypes();
 
@@ -61,14 +65,13 @@ public class AnimalTypeRelationsServiceImpl implements AnimalTypeRelationsServic
     @Transactional
     public AnimalDtoOut replaceTypeInAnimal(Long animalId, UpdateAnimalTypeDto updateAnimalTypeDto) {
 
-        Animal existingAnimal = animalRepository.findJoinedWithAllById(animalId)
-                .orElseThrow(() -> new AnimalException(AnimalError.ANIMAL_NOT_FOUND));
+        Animal existingAnimal = animalValidator.validateAndGetAnimal(animalId);
 
-        AnimalType existingType = animalTypeRepository.findById(updateAnimalTypeDto.getOldTypeId())
-                .orElseThrow(() -> new AnimalException(AnimalError.ANIMAL_TYPE_NOT_FOUND));
+        AnimalType existingType = animalTypeValidator.validateAndGetAnimalType(
+                updateAnimalTypeDto.getOldTypeId());
 
-        AnimalType newType = animalTypeRepository.findById(updateAnimalTypeDto.getNewTypeId())
-                .orElseThrow(() -> new AnimalException(AnimalError.ANIMAL_TYPE_NOT_FOUND));
+        AnimalType newType = animalTypeValidator.validateAndGetAnimalType(
+                updateAnimalTypeDto.getNewTypeId());
 
         Set<AnimalType> existingAnimalTypes = existingAnimal.getAnimalTypes();
 
@@ -93,11 +96,9 @@ public class AnimalTypeRelationsServiceImpl implements AnimalTypeRelationsServic
     @Transactional
     public AnimalDtoOut removeTypeFromAnimal(Long animalId, Long animalTypeId) {
 
-        Animal existingAnimal = animalRepository.findJoinedWithAllById(animalId)
-                .orElseThrow(() -> new AnimalException(AnimalError.ANIMAL_NOT_FOUND));
+        Animal existingAnimal = animalValidator.validateAndGetAnimal(animalId);
 
-        AnimalType existingType = animalTypeRepository.findById(animalTypeId)
-                .orElseThrow(() -> new AnimalException(AnimalError.ANIMAL_TYPE_NOT_FOUND));
+        AnimalType existingType = animalTypeValidator.validateAndGetAnimalType(animalTypeId);
 
         Set<AnimalType> existingAnimalTypes = existingAnimal.getAnimalTypes();
 

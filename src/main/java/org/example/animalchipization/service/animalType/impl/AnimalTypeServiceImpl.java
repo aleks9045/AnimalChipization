@@ -8,6 +8,7 @@ import org.example.animalchipization.exception.entities.AnimalTypeException;
 import org.example.animalchipization.mappers.AnimalTypeMapper;
 import org.example.animalchipization.repository.AnimalTypeRepository;
 import org.example.animalchipization.service.animalType.AnimalTypeService;
+import org.example.animalchipization.service.animalType.AnimalTypeValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,19 +20,20 @@ import org.springframework.transaction.annotation.Transactional;
 public class AnimalTypeServiceImpl implements AnimalTypeService {
     private final AnimalTypeRepository animalTypeRepository;
     private final AnimalTypeMapper animalTypeMapper;
+    private final AnimalTypeValidator animalTypeValidator;
 
     @Autowired
-    public AnimalTypeServiceImpl(AnimalTypeRepository animalTypeRepository, AnimalTypeMapper animalTypeMapper) {
+    public AnimalTypeServiceImpl(AnimalTypeRepository animalTypeRepository, AnimalTypeMapper animalTypeMapper, AnimalTypeValidator animalTypeValidator) {
         this.animalTypeRepository = animalTypeRepository;
         this.animalTypeMapper = animalTypeMapper;
+        this.animalTypeValidator = animalTypeValidator;
     }
 
 
     @Override
     public AnimalTypeDtoOut getAnimalType(Long animalTypeId) {
 
-        AnimalType animalType = animalTypeRepository.findById(animalTypeId)
-                .orElseThrow(() -> new AnimalTypeException(AnimalTypeError.ANIMAL_TYPE_NOT_FOUND));
+        AnimalType animalType = animalTypeValidator.validateAndGetAnimalType(animalTypeId);
 
         return animalTypeMapper.toDto(animalType);
     }
@@ -39,9 +41,7 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
     @Override
     @Transactional
     public AnimalTypeDtoOut addAnimalType(AnimalTypeDtoIn animalTypeDtoIn) {
-        if (animalTypeRepository.existsAnimalTypeByType(animalTypeDtoIn.getType())) {
-            throw new AnimalTypeException(AnimalTypeError.ANIMAL_TYPE_ALREADY_EXISTS);
-        }
+        animalTypeValidator.checkExistenceByType(animalTypeDtoIn.getType());
 
         AnimalType animalType = animalTypeMapper.toEntity(animalTypeDtoIn);
         animalTypeRepository.save(animalType);
@@ -52,9 +52,8 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
     @Override
     @Transactional
     public AnimalTypeDtoOut updateAnimalType(Long animalTypeId, AnimalTypeDtoIn animalTypeDtoIn) {
-        if (animalTypeRepository.existsAnimalTypeByType(animalTypeDtoIn.getType())) {
-            throw new AnimalTypeException(AnimalTypeError.ANIMAL_TYPE_ALREADY_EXISTS);
-        }
+
+        animalTypeValidator.checkExistenceByType(animalTypeDtoIn.getType());
 
         AnimalType animalType = animalTypeMapper.toEntity(animalTypeDtoIn);
         animalType.setAnimalTypeId(animalTypeId);
@@ -66,8 +65,7 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
     @Override
     public void deleteAnimalTypeById(Long animalTypeId) {
 
-        animalTypeRepository.findById(animalTypeId)
-                .orElseThrow(() -> new AnimalTypeException(AnimalTypeError.ANIMAL_TYPE_NOT_FOUND));
+        animalTypeValidator.checkAnimalTypeExistence(animalTypeId);
 
         animalTypeRepository.deleteById(animalTypeId);
     }

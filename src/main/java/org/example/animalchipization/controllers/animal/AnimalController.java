@@ -11,7 +11,7 @@ import org.example.animalchipization.dto.visitedLocation.UpdateVisitedLocationDt
 import org.example.animalchipization.dto.visitedLocation.VisitedLocationDtoOut;
 import org.example.animalchipization.enums.AnimalGender;
 import org.example.animalchipization.enums.AnimalLifeStatus;
-import org.example.animalchipization.service.visitedLocation.AnimalLocationRelationService;
+import org.example.animalchipization.service.visitedLocation.VisitedLocationService;
 import org.example.animalchipization.service.animal.AnimalService;
 import org.example.animalchipization.service.animalTypeRelation.AnimalTypeRelationsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +33,13 @@ import java.util.List;
 public class AnimalController {
     private final AnimalService animalService;
     private final AnimalTypeRelationsService animalTypeRelationsService;
-    private final AnimalLocationRelationService animalLocationRelationService;
+    private final VisitedLocationService visitedLocationService;
 
     @Autowired
-    public AnimalController(AnimalService animalService, AnimalTypeRelationsService animalTypeRelationsService, AnimalLocationRelationService animalLocationRelationService) {
+    public AnimalController(AnimalService animalService, AnimalTypeRelationsService animalTypeRelationsService, VisitedLocationService visitedLocationService) {
         this.animalService = animalService;
         this.animalTypeRelationsService = animalTypeRelationsService;
-        this.animalLocationRelationService = animalLocationRelationService;
+        this.visitedLocationService = visitedLocationService;
     }
 
     @GetMapping("/{animalId}")
@@ -147,7 +147,7 @@ public class AnimalController {
                 endDateTime
         );
 
-        List<VisitedLocationDtoOut> locationDtoOut = animalLocationRelationService.searchLocations(
+        List<VisitedLocationDtoOut> locationDtoOut = visitedLocationService.searchLocations(
                 visitedLocationSearchCriteria,
                 PageRequest.of(from, size));
 
@@ -160,7 +160,7 @@ public class AnimalController {
             @PathVariable @Positive @Min(1) Long animalId,
             @PathVariable @Positive @Min(1) Long pointId) {
 
-        VisitedLocationDtoOut visitedLocationDtoOut = animalLocationRelationService.addVisitedLocationToAnimal(animalId, pointId);
+        VisitedLocationDtoOut visitedLocationDtoOut = visitedLocationService.addVisitedLocationToAnimal(animalId, pointId);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(visitedLocationDtoOut);
     }
@@ -171,7 +171,7 @@ public class AnimalController {
             @PathVariable @Positive @Min(1) Long animalId,
             @Validated @RequestBody UpdateVisitedLocationDto updateVisitedLocationDto) {
 
-        VisitedLocationDtoOut visitedLocationDtoOut = animalLocationRelationService.replaceVisitedLocationInAnimal(animalId, updateVisitedLocationDto);
+        VisitedLocationDtoOut visitedLocationDtoOut = visitedLocationService.replaceVisitedLocationInAnimal(animalId, updateVisitedLocationDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(visitedLocationDtoOut);
     }
@@ -182,7 +182,7 @@ public class AnimalController {
             @PathVariable @Positive @Min(1) Long animalId,
             @PathVariable @Positive @Min(1) Long visitedPointId) {
 
-        animalLocationRelationService.removeVisitedLocationFromAnimal(animalId, visitedPointId);
+        visitedLocationService.removeVisitedLocationFromAnimal(animalId, visitedPointId);
 
         return ResponseEntity.status(HttpStatus.OK).build();
     }

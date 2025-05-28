@@ -8,6 +8,7 @@ import org.example.animalchipization.exception.entities.LocationException;
 import org.example.animalchipization.mappers.LocationMapper;
 import org.example.animalchipization.repository.LocationRepository;
 import org.example.animalchipization.service.location.LocationService;
+import org.example.animalchipization.service.location.LocationValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,18 +21,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class LocationServiceImpl implements LocationService {
     private final LocationRepository locationRepository;
     private final LocationMapper locationMapper;
+    private final LocationValidator locationValidator;
 
     @Autowired
-    public LocationServiceImpl(LocationRepository locationRepository, LocationMapper locationMapper) {
+    public LocationServiceImpl(LocationRepository locationRepository, LocationMapper locationMapper, LocationValidator locationValidator) {
         this.locationRepository = locationRepository;
         this.locationMapper = locationMapper;
+        this.locationValidator = locationValidator;
     }
 
     @Override
     public LocationDtoOut getLocation(Long locationId) {
 
-        Location location = locationRepository.findById(locationId)
-                .orElseThrow(() -> new LocationException(LocationError.LOCATION_NOT_FOUND));
+        Location location = locationValidator.validateAndGetLocation(locationId);
 
         return locationMapper.toDto(location);
     }
@@ -39,12 +41,11 @@ public class LocationServiceImpl implements LocationService {
     @Override
     @Transactional
     public LocationDtoOut addLocation(LocationDtoIn locationDtoIn) {
-        if (locationRepository.existsLocationByLatitudeAndLongitude(
+
+        locationValidator.checkLocationExistence(
                 locationDtoIn.getLatitude(),
-                locationDtoIn.getLongitude())
-        ) {
-            throw new LocationException(LocationError.LOCATION_ALREADY_EXISTS);
-        }
+                locationDtoIn.getLongitude()
+        );
 
         Location location = locationMapper.toEntity(locationDtoIn);
         locationRepository.save(location);
@@ -55,12 +56,12 @@ public class LocationServiceImpl implements LocationService {
     @Override
     @Transactional
     public LocationDtoOut updateLocation(Long locationId, LocationDtoIn locationDtoIn) {
-        if (locationRepository.existsLocationByLatitudeAndLongitude(
+
+        locationValidator.checkLocationExistence(
                 locationDtoIn.getLatitude(),
-                locationDtoIn.getLongitude())
-        ) {
-            throw new LocationException(LocationError.LOCATION_ALREADY_EXISTS);
-        }
+                locationDtoIn.getLongitude()
+        );
+
         Location location = locationMapper.toEntity(locationDtoIn);
         location.setLocationId(locationId);
         locationRepository.save(location);
@@ -71,8 +72,7 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public void deleteLocationById(Long locationId) {
 
-        locationRepository.findById(locationId)
-                .orElseThrow(() -> new LocationException(LocationError.LOCATION_NOT_FOUND));
+        locationValidator.checkLocationExistence(locationId);
 
         locationRepository.deleteById(locationId);
     }

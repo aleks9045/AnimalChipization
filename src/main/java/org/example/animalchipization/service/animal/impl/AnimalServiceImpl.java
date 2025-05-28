@@ -10,6 +10,7 @@ import org.example.animalchipization.mappers.animal.AnimalMapper;
 import org.example.animalchipization.repository.*;
 import org.example.animalchipization.service.JpaSpecificationBuilder;
 import org.example.animalchipization.service.animal.AnimalService;
+import org.example.animalchipization.service.animal.AnimalValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,19 +29,14 @@ import java.util.Set;
 public class AnimalServiceImpl implements AnimalService {
 
     private final AnimalRepository animalRepository;
-    private final AccountRepository accountRepository;
-    private final LocationRepository locationRepository;
-    private final AnimalTypeRepository animalTypeRepository;
     private final AnimalMapper animalMapper;
-
+    private final AnimalValidator animalValidator;
 
     @Autowired
-    public AnimalServiceImpl(AnimalRepository animalRepository, AccountRepository accountRepository, AnimalTypeRepository animalTypeRepository, AnimalMapper animalMapper, LocationRepository locationRepository) {
+    public AnimalServiceImpl(AnimalRepository animalRepository, AnimalMapper animalMapper, AnimalValidator animalValidator) {
         this.animalRepository = animalRepository;
-        this.accountRepository = accountRepository;
-        this.animalTypeRepository = animalTypeRepository;
         this.animalMapper = animalMapper;
-        this.locationRepository = locationRepository;
+        this.animalValidator = animalValidator;
     }
 
 
@@ -48,8 +44,7 @@ public class AnimalServiceImpl implements AnimalService {
     @Transactional
     public AnimalDtoOut getAnimal(Long animalId) {
 
-        Animal animal = animalRepository.findJoinedWithAllById(animalId)
-                .orElseThrow(() -> new AnimalException(AnimalError.ANIMAL_NOT_FOUND));
+        Animal animal = animalValidator.validateAndGetAnimal(animalId);
 
         return animalMapper.toDto(animal);
     }
@@ -58,18 +53,11 @@ public class AnimalServiceImpl implements AnimalService {
     @Transactional
     public AnimalDtoOut addAnimal(AnimalDtoIn animalDtoIn) {
 
-        Set<AnimalType> animalTypes = new HashSet<>(
-                animalTypeRepository.findAllById(animalDtoIn.getAnimalTypes())
-        );
-        if (animalTypes.size() < animalDtoIn.getAnimalTypes().size()) {
-            throw new AnimalException(AnimalError.ANIMAL_TYPE_NOT_FOUND);
-        }
-        if (!accountRepository.existsAccountByAccountId(animalDtoIn.getChipperId())) {
-            throw new AnimalException(AnimalError.ANIMAL_CHIPPER_NOT_FOUND);
-        }
-        if (!locationRepository.existsLocationByLocationId(animalDtoIn.getChippingLocationId())) {
-            throw new AnimalException(AnimalError.ANIMAL_CHIPPING_LOCATION_NOT_FOUND);
-        }
+        animalValidator.checkChipperExistence(animalDtoIn.getChipperId());
+
+        animalValidator.checkChippingLocationExistence(animalDtoIn.getChippingLocationId());
+
+        Set<AnimalType> animalTypes = animalValidator.validateAndGetAnimalTypes(animalDtoIn.getAnimalTypes());
 
         Animal animal = animalMapper.toEntity(animalDtoIn);
         animal.setAnimalTypes(animalTypes);
@@ -82,24 +70,12 @@ public class AnimalServiceImpl implements AnimalService {
     @Transactional
     public AnimalDtoOut updateAnimal(Long animalId, AnimalDtoUpdate animalDtoUpdate) {
 
-        Animal existingAnimal = animalRepository.findJoinedWithAllById(animalId)
-                .orElseThrow(() -> new AnimalException(AnimalError.ANIMAL_NOT_FOUND));
+        Animal existingAnimal = animalValidator.validateAndGetAnimal(animalId);
 
-        if (existingAnimal.getLifeStatus() == AnimalLifeStatus.DEAD &&
-                animalDtoUpdate.getLifeStatus() == AnimalLifeStatus.ALIVE) {
-            throw new AnimalException(AnimalError.ANIMAL_ALREADY_DEAD);
-        }
-        if (existingAnimal.getChippingLocationId().getLocationId()
-                .equals(animalDtoUpdate.getChippingLocationId())) {
-            throw new AnimalException(AnimalError.ANIMAL_CHIPPING_LOCATION_ALREADY_EXISTS);
-        }
+        animalValidator.checkAnimalUpdate(existingAnimal, animalDtoUpdate);
 
-        if (!accountRepository.existsAccountByAccountId(animalDtoUpdate.getChipperId())) {
-            throw new AnimalException(AnimalError.ANIMAL_CHIPPER_NOT_FOUND);
-        }
-        if (!locationRepository.existsLocationByLocationId(animalDtoUpdate.getChippingLocationId())) {
-            throw new AnimalException(AnimalError.ANIMAL_CHIPPING_LOCATION_NOT_FOUND);
-        }
+        animalValidator.checkChipperExistence(animalDtoUpdate.getChipperId());
+        animalValidator.checkChippingLocationExistence(animalDtoUpdate.getChippingLocationId());
 
         animalMapper.updateEntity(existingAnimal, animalDtoUpdate);
 
@@ -112,9 +88,7 @@ public class AnimalServiceImpl implements AnimalService {
     @Override
     public void deleteAnimalById(Long animalId) {
 
-        if (!animalRepository.existsById(animalId)) {
-            throw new AnimalException(AnimalError.ANIMAL_NOT_FOUND);
-        }
+        animalValidator.checkAnimalExistence(animalId);
 
         animalRepository.deleteById(animalId);
     }
