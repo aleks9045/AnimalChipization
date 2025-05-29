@@ -2,6 +2,8 @@ package org.example.animalchipization.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
 
@@ -15,7 +17,7 @@ import java.time.Instant;
 @EqualsAndHashCode(exclude = {"animal", "location"})
 @ToString(exclude = {"animal", "location"})
 @Table(name = "visited_location", indexes = {
-        @Index(name = "idx_visit_time", columnList = "dateTimeOfVisitLocationPoint")
+        @Index(name = "idx_visit_time", columnList = "visit_time")
 })
 @Entity
 public class VisitedLocation {
@@ -30,6 +32,7 @@ public class VisitedLocation {
 
     @ManyToOne
     @JoinColumn(name = "animal_id")
+    @OnDelete(action = OnDeleteAction.RESTRICT)
     private Animal animal;
 
     @ManyToOne

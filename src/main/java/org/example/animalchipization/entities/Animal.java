@@ -34,7 +34,7 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"chipperId", "chippingLocationId", "animalTypes", "visitedLocations"})
 @ToString(exclude = {"chipperId", "chippingLocationId", "animalTypes", "visitedLocations"})
 @Table(name = "animal", indexes = {
-        @Index(name = "idx_animal_id", columnList = "animalId")
+        @Index(name = "idx_animal_id", columnList = "animal_id")
 })
 @Entity
 public class Animal {
