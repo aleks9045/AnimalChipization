@@ -50,6 +50,7 @@ public class JpaSpecificationBuilder {
     public static <T> Specification<T> join(String joinFieldName,
                                                       String comparisonFieldName,
                                                       Object value, JoinType joinType) {
+        if (value == null) return null;
         return (root, query, criteriaBuilder) -> {
             Join<?, ?> join = root.join(joinFieldName, joinType);
             return criteriaBuilder.equal(join.get(comparisonFieldName), value);

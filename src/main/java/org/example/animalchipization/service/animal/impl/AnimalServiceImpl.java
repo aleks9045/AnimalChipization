@@ -1,5 +1,6 @@
 package org.example.animalchipization.service.animal.impl;
 
+import jakarta.persistence.criteria.JoinType;
 import org.example.animalchipization.dto.animal.*;
 import org.example.animalchipization.entities.Animal;
 import org.example.animalchipization.entities.AnimalType;
@@ -21,6 +22,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,15 +36,13 @@ public class AnimalServiceImpl implements AnimalService {
     private final AnimalRepository animalRepository;
     private final AnimalMapper animalMapper;
     private final AnimalValidator animalValidator;
-    private final VisitedLocationRepository visitedLocationRepository;
     private final LocationValidator locationValidator;
 
     @Autowired
-    public AnimalServiceImpl(AnimalRepository animalRepository, AnimalMapper animalMapper, AnimalValidator animalValidator, VisitedLocationRepository visitedLocationRepository, LocationValidator locationValidator) {
+    public AnimalServiceImpl(AnimalRepository animalRepository, AnimalMapper animalMapper, AnimalValidator animalValidator, LocationValidator locationValidator) {
         this.animalRepository = animalRepository;
         this.animalMapper = animalMapper;
         this.animalValidator = animalValidator;
-        this.visitedLocationRepository = visitedLocationRepository;
         this.locationValidator = locationValidator;
     }
 
@@ -68,11 +68,13 @@ public class AnimalServiceImpl implements AnimalService {
 
         Animal animal = animalMapper.toEntity(animalDtoIn);
         animal.setAnimalTypes(animalTypes);
-        animalRepository.save(animal);
 
         VisitedLocation visitedLocation =
                 new VisitedLocation(null, animal, chippingLocation);
-        visitedLocationRepository.save(visitedLocation);
+
+        animal.setVisitedLocations(List.of(visitedLocation));
+
+        animalRepository.save(animal);
 
         return animalMapper.toDto(animal);
     }
@@ -120,13 +122,17 @@ public class AnimalServiceImpl implements AnimalService {
                         "chippingDateTime",
                         animalSearchCriteria.endDateTime())
         ).and(
-                JpaSpecificationBuilder.equal(
+                JpaSpecificationBuilder.join(
                         "chipperId",
-                        animalSearchCriteria.chipperId())
+                        "accountId",
+                        animalSearchCriteria.chipperId(),
+                        JoinType.INNER)
         ).and(
-                JpaSpecificationBuilder.equal(
+                JpaSpecificationBuilder.join(
                         "chippingLocationId",
-                        animalSearchCriteria.chippingLocationId())
+                        "locationId",
+                        animalSearchCriteria.chippingLocationId(),
+                        JoinType.INNER)
         ).and(
                 JpaSpecificationBuilder.equal(
                         "lifeStatus",

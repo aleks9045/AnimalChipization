@@ -83,10 +83,10 @@ public class AnimalValidator {
                 animalDtoUpdate.getLifeStatus() == AnimalLifeStatus.ALIVE) {
             throw new AnimalException(AnimalError.ANIMAL_ALREADY_DEAD);
         }
-        if (animal.getChippingLocationId().getLocationId()
-                .equals(animalDtoUpdate.getChippingLocationId())) {
-            throw new AnimalException(AnimalError.ANIMAL_CHIPPING_LOCATION_ALREADY_EXISTS);
-        }
+//        if (animal.getChippingLocationId().getLocationId()
+//                .equals(animalDtoUpdate.getChippingLocationId())) {
+//            throw new AnimalException(AnimalError.ANIMAL_CHIPPING_LOCATION_ALREADY_EXISTS);
+//        }
     }
 
 }
