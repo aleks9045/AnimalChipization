@@ -15,7 +15,8 @@ public enum AnimalError {
     ANIMAL_TYPES_DUPLICATES("Animal types has duplicates", HttpStatus.CONFLICT),
     ANIMAL_ALREADY_DEAD("Animal already dead", HttpStatus.BAD_REQUEST),
     ANIMAL_CHIPPING_LOCATION_ALREADY_EXISTS("Animal chipping location already exists", HttpStatus.BAD_REQUEST),
-    ANIMAL_ALREADY_IN_LOCATION("Animal already in this location", HttpStatus.BAD_REQUEST);
+    ANIMAL_ALREADY_IN_LOCATION("Animal already in this location", HttpStatus.BAD_REQUEST),
+    ANIMAL_STILL_LINKED("Animal still linked", HttpStatus.BAD_REQUEST);
 
     private final String message;
     private final HttpStatus httpStatus;
