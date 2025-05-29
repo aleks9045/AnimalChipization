@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Works with Account entity
  * <p>Implements JpaRepository, so it has a set of ready-made methods
@@ -17,7 +19,7 @@ public interface AccountRepository extends
         JpaRepository<Account, Long>,
         JpaSpecificationExecutor<Account> {
 
-    Boolean existsAccountByEmail(String email);
+    List<Account> findAllByEmail(String email);
 
     Boolean existsAccountByAccountId(Integer accountId);
 

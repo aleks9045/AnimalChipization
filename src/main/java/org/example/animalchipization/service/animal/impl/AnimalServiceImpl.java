@@ -3,6 +3,8 @@ package org.example.animalchipization.service.animal.impl;
 import org.example.animalchipization.dto.animal.*;
 import org.example.animalchipization.entities.Animal;
 import org.example.animalchipization.entities.AnimalType;
+import org.example.animalchipization.entities.Location;
+import org.example.animalchipization.entities.VisitedLocation;
 import org.example.animalchipization.enums.AnimalLifeStatus;
 import org.example.animalchipization.enums.errors.AnimalError;
 import org.example.animalchipization.exception.entities.AnimalException;
@@ -11,6 +13,7 @@ import org.example.animalchipization.repository.*;
 import org.example.animalchipization.service.JpaSpecificationBuilder;
 import org.example.animalchipization.service.animal.AnimalService;
 import org.example.animalchipization.service.animal.AnimalValidator;
+import org.example.animalchipization.service.location.LocationValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,12 +34,16 @@ public class AnimalServiceImpl implements AnimalService {
     private final AnimalRepository animalRepository;
     private final AnimalMapper animalMapper;
     private final AnimalValidator animalValidator;
+    private final VisitedLocationRepository visitedLocationRepository;
+    private final LocationValidator locationValidator;
 
     @Autowired
-    public AnimalServiceImpl(AnimalRepository animalRepository, AnimalMapper animalMapper, AnimalValidator animalValidator) {
+    public AnimalServiceImpl(AnimalRepository animalRepository, AnimalMapper animalMapper, AnimalValidator animalValidator, VisitedLocationRepository visitedLocationRepository, LocationValidator locationValidator) {
         this.animalRepository = animalRepository;
         this.animalMapper = animalMapper;
         this.animalValidator = animalValidator;
+        this.visitedLocationRepository = visitedLocationRepository;
+        this.locationValidator = locationValidator;
     }
 
 
@@ -55,13 +62,17 @@ public class AnimalServiceImpl implements AnimalService {
 
         animalValidator.checkChipperExistence(animalDtoIn.getChipperId());
 
-        animalValidator.checkChippingLocationExistence(animalDtoIn.getChippingLocationId());
+        Location chippingLocation = locationValidator.validateAndGetLocation(animalDtoIn.getChippingLocationId());
 
         Set<AnimalType> animalTypes = animalValidator.validateAndGetAnimalTypes(animalDtoIn.getAnimalTypes());
 
         Animal animal = animalMapper.toEntity(animalDtoIn);
         animal.setAnimalTypes(animalTypes);
         animalRepository.save(animal);
+
+        VisitedLocation visitedLocation =
+                new VisitedLocation(null, animal, chippingLocation);
+        visitedLocationRepository.save(visitedLocation);
 
         return animalMapper.toDto(animal);
     }
@@ -89,8 +100,11 @@ public class AnimalServiceImpl implements AnimalService {
     public void deleteAnimalById(Long animalId) {
 
         animalValidator.checkAnimalExistence(animalId);
-
-        animalRepository.deleteById(animalId);
+        try {
+            animalRepository.deleteById(animalId);
+        } catch (Exception e) {
+            throw new AnimalException(AnimalError.ANIMAL_STILL_LINKED);
+        }
     }
 
     @Override

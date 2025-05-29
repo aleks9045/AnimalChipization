@@ -41,7 +41,7 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
     @Override
     @Transactional
     public AnimalTypeDtoOut addAnimalType(AnimalTypeDtoIn animalTypeDtoIn) {
-        animalTypeValidator.checkExistenceByType(animalTypeDtoIn.getType());
+        animalTypeValidator.checkAnimalTypeExistence(animalTypeDtoIn.getType());
 
         AnimalType animalType = animalTypeMapper.toEntity(animalTypeDtoIn);
         animalTypeRepository.save(animalType);
@@ -53,7 +53,8 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
     @Transactional
     public AnimalTypeDtoOut updateAnimalType(Long animalTypeId, AnimalTypeDtoIn animalTypeDtoIn) {
 
-        animalTypeValidator.checkExistenceByType(animalTypeDtoIn.getType());
+        animalTypeValidator.checkAnimalTypeExistence(animalTypeId);
+        animalTypeValidator.checkAnimalTypeExistence(animalTypeDtoIn.getType());
 
         AnimalType animalType = animalTypeMapper.toEntity(animalTypeDtoIn);
         animalType.setAnimalTypeId(animalTypeId);
@@ -67,6 +68,10 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
 
         animalTypeValidator.checkAnimalTypeExistence(animalTypeId);
 
-        animalTypeRepository.deleteById(animalTypeId);
+        try {
+            animalTypeRepository.deleteById(animalTypeId);
+        } catch (Exception e) {
+            throw new AnimalTypeException(AnimalTypeError.ANIMAL_TYPE_STILL_LINKED);
+        }
     }
 }

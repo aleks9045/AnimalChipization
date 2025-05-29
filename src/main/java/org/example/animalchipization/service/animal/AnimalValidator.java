@@ -42,6 +42,19 @@ public class AnimalValidator {
         }
     }
 
+    public void checkAnimalAlive(Animal animal) {
+        if (animal.getLifeStatus() == AnimalLifeStatus.DEAD) {
+            throw new AnimalException(AnimalError.ANIMAL_ALREADY_DEAD);
+        }
+    }
+
+    public void checkVLAddition(Animal animal, Long locationId) {
+        if (animal.getVisitedLocations().isEmpty() &&
+                animal.getChippingLocationId().getLocationId().equals(locationId)) {
+            throw new AnimalException(AnimalError.ANIMAL_CHIPPING_LOCATION_ALREADY_EXISTS);
+        }
+    }
+
     public void checkChipperExistence(Integer chipperId) {
         if (!accountRepository.existsAccountByAccountId(chipperId)) {
             throw new AnimalException(AnimalError.ANIMAL_CHIPPER_NOT_FOUND);

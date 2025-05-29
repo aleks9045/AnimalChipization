@@ -4,6 +4,8 @@ import org.example.animalchipization.dto.account.AccountDtoIn;
 import org.example.animalchipization.dto.account.AccountDtoOut;
 import org.example.animalchipization.dto.account.AccountSearchCriteria;
 import org.example.animalchipization.entities.Account;
+import org.example.animalchipization.enums.errors.AccountError;
+import org.example.animalchipization.exception.entities.AccountException;
 import org.example.animalchipization.mappers.AccountMapper;
 import org.example.animalchipization.repository.AccountRepository;
 import org.example.animalchipization.service.JpaSpecificationBuilder;
@@ -84,8 +86,11 @@ public class AccountServiceImpl implements AccountService {
     public void deleteAccountById(Integer accountId) {
 
         accountValidator.checkAccountExistence(accountId);
-
-        accountRepository.deleteById((long) accountId);
+        try {
+            accountRepository.deleteById((long) accountId);
+        } catch (Exception e) {
+            throw new AccountException(AccountError.ACCOUNT_STILL_LINKED);
+        }
     }
 
     @Override

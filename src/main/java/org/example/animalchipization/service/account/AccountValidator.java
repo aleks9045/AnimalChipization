@@ -24,7 +24,7 @@ public class AccountValidator {
     }
 
     public void checkEmailAlreadyExistence(String email) {
-        if (accountRepository.existsAccountByEmail(email)) {
+        if (accountRepository.findAllByEmail(email).size() == 2) {
             throw new AccountException(AccountError.ACCOUNT_WITH_EMAIL_ALREADY_EXISTS);
         }
     }

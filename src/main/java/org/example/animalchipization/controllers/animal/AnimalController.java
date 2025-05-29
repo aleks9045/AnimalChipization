@@ -6,9 +6,9 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import org.example.animalchipization.dto.animal.*;
 import org.example.animalchipization.dto.animal.AnimalDtoOut;
-import org.example.animalchipization.dto.location.VisitedLocationSearchCriteria;
-import org.example.animalchipization.dto.visitedLocation.UpdateVisitedLocationDto;
-import org.example.animalchipization.dto.visitedLocation.VisitedLocationDtoOut;
+import org.example.animalchipization.dto.location.VLSearchCriteria;
+import org.example.animalchipization.dto.visitedLocation.UpdateVLDto;
+import org.example.animalchipization.dto.visitedLocation.VLDtoOut;
 import org.example.animalchipization.enums.AnimalGender;
 import org.example.animalchipization.enums.AnimalLifeStatus;
 import org.example.animalchipization.service.visitedLocation.VisitedLocationService;
@@ -134,21 +134,21 @@ public class AnimalController {
 
     @GetMapping("{animalId}/locations")
     @Validated
-    public ResponseEntity<List<VisitedLocationDtoOut>> searchAnimalLocations(
+    public ResponseEntity<List<VLDtoOut>> searchAnimalLocations(
             @PathVariable @Positive @Min(1) Long animalId,
             @RequestParam(required = false) Instant startDateTime,
             @RequestParam(required = false) Instant endDateTime,
             @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
             @RequestParam(defaultValue = "10") @Positive @Min(1) Integer size) {
 
-        VisitedLocationSearchCriteria visitedLocationSearchCriteria = new VisitedLocationSearchCriteria(
+        VLSearchCriteria VLSearchCriteria = new VLSearchCriteria(
                 animalId,
                 startDateTime,
                 endDateTime
         );
 
-        List<VisitedLocationDtoOut> locationDtoOut = visitedLocationService.searchLocations(
-                visitedLocationSearchCriteria,
+        List<VLDtoOut> locationDtoOut = visitedLocationService.searchLocations(
+                VLSearchCriteria,
                 PageRequest.of(from, size));
 
         return ResponseEntity.status(HttpStatus.OK).body(locationDtoOut);
@@ -156,29 +156,29 @@ public class AnimalController {
 
     @PostMapping("/{animalId}/locations/{pointId}")
     @Validated
-    public ResponseEntity<VisitedLocationDtoOut> addVisitedLocationToAnimal(
+    public ResponseEntity<VLDtoOut> addVisitedLocationToAnimal(
             @PathVariable @Positive @Min(1) Long animalId,
             @PathVariable @Positive @Min(1) Long pointId) {
 
-        VisitedLocationDtoOut visitedLocationDtoOut = visitedLocationService.addVisitedLocationToAnimal(animalId, pointId);
+        VLDtoOut VLDtoOut = visitedLocationService.addVisitedLocationToAnimal(animalId, pointId);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(visitedLocationDtoOut);
+        return ResponseEntity.status(HttpStatus.CREATED).body(VLDtoOut);
     }
 
     @PutMapping("/{animalId}/locations")
     @Validated
-    public ResponseEntity<VisitedLocationDtoOut> replaceVisitedLocationInAnimal(
+    public ResponseEntity<VLDtoOut> replaceVisitedLocationInAnimal(
             @PathVariable @Positive @Min(1) Long animalId,
-            @Validated @RequestBody UpdateVisitedLocationDto updateVisitedLocationDto) {
+            @Validated @RequestBody UpdateVLDto updateVLDto) {
 
-        VisitedLocationDtoOut visitedLocationDtoOut = visitedLocationService.replaceVisitedLocationInAnimal(animalId, updateVisitedLocationDto);
+        VLDtoOut VLDtoOut = visitedLocationService.replaceVisitedLocationInAnimal(animalId, updateVLDto);
 
-        return ResponseEntity.status(HttpStatus.OK).body(visitedLocationDtoOut);
+        return ResponseEntity.status(HttpStatus.OK).body(VLDtoOut);
     }
 
     @DeleteMapping("/{animalId}/locations/{visitedPointId}")
     @Validated
-    public ResponseEntity<VisitedLocationDtoOut> removeVisitedLocationFromAnimal(
+    public ResponseEntity<VLDtoOut> removeVisitedLocationFromAnimal(
             @PathVariable @Positive @Min(1) Long animalId,
             @PathVariable @Positive @Min(1) Long visitedPointId) {
 

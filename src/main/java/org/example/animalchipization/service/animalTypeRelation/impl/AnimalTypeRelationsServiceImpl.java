@@ -23,15 +23,13 @@ import java.util.Set;
 @Service
 public class AnimalTypeRelationsServiceImpl implements AnimalTypeRelationsService {
     private final AnimalRepository animalRepository;
-    private final AnimalTypeRepository animalTypeRepository;
     private final AnimalMapper animalMapper;
     private final AnimalValidator animalValidator;
     private final AnimalTypeValidator animalTypeValidator;
 
     @Autowired
-    public AnimalTypeRelationsServiceImpl(AnimalRepository animalRepository, AnimalTypeRepository animalTypeRepository, AnimalMapper animalMapper, AnimalValidator animalValidator, AnimalTypeValidator animalTypeValidator) {
+    public AnimalTypeRelationsServiceImpl(AnimalRepository animalRepository, AnimalMapper animalMapper, AnimalValidator animalValidator, AnimalTypeValidator animalTypeValidator) {
         this.animalRepository = animalRepository;
-        this.animalTypeRepository = animalTypeRepository;
         this.animalMapper = animalMapper;
         this.animalValidator = animalValidator;
         this.animalTypeValidator = animalTypeValidator;
@@ -47,9 +45,7 @@ public class AnimalTypeRelationsServiceImpl implements AnimalTypeRelationsServic
 
         Set<AnimalType> existingAnimalTypes = existingAnimal.getAnimalTypes();
 
-        if (existingAnimalTypes.contains(existingType)) {
-            throw new AnimalException(AnimalError.ANIMAL_TYPES_DUPLICATES);
-        }
+        animalTypeValidator.checkTypesDuplicatesType(existingAnimalTypes, existingType);
 
         existingAnimalTypes.add(existingType);
 
@@ -75,12 +71,8 @@ public class AnimalTypeRelationsServiceImpl implements AnimalTypeRelationsServic
 
         Set<AnimalType> existingAnimalTypes = existingAnimal.getAnimalTypes();
 
-        if (!existingAnimalTypes.contains(existingType)) {
-            throw new AnimalException(AnimalError.ANIMAL_TYPE_NOT_FOUND);
-        }
-        if (existingAnimalTypes.contains(newType)) {
-            throw new AnimalException(AnimalError.ANIMAL_TYPES_DUPLICATES);
-        }
+        animalTypeValidator.checkTypesContainsType(existingAnimalTypes, existingType);
+        animalTypeValidator.checkTypesDuplicatesType(existingAnimalTypes, newType);
 
         existingAnimalTypes.remove(existingType);
         existingAnimalTypes.add(newType);
@@ -102,9 +94,7 @@ public class AnimalTypeRelationsServiceImpl implements AnimalTypeRelationsServic
 
         Set<AnimalType> existingAnimalTypes = existingAnimal.getAnimalTypes();
 
-        if (!existingAnimalTypes.contains(existingType)) {
-            throw new AnimalException(AnimalError.ANIMAL_TYPE_NOT_FOUND);
-        }
+        animalTypeValidator.checkTypesContainsType(existingAnimalTypes, existingType);
 
         existingAnimalTypes.remove(existingType);
 

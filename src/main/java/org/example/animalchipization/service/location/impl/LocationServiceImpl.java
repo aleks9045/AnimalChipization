@@ -57,10 +57,7 @@ public class LocationServiceImpl implements LocationService {
     @Transactional
     public LocationDtoOut updateLocation(Long locationId, LocationDtoIn locationDtoIn) {
 
-        locationValidator.checkLocationExistence(
-                locationDtoIn.getLatitude(),
-                locationDtoIn.getLongitude()
-        );
+        locationValidator.checkLocationExistence(locationId);
 
         Location location = locationMapper.toEntity(locationDtoIn);
         location.setLocationId(locationId);
@@ -73,7 +70,10 @@ public class LocationServiceImpl implements LocationService {
     public void deleteLocationById(Long locationId) {
 
         locationValidator.checkLocationExistence(locationId);
-
-        locationRepository.deleteById(locationId);
+        try {
+            locationRepository.deleteById(locationId);
+        } catch (Exception e) {
+            throw new LocationException(LocationError.LOCATION_STILL_LINKED);
+        }
     }
 }

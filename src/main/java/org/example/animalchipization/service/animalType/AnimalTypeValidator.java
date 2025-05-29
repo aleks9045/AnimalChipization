@@ -9,6 +9,8 @@ import org.example.animalchipization.exception.entities.AnimalTypeException;
 import org.example.animalchipization.repository.AnimalTypeRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
+
 /**
  * @author Aleksey
  */
@@ -33,9 +35,21 @@ public class AnimalTypeValidator {
         }
     }
 
-    public void checkExistenceByType(String type){
+    public void checkAnimalTypeExistence(String type){
         if (animalTypeRepository.existsAnimalTypeByType(type)) {
             throw new AnimalTypeException(AnimalTypeError.ANIMAL_TYPE_ALREADY_EXISTS);
+        }
+    }
+
+    public void checkTypesContainsType(Set<AnimalType> animalTypeSet, AnimalType animalType) {
+        if (!animalTypeSet.contains(animalType)) {
+            throw new AnimalException(AnimalError.ANIMAL_TYPE_NOT_FOUND);
+        }
+    }
+
+    public void checkTypesDuplicatesType(Set<AnimalType> animalTypeSet, AnimalType animalType) {
+        if (animalTypeSet.contains(animalType)) {
+            throw new AnimalException(AnimalError.ANIMAL_TYPES_DUPLICATES);
         }
     }
 }

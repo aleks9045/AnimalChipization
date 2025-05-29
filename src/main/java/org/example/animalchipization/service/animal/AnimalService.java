@@ -1,8 +1,6 @@
 package org.example.animalchipization.service.animal;
 
 import org.example.animalchipization.dto.animal.*;
-import org.example.animalchipization.dto.location.VisitedLocationSearchCriteria;
-import org.example.animalchipization.dto.visitedLocation.VisitedLocationDtoOut;
 import org.example.animalchipization.entities.Animal;
 import org.example.animalchipization.service.animal.impl.AnimalServiceImpl;
 import org.springframework.data.domain.Pageable;
