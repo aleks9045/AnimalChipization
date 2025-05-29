@@ -9,10 +9,11 @@ import org.mapstruct.Mapping;
 /**
  * @author Aleksey
  */
-@Mapper(componentModel = "spring")
+@Mapper
 public interface VisitedLocationMapper {
 
     @Mapping(target = "id", source = "visitedLocationPointId")
+
     @Mapping(target = "locationPointId", source = "location")
     VLDtoOut toDto(VisitedLocation entity);
 

@@ -15,10 +15,11 @@ import org.mapstruct.Mapping;
  *
  * @author Aleksey
  */
-@Mapper(componentModel = "spring")
+@Mapper
 public interface AnimalTypeMapper {
 
     @Mapping(target = "animalTypeId", ignore = true)
+
     @Mapping(target = "animals", ignore = true)
     AnimalType toEntity(AnimalTypeDtoIn dto);
 

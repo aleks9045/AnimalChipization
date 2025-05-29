@@ -5,6 +5,7 @@ import org.example.animalchipization.dto.account.AccountDtoOut;
 import org.mapstruct.Mapper;
 import org.example.animalchipization.entities.Account;
 import org.mapstruct.Mapping;
+import org.mapstruct.NullValueMappingStrategy;
 
 /**
  * Mapper for {@link Account} entity
@@ -13,10 +14,11 @@ import org.mapstruct.Mapping;
  *
  * @author Aleksey
  */
-@Mapper(componentModel = "spring")
+@Mapper
 public interface AccountMapper {
 
     @Mapping(target = "accountId", ignore = true)
+
     @Mapping(target = "hash", ignore = true)
     @Mapping(target = "animals", ignore = true)
     Account toEntity(AccountDtoIn dto);

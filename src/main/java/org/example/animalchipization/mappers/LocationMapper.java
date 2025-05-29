@@ -13,10 +13,11 @@ import org.mapstruct.Mapping;
  *
  * @author Aleksey
  */
-@Mapper(componentModel = "spring")
+@Mapper
 public interface LocationMapper {
 
     @Mapping(target = "locationId", ignore = true)
+
     @Mapping(target = "visitedLocations", ignore = true)
     Location toEntity(LocationDtoIn dto);
 

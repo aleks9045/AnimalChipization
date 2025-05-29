@@ -21,10 +21,11 @@ import java.util.Set;
  *
  * @author Aleksey
  */
-@Mapper(componentModel = "spring", uses = AnimalMapperHelper.class)
+@Mapper(uses = AnimalMapperHelper.class)
 public interface AnimalMapper {
 
     @Mapping(target = "animalId", ignore = true)
+
     @Mapping(target = "animalTypes", ignore = true)
     @Mapping(target = "chippingDateTime", ignore = true)
     @Mapping(target = "visitedLocations", ignore = true)
@@ -33,6 +34,7 @@ public interface AnimalMapper {
     Animal toEntity(AnimalDtoIn dto);
 
     @Mapping(target = "animalId", ignore = true)
+
     @Mapping(target = "animalTypes", ignore = true)
     @Mapping(target = "chippingDateTime", ignore = true)
     @Mapping(target = "visitedLocations", ignore = true)
@@ -43,6 +45,7 @@ public interface AnimalMapper {
     AnimalDtoOut toDto(Animal entity);
 
     @Mapping(target = "animalId", ignore = true)
+
     @Mapping(target = "animalTypes", ignore = true)
     @Mapping(target = "chippingDateTime", ignore = true)
     @Mapping(target = "visitedLocations", ignore = true)
