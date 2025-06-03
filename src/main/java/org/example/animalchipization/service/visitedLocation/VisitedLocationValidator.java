@@ -3,9 +3,9 @@ package org.example.animalchipization.service.visitedLocation;
 import org.example.animalchipization.entities.Animal;
 import org.example.animalchipization.entities.VisitedLocation;
 import org.example.animalchipization.enums.errors.AnimalError;
-import org.example.animalchipization.enums.errors.VLError;
+import org.example.animalchipization.enums.errors.VisitedLocationError;
 import org.example.animalchipization.exception.entities.AnimalException;
-import org.example.animalchipization.exception.entities.VLException;
+import org.example.animalchipization.exception.entities.VisitedLocationException;
 import org.example.animalchipization.repository.AnimalRepository;
 import org.example.animalchipization.repository.LocationRepository;
 import org.example.animalchipization.repository.VisitedLocationRepository;
@@ -29,9 +29,9 @@ public class VLValidator {
         this.visitedLocationRepository = visitedLocationRepository;
     }
 
-    public VisitedLocation validateAndGetVL(Long VLId) {
+    public VisitedLocation validateAndGetVisitedLocation(Long VLId) {
         return visitedLocationRepository.findById(VLId)
-                .orElseThrow(() -> new VLException(VLError.VISITED_LOCATION_NOT_FOUND));
+                .orElseThrow(() -> new VisitedLocationException(VisitedLocationError.VISITED_LOCATION_NOT_FOUND));
     }
 
     public Animal validateAndGetAnimal(Long animalId) {
@@ -39,7 +39,7 @@ public class VLValidator {
                 .orElseThrow(() -> new AnimalException(AnimalError.ANIMAL_NOT_FOUND));
     }
 
-    public void checkLatterVL(Long animalId, Long locationId) {
+    public void checkLatterVisitedLocation(Long animalId, Long locationId) {
         Optional<VisitedLocation> latterVisitedLocation =
                 visitedLocationRepository.findLatterVisitedLocationByAnimalId(animalId);
 
