@@ -1,0 +1,134 @@
+package org.example.animalchipization.service.animal.impl;
+
+import org.example.animalchipization.dto.animal.AnimalDtoUpdate;
+import org.example.animalchipization.entities.Animal;
+import org.example.animalchipization.entities.AnimalType;
+import org.example.animalchipization.entities.Location;
+import org.example.animalchipization.entities.VisitedLocation;
+import org.example.animalchipization.enums.AnimalLifeStatus;
+import org.example.animalchipization.enums.errors.BadRequestError;
+import org.example.animalchipization.enums.errors.NotFoundError;
+import org.example.animalchipization.exception.RequestException;
+import org.example.animalchipization.repository.*;
+import org.example.animalchipization.service.Validator;
+import org.example.animalchipization.service.animal.AnimalValidator;
+import org.springframework.stereotype.Component;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+/**
+ * @author Aleksey
+ */
+@Component
+public class AnimalValidatorImpl implements AnimalValidator {
+    private final AnimalRepository animalRepository;
+    private final AnimalTypeRepository animalTypeRepository;
+    private final AccountRepository accountRepository;
+    private final LocationRepository locationRepository;
+
+
+    public AnimalValidatorImpl(AnimalRepository animalRepository, AnimalTypeRepository animalTypeRepository, AccountRepository accountRepository, LocationRepository locationRepository) {
+        this.animalRepository = animalRepository;
+        this.animalTypeRepository = animalTypeRepository;
+        this.accountRepository = accountRepository;
+        this.locationRepository = locationRepository;
+    }
+
+    @Override
+    public Animal validateAndGetById(Long animalId) {
+        Animal animal = animalRepository.findJoinedWithAllExceptVisitedLocationById(animalId)
+                .orElseThrow(() -> new RequestException(NotFoundError.ANIMAL_NOT_FOUND));
+
+        List<VisitedLocation> visitedLocations = animalRepository.findVisitedLocationsByAnimalId(animalId);
+
+        animal.setVisitedLocations(visitedLocations);
+        return animal;
+    }
+
+    @Override
+    public void checkExistence(Long animalId) {
+        if (!animalRepository.existsById(animalId)) {
+            throw new RequestException(NotFoundError.ANIMAL_NOT_FOUND);
+        }
+    }
+
+    @Override
+    public void checkAlive(Animal animal) {
+        if (animal.getLifeStatus() == AnimalLifeStatus.DEAD) {
+            throw new RequestException(BadRequestError.ANIMAL_ALREADY_DEAD);
+        }
+    }
+
+    @Override
+    public void checkVisitedLocationAddition(Animal animal, Location locationId) {
+        if (animal.getVisitedLocations().isEmpty() &&
+                animal.getChippingLocationId().equals(locationId)) {
+            throw new RequestException(BadRequestError.ANIMAL_CHIPPING_LOCATION_ALREADY_EXISTS);
+        }
+    }
+
+    @Override
+    public void checkChipperExistence(Integer chipperId) {
+        if (!accountRepository.existsAccountByAccountId(chipperId)) {
+            throw new RequestException(NotFoundError.ANIMAL_CHIPPER_NOT_FOUND);
+        }
+    }
+
+    @Override
+    public void checkChippingLocationExistence(Long locationId) {
+        if (!locationRepository.existsLocationByLocationId(locationId)) {
+            throw new RequestException(NotFoundError.ANIMAL_CHIPPING_LOCATION_NOT_FOUND);
+        }
+    }
+
+    @Override
+    public Set<AnimalType> validateAndGetAnimalTypes(List<Long> animalTypeSet) {
+        Set<AnimalType> animalTypes = new HashSet<>(
+                animalTypeRepository.findAllById(animalTypeSet)
+        );
+        if (animalTypes.size() < animalTypeSet.size()) {
+            throw new RequestException(NotFoundError.ANIMAL_TYPE_NOT_FOUND);
+        }
+        return animalTypes;
+    }
+
+    @Override
+    public void checkAnimalUpdate(Animal animal, AnimalDtoUpdate animalDtoUpdate) {
+
+        if (animal.getLifeStatus() == AnimalLifeStatus.DEAD &&
+                animalDtoUpdate.getLifeStatus() == AnimalLifeStatus.ALIVE) {
+            throw new RequestException(BadRequestError.ANIMAL_ALREADY_DEAD);
+        }
+
+        int firstElementIndex = 0;
+
+        if (!animal.getVisitedLocations().isEmpty() &&
+                // Getting first visited location
+                animal.getVisitedLocations().get(firstElementIndex).getLocation().getLocationId()
+                        .equals(animalDtoUpdate.getChippingLocationId())) {
+
+            throw new RequestException(BadRequestError.ANIMAL_CHIPPING_LOCATION_ALREADY_EXISTS);
+        }
+    }
+
+    @Override
+    public void checkVisitedLocationsEmpty(Long animalId) {
+
+        if (!animalRepository.findVisitedLocationsByAnimalId(animalId).isEmpty()) {
+            throw new RequestException(BadRequestError.ANIMAL_HAS_LEFT_CHIPPING_LOCATION);
+        }
+    }
+
+    @Override
+    public void setDeathTimeIfDead(Animal animal) {
+        if (animal.getLifeStatus() == AnimalLifeStatus.DEAD && animal.getDeathDateTime() == null) {
+            animal.setDeathDateTime(Instant.now().truncatedTo(ChronoUnit.MICROS));
+        }
+    }
+
+
+}

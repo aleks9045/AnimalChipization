@@ -1,55 +1,24 @@
 package org.example.animalchipization.service.animalType;
 
-import org.example.animalchipization.entities.Animal;
 import org.example.animalchipization.entities.AnimalType;
-import org.example.animalchipization.enums.errors.AnimalError;
-import org.example.animalchipization.enums.errors.AnimalTypeError;
-import org.example.animalchipization.exception.entities.AnimalException;
-import org.example.animalchipization.exception.entities.AnimalTypeException;
-import org.example.animalchipization.repository.AnimalTypeRepository;
-import org.springframework.stereotype.Component;
+import org.example.animalchipization.enums.errors.BadRequestError;
+import org.example.animalchipization.enums.errors.ConflictError;
+import org.example.animalchipization.enums.errors.NotFoundError;
+import org.example.animalchipization.exception.RequestException;
+import org.example.animalchipization.service.Validator;
 
 import java.util.Set;
 
 /**
  * @author Aleksey
  */
-@Component
-public class AnimalTypeValidator {
+public interface AnimalTypeValidator extends Validator<AnimalType> {
 
+    void checkExistence(String type);
 
-    private final AnimalTypeRepository animalTypeRepository;
+    void validateTypes(Set<AnimalType> animalTypeSet, AnimalType animalType);
 
-    public AnimalTypeValidator(AnimalTypeRepository animalTypeRepository) {
-        this.animalTypeRepository = animalTypeRepository;
-    }
+    void checkTypesDuplicatesType(Set<AnimalType> animalTypeSet, AnimalType animalType);
 
-    public AnimalType validateAndGetAnimalType(Long animalTypeId){
-        return animalTypeRepository.findById(animalTypeId)
-                .orElseThrow(() -> new AnimalTypeException(AnimalTypeError.ANIMAL_TYPE_NOT_FOUND));
-    }
-
-    public void checkAnimalTypeExistence(Long animalTypeId) {
-        if (!animalTypeRepository.existsById(animalTypeId)) {
-            throw new AnimalTypeException(AnimalTypeError.ANIMAL_TYPE_NOT_FOUND);
-        }
-    }
-
-    public void checkAnimalTypeExistence(String type){
-        if (animalTypeRepository.existsAnimalTypeByType(type)) {
-            throw new AnimalTypeException(AnimalTypeError.ANIMAL_TYPE_ALREADY_EXISTS);
-        }
-    }
-
-    public void checkTypesContainsType(Set<AnimalType> animalTypeSet, AnimalType animalType) {
-        if (!animalTypeSet.contains(animalType)) {
-            throw new AnimalException(AnimalError.ANIMAL_TYPE_NOT_FOUND);
-        }
-    }
-
-    public void checkTypesDuplicatesType(Set<AnimalType> animalTypeSet, AnimalType animalType) {
-        if (animalTypeSet.contains(animalType)) {
-            throw new AnimalException(AnimalError.ANIMAL_TYPES_DUPLICATES);
-        }
-    }
+    void checkLinked(AnimalType animalType);
 }

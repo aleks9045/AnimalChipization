@@ -1,51 +1,34 @@
 package org.example.animalchipization.service.visitedLocation;
 
 import org.example.animalchipization.entities.Animal;
+import org.example.animalchipization.entities.Location;
 import org.example.animalchipization.entities.VisitedLocation;
-import org.example.animalchipization.enums.errors.AnimalError;
-import org.example.animalchipization.enums.errors.VisitedLocationError;
-import org.example.animalchipization.exception.entities.AnimalException;
-import org.example.animalchipization.exception.entities.VisitedLocationException;
-import org.example.animalchipization.repository.AnimalRepository;
-import org.example.animalchipization.repository.LocationRepository;
-import org.example.animalchipization.repository.VisitedLocationRepository;
-import org.springframework.stereotype.Component;
+import org.example.animalchipization.enums.errors.BadRequestError;
+import org.example.animalchipization.enums.errors.NotFoundError;
+import org.example.animalchipization.exception.RequestException;
+import org.example.animalchipization.service.Validator;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Aleksey
  */
-@Component
-public class VLValidator {
+public interface VisitedLocationValidator {
 
-    private final LocationRepository locationRepository;
-    private final AnimalRepository animalRepository;
-    private final VisitedLocationRepository visitedLocationRepository;
+    Animal validateAndGetAnimalWithVisitedLocations(Long animalId);
 
-    public VLValidator(LocationRepository locationRepository, AnimalRepository animalRepository, VisitedLocationRepository visitedLocationRepository) {
-        this.locationRepository = locationRepository;
-        this.animalRepository = animalRepository;
-        this.visitedLocationRepository = visitedLocationRepository;
-    }
+    Animal validateAndGetAnimalWithAllLocations(Long animalId);
 
-    public VisitedLocation validateAndGetVisitedLocation(Long VLId) {
-        return visitedLocationRepository.findById(VLId)
-                .orElseThrow(() -> new VisitedLocationException(VisitedLocationError.VISITED_LOCATION_NOT_FOUND));
-    }
+    void checkLatterFromAnimal(Animal animal, Location location);
 
-    public Animal validateAndGetAnimal(Long animalId) {
-        return animalRepository.findJoinedWithVisitedLocationById(animalId)
-                .orElseThrow(() -> new AnimalException(AnimalError.ANIMAL_NOT_FOUND));
-    }
+    void checkVisitedLocationEqualsLocation(VisitedLocation VisitedLocation, Location location);
 
-    public void checkLatterVisitedLocation(Long animalId, Long locationId) {
-        Optional<VisitedLocation> latterVisitedLocation =
-                visitedLocationRepository.findLatterVisitedLocationByAnimalId(animalId);
+    VisitedLocation validateAndGetFromAnimal(
+            Animal animal,
+            Long visitedLocationId,
+            Location location);
 
-        if (latterVisitedLocation.isPresent() &&
-                latterVisitedLocation.get().getLocation().getLocationId().equals(locationId)) {
-            throw new AnimalException(AnimalError.ANIMAL_ALREADY_IN_LOCATION);
-        }
-    }
+    VisitedLocation checkAndGetRemoval(Animal animal, Long visitedLocationId);
+
 }
