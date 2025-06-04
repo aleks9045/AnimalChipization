@@ -7,7 +7,7 @@ import java.time.Instant;
 /**
  * @author Aleksey
  */
-public record VLSearchCriteria(
+public record VisitedLocationSearchCriteria(
         Long animalId,
         @Nullable Instant startDateTime,
         @Nullable Instant endDateTime) {}

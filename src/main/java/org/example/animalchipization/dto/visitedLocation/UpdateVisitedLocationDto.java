@@ -13,7 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 @Getter
-public class UpdateVLDto {
+public class UpdateVisitedLocationDto {
 
     @NotNull
     @Positive
