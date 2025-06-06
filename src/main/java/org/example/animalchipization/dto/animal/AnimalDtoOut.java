@@ -2,9 +2,8 @@ package org.example.animalchipization.dto.animal;
 
 
 import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,8 +23,10 @@ import java.util.Set;
 /**
  * Represents animal data transfer object
  *
- * <p>Used to display output data in responses<br>
- * All fields must be not null or blank excepts deathDateTime<br>
+ * <p>Used to display output data in responses<br><br>
+ * All fields must be not null excepts deathDateTime<br>
+ * Weight, length and height must be positive<br>
+ * Each id field must be strictly greater than 0
  *
  * @see Animal Animal entity
  * @author Aleksey
@@ -38,6 +39,7 @@ public class AnimalDtoOut {
 
     @NotNull
     @Positive
+    @Min(1)
     private Long id;
 
     @NotNull
@@ -53,7 +55,6 @@ public class AnimalDtoOut {
     private Float height;
 
     @NotNull
-    @NotBlank
     private AnimalGender gender;
 
     @NotNull
@@ -72,7 +73,6 @@ public class AnimalDtoOut {
     private List<Long> visitedLocations;
 
     @NotNull
-    @NotBlank
     private AnimalLifeStatus lifeStatus;
 
     @Nullable

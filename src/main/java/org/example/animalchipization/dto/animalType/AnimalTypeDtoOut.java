@@ -1,10 +1,7 @@
 package org.example.animalchipization.dto.animalType;
 
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,8 +11,9 @@ import org.example.animalchipization.entities.AnimalType;
 /**
  * Represents animal type data transfer object
  *
- * <p>Used to display output data in responses<br>
+ * <p>Used to display output data in responses<br><br>
  * All fields must be not null or blank<br>
+ * Id field must be strictly greater than 0
  *
  * @see AnimalType Animal type entity
  * @author Aleksey
@@ -28,6 +26,7 @@ public class AnimalTypeDtoOut {
 
     @NotNull
     @Positive
+    @Min(1)
     private Long id;
 
     @NotNull

@@ -5,6 +5,11 @@ import org.example.animalchipization.enums.errors.EnumError;
 import org.springframework.http.HttpStatus;
 
 /**
+ * Exception that throws when business logic violated
+ *
+ * <p> Stores error message and http status code of error<br>
+ * In constructor accepts {@link EnumError}
+ *
  * @author Aleksey
  */
 @Getter

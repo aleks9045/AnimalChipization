@@ -1,7 +1,6 @@
 package org.example.animalchipization.dto.animal;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -11,9 +10,16 @@ import lombok.ToString;
 import org.example.animalchipization.enums.AnimalGender;
 import org.example.animalchipization.enums.AnimalLifeStatus;
 
-import java.util.Set;
 
 /**
+ * Represents animal data transfer object
+ *
+ * <p>Used to update animal entity<br><br>
+ *
+ * All fields must be not null<br>
+ * Weight, length and height must be positive<br>
+ * Each id field must be strictly greater than 0
+ *
  * @author Aleksey
  */
 @AllArgsConstructor

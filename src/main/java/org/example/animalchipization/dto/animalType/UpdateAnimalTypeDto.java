@@ -1,4 +1,4 @@
-package org.example.animalchipization.dto.animal;
+package org.example.animalchipization.dto.animalType;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
@@ -10,6 +10,12 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
+ * Represents animal type data transfer object
+ *
+ * <p>Used to update animal entity<br><br>
+ * All fields must be not null<br>
+ * Each id field must be strictly greater than 0
+ *
  * @author Aleksey
  */
 @AllArgsConstructor

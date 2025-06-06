@@ -4,6 +4,8 @@ import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 /**
+ * Enumeration for every error with "Bad request" status
+ *
  * @author Aleksey
  */
 @Getter

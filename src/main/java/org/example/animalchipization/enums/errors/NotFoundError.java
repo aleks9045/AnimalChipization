@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
+ * Enumeration for every error with "Not found" status
+ *
  * @author Aleksey
  */
 @Getter

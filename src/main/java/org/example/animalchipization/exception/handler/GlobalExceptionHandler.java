@@ -1,25 +1,24 @@
 package org.example.animalchipization.exception.handler;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.example.animalchipization.exception.dto.ApiError;
 import org.example.animalchipization.exception.RequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
 
-import java.io.IOException;
 import java.time.Instant;
 
 /**
  * Global exception handler
+ *
+ * <p>Handles RequestException that throws in service package<br>
+ * Handles AccessDeniedException and AuthenticationException that throws by spring security framework<br>
+ *
+ * Generates standardized responses using {@link ApiError} record
  *
  * @author Aleksey
  */

@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 /**
+ * Enumeration for every error with "Forbidden" status
  * @author Aleksey
  */
 @Getter
