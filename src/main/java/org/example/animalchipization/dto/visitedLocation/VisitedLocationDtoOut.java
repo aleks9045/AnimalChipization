@@ -14,7 +14,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @Setter
 @Getter
-public class VLDtoOut {
+public class VisitedLocationDtoOut {
 
     @NotNull
     @Positive

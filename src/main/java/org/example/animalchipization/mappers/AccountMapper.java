@@ -19,7 +19,7 @@ public interface AccountMapper {
 
     @Mapping(target = "accountId", ignore = true)
 
-    @Mapping(target = "hash", ignore = true)
+    @Mapping(target = "base64", ignore = true)
     @Mapping(target = "animals", ignore = true)
     Account toEntity(AccountDtoIn dto);
 

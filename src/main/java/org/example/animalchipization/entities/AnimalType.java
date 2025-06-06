@@ -9,7 +9,11 @@ import java.util.Set;
 /**
  * Represents an animal type for animal entity
  *
+ * <p>Has Many-to-Many relationships with {@link Animal}<br>
+ * Stores string that determine animal type
+ *
  * <p>Mapped with "animal_type" table in the database.
+ *
  *
  * @author Aleksey
  */

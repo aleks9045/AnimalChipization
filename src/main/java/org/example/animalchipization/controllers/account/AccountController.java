@@ -9,15 +9,14 @@ import org.example.animalchipization.dto.account.AccountDtoOut;
 import org.example.animalchipization.dto.account.AccountSearchCriteria;
 import org.example.animalchipization.service.account.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Aleksey
@@ -75,7 +74,7 @@ public class AccountController {
 
         List<AccountDtoOut> accountDtoOutList = accountService.searchAccount(
                 accountSearchCriteria,
-                PageRequest.of(from, size)
+                PageRequest.of(from, size, Sort.by("accountId"))
         );
 
         return ResponseEntity.status(HttpStatus.OK).body(accountDtoOutList);

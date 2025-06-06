@@ -45,8 +45,8 @@ public class Account {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "hash", nullable = false)
-    private String hash;
+    @Column(name = "base64", nullable = false)
+    private String base64;
 
     @OneToMany(mappedBy = "chipperId")
     private Set<Animal> animals = new HashSet<>();

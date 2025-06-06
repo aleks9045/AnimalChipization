@@ -1,7 +1,7 @@
 package org.example.animalchipization.service.animalTypeRelation;
 
 import org.example.animalchipization.dto.animal.AnimalDtoOut;
-import org.example.animalchipization.dto.animal.UpdateAnimalTypeDto;
+import org.example.animalchipization.dto.animalType.UpdateAnimalTypeDto;
 
 /**
  * @author Aleksey
