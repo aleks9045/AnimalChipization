@@ -1,25 +1,17 @@
 package org.example.animalchipization.service.visitedLocation.impl;
 
 import jakarta.persistence.criteria.JoinType;
-import org.example.animalchipization.dto.location.VLSearchCriteria;
-import org.example.animalchipization.dto.visitedLocation.UpdateVLDto;
-import org.example.animalchipization.dto.visitedLocation.VLDtoOut;
-import org.example.animalchipization.entities.Animal;
-import org.example.animalchipization.entities.Location;
-import org.example.animalchipization.entities.VisitedLocation;
-import org.example.animalchipization.enums.errors.AnimalError;
-import org.example.animalchipization.enums.errors.VLError;
-import org.example.animalchipization.exception.entities.AnimalException;
-import org.example.animalchipization.exception.entities.VLException;
+import org.example.animalchipization.dto.location.VisitedLocationSearchCriteria;
+import org.example.animalchipization.dto.visitedLocation.UpdateVisitedLocationDto;
+import org.example.animalchipization.dto.visitedLocation.VisitedLocationDtoOut;
+import org.example.animalchipization.entities.*;
 import org.example.animalchipization.mappers.VisitedLocationMapper;
-import org.example.animalchipization.repository.AnimalRepository;
-import org.example.animalchipization.repository.LocationRepository;
 import org.example.animalchipization.repository.VisitedLocationRepository;
 import org.example.animalchipization.service.animal.AnimalValidator;
 import org.example.animalchipization.service.location.LocationValidator;
 import org.example.animalchipization.service.visitedLocation.VisitedLocationService;
 import org.example.animalchipization.service.JpaSpecificationBuilder;
-import org.example.animalchipization.service.visitedLocation.VLValidator;
+import org.example.animalchipization.service.visitedLocation.VisitedLocationValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,60 +29,58 @@ public class VisitedLocationServiceImpl implements VisitedLocationService {
 
     private final VisitedLocationRepository visitedLocationRepository;
     private final VisitedLocationMapper visitedLocationMapper;
-    private final AnimalRepository animalRepository;
-    private final LocationRepository locationRepository;
     private final AnimalValidator animalValidator;
     private final LocationValidator locationValidator;
-    private final VLValidator VLValidator;
+    private final VisitedLocationValidator visitedLocationValidator;
 
     @Autowired
-    public VisitedLocationServiceImpl(VisitedLocationRepository visitedLocationRepository, VisitedLocationMapper visitedLocationMapper, AnimalRepository animalRepository, LocationRepository locationRepository, AnimalValidator animalValidator, LocationValidator locationValidator, VLValidator VLValidator) {
+    public VisitedLocationServiceImpl(VisitedLocationRepository visitedLocationRepository, VisitedLocationMapper visitedLocationMapper, AnimalValidator animalValidator, LocationValidator locationValidator, VisitedLocationValidator visitedLocationValidator) {
         this.visitedLocationRepository = visitedLocationRepository;
         this.visitedLocationMapper = visitedLocationMapper;
-        this.animalRepository = animalRepository;
-        this.locationRepository = locationRepository;
         this.animalValidator = animalValidator;
         this.locationValidator = locationValidator;
-        this.VLValidator = VLValidator;
+        this.visitedLocationValidator = visitedLocationValidator;
     }
 
     @Override
     @Transactional
-    public List<VLDtoOut> searchLocations(VLSearchCriteria VLSearchCriteria, Pageable pageable) {
+    public List<VisitedLocationDtoOut> searchLocations(
+            VisitedLocationSearchCriteria VisitedLocationSearchCriteria,
+            Pageable pageable) {
 
         Specification<VisitedLocation> spec = Specification.where(
                 JpaSpecificationBuilder.<VisitedLocation>join(
-                        "animal",
-                        "animalId",
-                        VLSearchCriteria.animalId(),
+                        VisitedLocation_.ANIMAL,
+                        Animal_.ANIMAL_ID,
+                        VisitedLocationSearchCriteria.animalId(),
                         JoinType.INNER)
         ).and(
                 JpaSpecificationBuilder.dateTimeFrom(
-                        "dateTimeOfVisitLocationPoint",
-                        VLSearchCriteria.startDateTime())
+                        VisitedLocation_.DATE_TIME_OF_VISIT_LOCATION_POINT,
+                        VisitedLocationSearchCriteria.startDateTime())
         ).and(
                 JpaSpecificationBuilder.dateTimeTo(
-                        "dateTimeOfVisitLocationPoint",
-                        VLSearchCriteria.endDateTime())
+                        VisitedLocation_.DATE_TIME_OF_VISIT_LOCATION_POINT,
+                        VisitedLocationSearchCriteria.endDateTime())
         );
 
-        Page<VisitedLocation> locationPage = visitedLocationRepository.findAll(spec, pageable);
+        Page<VisitedLocation> visitedLocationPage = visitedLocationRepository.findAll(spec, pageable);
 
-        return locationPage.map(visitedLocationMapper::toDto).getContent();
+        return visitedLocationPage.map(visitedLocationMapper::toDto).getContent();
     }
 
     @Override
     @Transactional
-    public VLDtoOut addVisitedLocationToAnimal(Long animalId, Long locationId) {
+    public VisitedLocationDtoOut addVisitedLocationToAnimal(Long animalId, Long locationId) {
 
-        Animal existingAnimal = animalValidator.validateAndGetAnimal(animalId);
+        Animal existingAnimal = visitedLocationValidator.validateAndGetAnimalWithAllLocations(animalId);
 
-        Location existingLocation = locationValidator.validateAndGetLocation(locationId);
+        Location existingLocation = locationValidator.validateAndGetById(locationId);
 
-        animalValidator.checkAnimalAlive(existingAnimal);
-        animalValidator.checkVLAddition(existingAnimal, locationId);
+        animalValidator.checkAlive(existingAnimal);
+        animalValidator.checkVisitedLocationAddition(existingAnimal, existingLocation);
 
-        VLValidator.checkLatterVL(animalId, locationId);
+        visitedLocationValidator.checkLatterFromAnimal(existingAnimal, existingLocation);
 
         VisitedLocation visitedLocation =
                 new VisitedLocation(null, existingAnimal, existingLocation);
@@ -102,30 +92,22 @@ public class VisitedLocationServiceImpl implements VisitedLocationService {
 
     @Override
     @Transactional
-    public VLDtoOut replaceVisitedLocationInAnimal(Long animalId, UpdateVLDto updateVLDto) {
+    public VisitedLocationDtoOut replaceVisitedLocationInAnimal(
+            Long animalId,
+            UpdateVisitedLocationDto updateVisitedLocationDto) {
 
-        VisitedLocation existingVisitedLocation = VLValidator.validateAndGetVL(
-                updateVLDto.getVisitedLocationPointId()
+        Location existingLocation = locationValidator.validateAndGetById(
+                updateVisitedLocationDto.getLocationPointId()
         );
 
-        Location existingLocation = locationValidator.validateAndGetLocation(
-                updateVLDto.getLocationPointId()
-        );
+        Animal existingAnimal = visitedLocationValidator.validateAndGetAnimalWithAllLocations(animalId);
 
-        if (existingVisitedLocation.getLocation().getLocationId()
-                .equals(updateVLDto.getLocationPointId())) {
-            throw new VLException(VLError.VISITED_LOCATION_EQUALS_LOCATION);
-        }
+        VisitedLocation existingVisitedLocation = visitedLocationValidator.validateAndGetFromAnimal(
+                existingAnimal,
+                updateVisitedLocationDto.getVisitedLocationPointId(),
+                existingLocation);
 
-        Animal existingAnimal = VLValidator.validateAndGetAnimal(animalId);
-
-        if (existingAnimal.getChippingLocationId().getLocationId().equals(updateVLDto.getLocationPointId())) {
-            throw new AnimalException(AnimalError.ANIMAL_CHIPPING_LOCATION_ALREADY_EXISTS);
-        }
-
-        if (!existingAnimal.getVisitedLocations().contains(existingVisitedLocation)) {
-            throw new VLException(VLError.VISITED_LOCATION_NOT_FOUND);
-        }
+        visitedLocationValidator.checkVisitedLocationEqualsLocation(existingVisitedLocation, existingLocation);
 
         existingVisitedLocation.setLocation(existingLocation);
 
@@ -139,18 +121,13 @@ public class VisitedLocationServiceImpl implements VisitedLocationService {
     @Transactional
     public void removeVisitedLocationFromAnimal(Long animalId, Long visitedLocationId) {
 
-        VisitedLocation existingVisitedLocation = VLValidator.validateAndGetVL(visitedLocationId);
+        Animal existingAnimal = visitedLocationValidator.validateAndGetAnimalWithVisitedLocations(animalId);
 
-        Animal existingAnimal = VLValidator.validateAndGetAnimal(animalId);
+        VisitedLocation visitedLocation = visitedLocationValidator.checkAndGetRemoval(
+                existingAnimal, visitedLocationId);
 
-//        if (existingAnimal.getChippingLocationId().getLocationId().equals(visitedLocationId)) {
-//            throw new AnimalException(AnimalError.ANIMAL_CHIPPING_LOCATION_ALREADY_EXISTS);
-//        }
+        existingAnimal.getVisitedLocations().remove(visitedLocation);
+        visitedLocation.setAnimal(null);
 
-        if (!existingAnimal.getVisitedLocations().contains(existingVisitedLocation)) {
-            throw new VLException(VLError.VISITED_LOCATION_NOT_FOUND);
-        }
-
-        visitedLocationRepository.deleteById(visitedLocationId);
     }
 }

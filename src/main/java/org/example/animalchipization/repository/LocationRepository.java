@@ -8,7 +8,8 @@ import org.springframework.stereotype.Repository;
 
 /**
  * Works with Location entity
- * <p>Implements JpaRepository, so it has a set of ready-made methods
+ * <p>Extends JpaRepository, so it has a set of ready-made methods<br>
+ * Also Extends JpaSpecificationExecutor for specifications execution
  *
  * @author Aleksey
  * @see Location Location entity

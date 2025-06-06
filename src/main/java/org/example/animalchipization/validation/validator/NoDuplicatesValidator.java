@@ -2,15 +2,18 @@ package org.example.animalchipization.validation.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.example.animalchipization.enums.errors.AnimalError;
-import org.example.animalchipization.exception.entities.AnimalException;
+import org.example.animalchipization.enums.errors.ConflictError;
+import org.example.animalchipization.exception.RequestException;
 import org.example.animalchipization.validation.annotation.NoDuplicates;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 /**
+ * Validator for {@link NoDuplicates} annotation
+ *
+ * <p>Check that collection has no duplicate values
+ *
  * @author Aleksey
  */
 public class NoDuplicatesValidator implements ConstraintValidator<NoDuplicates, Collection<?>> {
@@ -23,7 +26,7 @@ public class NoDuplicatesValidator implements ConstraintValidator<NoDuplicates, 
 
             context.disableDefaultConstraintViolation();
 
-            throw new AnimalException(AnimalError.ANIMAL_TYPES_DUPLICATES);
+            throw new RequestException(ConflictError.ANIMAL_TYPES_DUPLICATES);
         }
         return true;
     }

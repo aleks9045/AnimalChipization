@@ -6,9 +6,10 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import org.example.animalchipization.dto.animal.*;
 import org.example.animalchipization.dto.animal.AnimalDtoOut;
-import org.example.animalchipization.dto.location.VLSearchCriteria;
-import org.example.animalchipization.dto.visitedLocation.UpdateVLDto;
-import org.example.animalchipization.dto.visitedLocation.VLDtoOut;
+import org.example.animalchipization.dto.animalType.UpdateAnimalTypeDto;
+import org.example.animalchipization.dto.location.VisitedLocationSearchCriteria;
+import org.example.animalchipization.dto.visitedLocation.UpdateVisitedLocationDto;
+import org.example.animalchipization.dto.visitedLocation.VisitedLocationDtoOut;
 import org.example.animalchipization.enums.AnimalGender;
 import org.example.animalchipization.enums.AnimalLifeStatus;
 import org.example.animalchipization.service.visitedLocation.VisitedLocationService;
@@ -16,6 +17,7 @@ import org.example.animalchipization.service.animal.AnimalService;
 import org.example.animalchipization.service.animalTypeRelation.AnimalTypeRelationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -97,7 +99,7 @@ public class AnimalController {
 
         List<AnimalDtoOut> animalDtoOutList = animalService.searchAnimals(
                 animalSearchCriteria,
-                PageRequest.of(from, size));
+                PageRequest.of(from, size, Sort.by("animalId")));
 
         return ResponseEntity.status(HttpStatus.OK).body(animalDtoOutList);
     }
@@ -129,26 +131,26 @@ public class AnimalController {
 
         AnimalDtoOut animalDtoOut = animalTypeRelationsService.removeTypeFromAnimal(animalId, typeId);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(animalDtoOut);
+        return ResponseEntity.status(HttpStatus.OK).body(animalDtoOut);
     }
 
     @GetMapping("{animalId}/locations")
     @Validated
-    public ResponseEntity<List<VLDtoOut>> searchAnimalLocations(
+    public ResponseEntity<List<VisitedLocationDtoOut>> searchAnimalLocations(
             @PathVariable @Positive @Min(1) Long animalId,
             @RequestParam(required = false) Instant startDateTime,
             @RequestParam(required = false) Instant endDateTime,
             @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
             @RequestParam(defaultValue = "10") @Positive @Min(1) Integer size) {
 
-        VLSearchCriteria VLSearchCriteria = new VLSearchCriteria(
+        VisitedLocationSearchCriteria VisitedLocationSearchCriteria = new VisitedLocationSearchCriteria(
                 animalId,
                 startDateTime,
                 endDateTime
         );
 
-        List<VLDtoOut> locationDtoOut = visitedLocationService.searchLocations(
-                VLSearchCriteria,
+        List<VisitedLocationDtoOut> locationDtoOut = visitedLocationService.searchLocations(
+                VisitedLocationSearchCriteria,
                 PageRequest.of(from, size));
 
         return ResponseEntity.status(HttpStatus.OK).body(locationDtoOut);
@@ -156,29 +158,29 @@ public class AnimalController {
 
     @PostMapping("/{animalId}/locations/{pointId}")
     @Validated
-    public ResponseEntity<VLDtoOut> addVisitedLocationToAnimal(
+    public ResponseEntity<VisitedLocationDtoOut> addVisitedLocationToAnimal(
             @PathVariable @Positive @Min(1) Long animalId,
             @PathVariable @Positive @Min(1) Long pointId) {
 
-        VLDtoOut VLDtoOut = visitedLocationService.addVisitedLocationToAnimal(animalId, pointId);
+        VisitedLocationDtoOut VisitedLocationDtoOut = visitedLocationService.addVisitedLocationToAnimal(animalId, pointId);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(VLDtoOut);
+        return ResponseEntity.status(HttpStatus.CREATED).body(VisitedLocationDtoOut);
     }
 
     @PutMapping("/{animalId}/locations")
     @Validated
-    public ResponseEntity<VLDtoOut> replaceVisitedLocationInAnimal(
+    public ResponseEntity<VisitedLocationDtoOut> replaceVisitedLocationInAnimal(
             @PathVariable @Positive @Min(1) Long animalId,
-            @Validated @RequestBody UpdateVLDto updateVLDto) {
+            @Validated @RequestBody UpdateVisitedLocationDto updateVisitedLocationDto) {
 
-        VLDtoOut VLDtoOut = visitedLocationService.replaceVisitedLocationInAnimal(animalId, updateVLDto);
+        VisitedLocationDtoOut VisitedLocationDtoOut = visitedLocationService.replaceVisitedLocationInAnimal(animalId, updateVisitedLocationDto);
 
-        return ResponseEntity.status(HttpStatus.OK).body(VLDtoOut);
+        return ResponseEntity.status(HttpStatus.OK).body(VisitedLocationDtoOut);
     }
 
     @DeleteMapping("/{animalId}/locations/{visitedPointId}")
     @Validated
-    public ResponseEntity<VLDtoOut> removeVisitedLocationFromAnimal(
+    public ResponseEntity<VisitedLocationDtoOut> removeVisitedLocationFromAnimal(
             @PathVariable @Positive @Min(1) Long animalId,
             @PathVariable @Positive @Min(1) Long visitedPointId) {
 

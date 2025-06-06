@@ -6,8 +6,15 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 /**
+ * Represents visited location entity
+ *
+ * <p>Is an intermediary table for {@link Animal} and {@link Location} entities<br>
+ * Stores animal and location id and definite where and when was animal
+ *
+ * <p>Mapped with "visited_location" table in the database.
  * @author Aleksey
  */
 @Setter
@@ -32,7 +39,7 @@ public class VisitedLocation {
 
     @ManyToOne
     @JoinColumn(name = "animal_id")
-    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Animal animal;
 
     @ManyToOne
@@ -40,5 +47,5 @@ public class VisitedLocation {
     private Location location;
 
     @Column(name = "visit_time", nullable = false)
-    private final Instant dateTimeOfVisitLocationPoint = Instant.now();
+    private final Instant dateTimeOfVisitLocationPoint = Instant.now().truncatedTo(ChronoUnit.MICROS);
 }

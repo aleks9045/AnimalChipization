@@ -8,6 +8,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -18,10 +19,8 @@ import java.util.Set;
  *
  * <p>Has Many-to-Many relationships with {@link AnimalType} and {@link Location} entities.<br>
  * Has One-to-Many relationship with {@link Account} entity.<br><br>
- *
+ * <p>
  * Stores base information of animal (weight, length, height, gender)<br>
- * Includes animal's lifecycle mechanism -
- * death_date_time field sets automatically when life_status of animal is "DEAD"
  *
  * <p>Mapped with "animal" table in the database.
  *
@@ -60,7 +59,7 @@ public class Animal {
     private AnimalGender gender;
 
     @Column(name = "chipping_date_time", nullable = false)
-    private Instant chippingDateTime = Instant.now();
+    private Instant chippingDateTime = Instant.now().truncatedTo(ChronoUnit.MICROS);
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chipper_id", nullable = false)
@@ -77,9 +76,11 @@ public class Animal {
             joinColumns = @JoinColumn(name = "animal_id"),
             inverseJoinColumns = @JoinColumn(name = "animal_type_id")
     )
+    @OnDelete(action = OnDeleteAction.RESTRICT)
     private Set<AnimalType> animalTypes = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, mappedBy = "animal")
+    @OrderBy("dateTimeOfVisitLocationPoint ASC")
     private List<VisitedLocation> visitedLocations = new ArrayList<>();
 
     @Column(name = "life_status", nullable = false)
@@ -87,12 +88,5 @@ public class Animal {
 
     @Column(name = "death_date_time")
     private Instant deathDateTime;
-
-    @PreUpdate
-    private void updateDeathDateTime() {
-        if (this.lifeStatus == AnimalLifeStatus.DEAD && this.deathDateTime == null) {
-            this.deathDateTime = Instant.now();
-        }
-    }
 
 }

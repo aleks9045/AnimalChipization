@@ -3,8 +3,8 @@ package org.example.animalchipization.service.location.impl;
 import org.example.animalchipization.dto.location.LocationDtoIn;
 import org.example.animalchipization.dto.location.LocationDtoOut;
 import org.example.animalchipization.entities.Location;
-import org.example.animalchipization.enums.errors.LocationError;
-import org.example.animalchipization.exception.entities.LocationException;
+import org.example.animalchipization.enums.errors.BadRequestError;
+import org.example.animalchipization.exception.RequestException;
 import org.example.animalchipization.mappers.LocationMapper;
 import org.example.animalchipization.repository.LocationRepository;
 import org.example.animalchipization.service.location.LocationService;
@@ -33,31 +33,30 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public LocationDtoOut getLocation(Long locationId) {
 
-        Location location = locationValidator.validateAndGetLocation(locationId);
+        Location location = locationValidator.validateAndGetById(locationId);
 
         return locationMapper.toDto(location);
     }
 
     @Override
-    @Transactional
     public LocationDtoOut addLocation(LocationDtoIn locationDtoIn) {
 
-        locationValidator.checkLocationExistence(
+        locationValidator.checkExistence(
                 locationDtoIn.getLatitude(),
                 locationDtoIn.getLongitude()
         );
 
         Location location = locationMapper.toEntity(locationDtoIn);
-        locationRepository.save(location);
+        Location savedLocation = locationRepository.save(location);
 
-        return locationMapper.toDto(location);
+        return locationMapper.toDto(savedLocation);
     }
 
     @Override
     @Transactional
     public LocationDtoOut updateLocation(Long locationId, LocationDtoIn locationDtoIn) {
 
-        locationValidator.checkLocationExistence(locationId);
+        locationValidator.checkExistence(locationId);
 
         Location location = locationMapper.toEntity(locationDtoIn);
         location.setLocationId(locationId);
@@ -69,11 +68,11 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public void deleteLocationById(Long locationId) {
 
-        locationValidator.checkLocationExistence(locationId);
+        locationValidator.checkExistence(locationId);
         try {
             locationRepository.deleteById(locationId);
         } catch (Exception e) {
-            throw new LocationException(LocationError.LOCATION_STILL_LINKED);
+            throw new RequestException(BadRequestError.LOCATION_STILL_LINKED);
         }
     }
 }

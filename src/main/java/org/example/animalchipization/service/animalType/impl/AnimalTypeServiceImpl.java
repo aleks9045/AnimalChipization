@@ -3,8 +3,6 @@ package org.example.animalchipization.service.animalType.impl;
 import org.example.animalchipization.dto.animalType.AnimalTypeDtoIn;
 import org.example.animalchipization.dto.animalType.AnimalTypeDtoOut;
 import org.example.animalchipization.entities.AnimalType;
-import org.example.animalchipization.enums.errors.AnimalTypeError;
-import org.example.animalchipization.exception.entities.AnimalTypeException;
 import org.example.animalchipization.mappers.AnimalTypeMapper;
 import org.example.animalchipization.repository.AnimalTypeRepository;
 import org.example.animalchipization.service.animalType.AnimalTypeService;
@@ -33,28 +31,28 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
     @Override
     public AnimalTypeDtoOut getAnimalType(Long animalTypeId) {
 
-        AnimalType animalType = animalTypeValidator.validateAndGetAnimalType(animalTypeId);
+        AnimalType animalType = animalTypeValidator.validateAndGetById(animalTypeId);
 
         return animalTypeMapper.toDto(animalType);
     }
 
     @Override
-    @Transactional
     public AnimalTypeDtoOut addAnimalType(AnimalTypeDtoIn animalTypeDtoIn) {
-        animalTypeValidator.checkAnimalTypeExistence(animalTypeDtoIn.getType());
+
+        animalTypeValidator.checkExistence(animalTypeDtoIn.getType());
 
         AnimalType animalType = animalTypeMapper.toEntity(animalTypeDtoIn);
-        animalTypeRepository.save(animalType);
+        AnimalType savedType = animalTypeRepository.save(animalType);
 
-        return animalTypeMapper.toDto(animalType);
+        return animalTypeMapper.toDto(savedType);
     }
 
     @Override
     @Transactional
     public AnimalTypeDtoOut updateAnimalType(Long animalTypeId, AnimalTypeDtoIn animalTypeDtoIn) {
 
-        animalTypeValidator.checkAnimalTypeExistence(animalTypeId);
-        animalTypeValidator.checkAnimalTypeExistence(animalTypeDtoIn.getType());
+        animalTypeValidator.checkExistence(animalTypeId);
+        animalTypeValidator.checkExistence(animalTypeDtoIn.getType());
 
         AnimalType animalType = animalTypeMapper.toEntity(animalTypeDtoIn);
         animalType.setAnimalTypeId(animalTypeId);
@@ -66,12 +64,10 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
     @Override
     public void deleteAnimalTypeById(Long animalTypeId) {
 
-        animalTypeValidator.checkAnimalTypeExistence(animalTypeId);
+        AnimalType animalType = animalTypeValidator.validateAndGetById(animalTypeId);
 
-        try {
-            animalTypeRepository.deleteById(animalTypeId);
-        } catch (Exception e) {
-            throw new AnimalTypeException(AnimalTypeError.ANIMAL_TYPE_STILL_LINKED);
-        }
+        animalTypeValidator.checkLinked(animalType);
+
+        animalTypeRepository.deleteById(animalTypeId);
     }
 }

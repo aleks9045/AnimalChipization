@@ -1,8 +1,8 @@
 package org.example.animalchipization.service.visitedLocation;
 
-import org.example.animalchipization.dto.location.VLSearchCriteria;
-import org.example.animalchipization.dto.visitedLocation.UpdateVLDto;
-import org.example.animalchipization.dto.visitedLocation.VLDtoOut;
+import org.example.animalchipization.dto.location.VisitedLocationSearchCriteria;
+import org.example.animalchipization.dto.visitedLocation.UpdateVisitedLocationDto;
+import org.example.animalchipization.dto.visitedLocation.VisitedLocationDtoOut;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -12,12 +12,12 @@ import java.util.List;
  */
 public interface VisitedLocationService {
 
-    List<VLDtoOut> searchLocations(VLSearchCriteria VLSearchCriteria,
-                                   Pageable pageable);
+    List<VisitedLocationDtoOut> searchLocations(VisitedLocationSearchCriteria VisitedLocationSearchCriteria,
+                                                Pageable pageable);
 
-    VLDtoOut addVisitedLocationToAnimal(Long visitedLocationId, Long locationId);
+    VisitedLocationDtoOut addVisitedLocationToAnimal(Long visitedLocationId, Long locationId);
 
-    VLDtoOut replaceVisitedLocationInAnimal(Long visitedLocationId, UpdateVLDto updateVLDto);
+    VisitedLocationDtoOut replaceVisitedLocationInAnimal(Long visitedLocationId, UpdateVisitedLocationDto updateVisitedLocationDto);
 
     void removeVisitedLocationFromAnimal(Long visitedLocationId, Long locationId);
 

@@ -9,6 +9,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * Helps to map some objects in animal entity
+ *
  * @author Aleksey
  */
 public class AnimalMapperHelper {
@@ -54,12 +56,6 @@ public class AnimalMapperHelper {
     }
 
     public static Long mapVisitedLocationToLong(VisitedLocation visitedLocation) {
-        return visitedLocation.getLocation().getLocationId();
+        return visitedLocation.getVisitedLocationPointId();
     }
-
-//    public static Account mapIntToAccount(Integer id) {
-//        Account account = new Account();
-//        account.setAccountId(id);
-//        return account;
-//    }
 }
