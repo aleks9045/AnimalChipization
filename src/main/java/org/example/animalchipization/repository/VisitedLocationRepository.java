@@ -10,6 +10,10 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 /**
+ * Works with VisitedLocation entity
+ * <p>Extends JpaRepository, so it has a set of ready-made methods<br>
+ * Also Extends JpaSpecificationExecutor for specifications execution
+ *
  * @author Aleksey
  */
 public interface VisitedLocationRepository extends

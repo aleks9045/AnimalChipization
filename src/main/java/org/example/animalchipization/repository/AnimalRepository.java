@@ -1,18 +1,18 @@
 package org.example.animalchipization.repository;
 
 import org.example.animalchipization.entities.Animal;
-import org.springframework.data.jpa.repository.EntityGraph;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
+import org.example.animalchipization.entities.VisitedLocation;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
  * Works with Account entity
- * <p>Implements JpaRepository, so it has a set of ready-made methods
+ * <p>Extends JpaRepository, so it has a set of ready-made methods<br>
+ * Also Extends JpaSpecificationExecutor for specifications execution
  *
  * @author Aleksey
  * @see Animal Animal entity
@@ -27,9 +27,7 @@ public interface AnimalRepository extends
             attributePaths = {
                     "chipperId.accountId",
                     "chippingLocationId.locationId",
-                    "animalTypes.animalTypeId",
-                    "visitedLocations",
-                    "visitedLocations.location"
+                    "animalTypes.animalTypeId"
             }
     )
     @Query("""
@@ -37,7 +35,20 @@ public interface AnimalRepository extends
             FROM Animal a
             WHERE a.animalId = :id
             """)
-    Optional<Animal> findJoinedWithAllById(@Param("id") Long id);
+    Optional<Animal> findJoinedWithAllExceptVisitedLocationById(@Param("id") Long id);
+
+    /**
+     * This query exists to solve Cartesian product problem
+     * @param animalId animal id
+     * @return List of VisitedLocation
+     */
+    @Query("""
+            SELECT vl FROM VisitedLocation vl
+            INNER JOIN FETCH vl.location
+            WHERE vl.animal.animalId = :animalId
+            ORDER BY vl.dateTimeOfVisitLocationPoint
+            """)
+    List<VisitedLocation> findVisitedLocationsByAnimalId(@Param("animalId") Long animalId);
 
     @EntityGraph(
             type = EntityGraph.EntityGraphType.FETCH,
@@ -53,5 +64,19 @@ public interface AnimalRepository extends
             """)
     Optional<Animal> findJoinedWithVisitedLocationById(@Param("id") Long id);
 
+
+    @EntityGraph(
+            type = EntityGraph.EntityGraphType.FETCH,
+            attributePaths = {
+                    "chippingLocationId",
+                    "visitedLocations"
+            }
+    )
+    @Query("""
+            SELECT a
+            FROM Animal a
+            WHERE a.animalId = :id
+            """)
+    Optional<Animal> findJoinedWithLocationsById(@Param("id") Long id);
 
 }
