@@ -5,6 +5,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.example.animalchipization.security.provider.CustomAuthProvider;
 import org.example.animalchipization.service.auth.util.Base64Coder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,13 +25,11 @@ import java.util.Objects;
  */
 @Component
 @NonNullApi
+@RequiredArgsConstructor
 public class CustomAuthFilter extends OncePerRequestFilter {
 
     private final CustomAuthProvider authProvider;
 
-    public CustomAuthFilter(CustomAuthProvider authProvider) {
-        this.authProvider = authProvider;
-    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,

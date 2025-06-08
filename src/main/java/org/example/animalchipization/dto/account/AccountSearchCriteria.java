@@ -11,6 +11,7 @@ import org.example.animalchipization.entities.Account;
  *
  * @author Aleksey
  */
-public record AccountSearchCriteria(@Nullable @Size(max = 255) String firstName,
-                                    @Nullable @Size(max = 255) String lastName,
-                                    @Nullable @Size(max = 255) @Email String email) {}
+public record AccountSearchCriteria(
+        @Nullable @Size(max = 255) String firstName,
+        @Nullable @Size(max = 255) String lastName,
+        @Nullable @Size(max = 255) @Email String email) {}

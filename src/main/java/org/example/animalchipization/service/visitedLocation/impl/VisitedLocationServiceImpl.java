@@ -1,6 +1,7 @@
 package org.example.animalchipization.service.visitedLocation.impl;
 
 import jakarta.persistence.criteria.JoinType;
+import lombok.RequiredArgsConstructor;
 import org.example.animalchipization.dto.location.VisitedLocationSearchCriteria;
 import org.example.animalchipization.dto.visitedLocation.UpdateVisitedLocationDto;
 import org.example.animalchipization.dto.visitedLocation.VisitedLocationDtoOut;
@@ -12,7 +13,6 @@ import org.example.animalchipization.service.location.LocationValidator;
 import org.example.animalchipization.service.visitedLocation.VisitedLocationService;
 import org.example.animalchipization.service.JpaSpecificationBuilder;
 import org.example.animalchipization.service.visitedLocation.VisitedLocationValidator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -25,6 +25,7 @@ import java.util.List;
  * @author Aleksey
  */
 @Service
+@RequiredArgsConstructor
 public class VisitedLocationServiceImpl implements VisitedLocationService {
 
     private final VisitedLocationRepository visitedLocationRepository;
@@ -33,14 +34,7 @@ public class VisitedLocationServiceImpl implements VisitedLocationService {
     private final LocationValidator locationValidator;
     private final VisitedLocationValidator visitedLocationValidator;
 
-    @Autowired
-    public VisitedLocationServiceImpl(VisitedLocationRepository visitedLocationRepository, VisitedLocationMapper visitedLocationMapper, AnimalValidator animalValidator, LocationValidator locationValidator, VisitedLocationValidator visitedLocationValidator) {
-        this.visitedLocationRepository = visitedLocationRepository;
-        this.visitedLocationMapper = visitedLocationMapper;
-        this.animalValidator = animalValidator;
-        this.locationValidator = locationValidator;
-        this.visitedLocationValidator = visitedLocationValidator;
-    }
+
 
     @Override
     @Transactional

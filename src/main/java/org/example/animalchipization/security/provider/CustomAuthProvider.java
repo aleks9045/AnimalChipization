@@ -1,5 +1,6 @@
 package org.example.animalchipization.security.provider;
 
+import lombok.RequiredArgsConstructor;
 import org.example.animalchipization.entities.Account;
 import org.example.animalchipization.service.account.impl.AccountValidatorImpl;
 import org.example.animalchipization.service.auth.util.UserAuthentication;
@@ -23,13 +24,11 @@ import java.util.List;
  * @author Aleksey
  */
 @Component
+@RequiredArgsConstructor
 public class CustomAuthProvider implements AuthenticationProvider {
 
     private final AccountValidatorImpl accountValidator;
 
-    public CustomAuthProvider(AccountValidatorImpl accountValidator) {
-        this.accountValidator = accountValidator;
-    }
 
     @Override
     public Authentication authenticate(Authentication auth) throws AuthenticationException {

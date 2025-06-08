@@ -1,6 +1,7 @@
 package org.example.animalchipization.service.animalType.impl;
 
 
+import lombok.RequiredArgsConstructor;
 import org.example.animalchipization.entities.AnimalType;
 import org.example.animalchipization.enums.errors.BadRequestError;
 import org.example.animalchipization.enums.errors.ConflictError;
@@ -17,13 +18,11 @@ import java.util.Set;
  * @author Aleksey
  */
 @Component
+@RequiredArgsConstructor
 public class AnimalTypeValidatorImpl implements AnimalTypeValidator {
 
     private final AnimalTypeRepository animalTypeRepository;
 
-    public AnimalTypeValidatorImpl(AnimalTypeRepository animalTypeRepository) {
-        this.animalTypeRepository = animalTypeRepository;
-    }
 
     @Override
     public AnimalType validateAndGetById(Long animalTypeId) {

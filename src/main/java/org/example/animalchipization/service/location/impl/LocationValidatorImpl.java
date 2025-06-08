@@ -1,5 +1,6 @@
 package org.example.animalchipization.service.location.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.example.animalchipization.entities.Location;
 import org.example.animalchipization.enums.errors.ConflictError;
 import org.example.animalchipization.enums.errors.NotFoundError;
@@ -13,13 +14,11 @@ import org.springframework.stereotype.Component;
  * @author Aleksey
  */
 @Component
+@RequiredArgsConstructor
 public class LocationValidatorImpl implements LocationValidator {
 
     private final LocationRepository locationRepository;
 
-    public LocationValidatorImpl(LocationRepository locationRepository) {
-        this.locationRepository = locationRepository;
-    }
 
     @Override
     public Location validateAndGetById(Long locationId) {

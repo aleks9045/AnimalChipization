@@ -17,6 +17,7 @@ import java.util.HashSet;
  * @author Aleksey
  */
 public class NoDuplicatesValidator implements ConstraintValidator<NoDuplicates, Collection<?>> {
+
     @Override
     public boolean isValid(Collection<?> objects, ConstraintValidatorContext context) {
 

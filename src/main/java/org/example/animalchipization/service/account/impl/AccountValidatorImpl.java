@@ -1,5 +1,6 @@
 package org.example.animalchipization.service.account.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.example.animalchipization.entities.Account;
 import org.example.animalchipization.enums.errors.ConflictError;
 import org.example.animalchipization.enums.errors.ForbiddenError;
@@ -22,13 +23,11 @@ import java.util.Optional;
  * @author Aleksey
  */
 @Component
+@RequiredArgsConstructor
 public class AccountValidatorImpl implements AccountValidator {
 
     private final AccountRepository accountRepository;
 
-    public AccountValidatorImpl(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
-    }
 
     @Override
     public void authenticateAccount(Account account) {

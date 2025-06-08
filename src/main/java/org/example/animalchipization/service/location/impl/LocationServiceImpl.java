@@ -1,5 +1,6 @@
 package org.example.animalchipization.service.location.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.example.animalchipization.dto.location.LocationDtoIn;
 import org.example.animalchipization.dto.location.LocationDtoOut;
 import org.example.animalchipization.entities.Location;
@@ -9,7 +10,6 @@ import org.example.animalchipization.mappers.LocationMapper;
 import org.example.animalchipization.repository.LocationRepository;
 import org.example.animalchipization.service.location.LocationService;
 import org.example.animalchipization.service.location.LocationValidator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,17 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Aleksey
  */
 @Service
+@RequiredArgsConstructor
 public class LocationServiceImpl implements LocationService {
+
     private final LocationRepository locationRepository;
     private final LocationMapper locationMapper;
     private final LocationValidator locationValidator;
 
-    @Autowired
-    public LocationServiceImpl(LocationRepository locationRepository, LocationMapper locationMapper, LocationValidator locationValidator) {
-        this.locationRepository = locationRepository;
-        this.locationMapper = locationMapper;
-        this.locationValidator = locationValidator;
-    }
 
     @Override
     public LocationDtoOut getLocation(Long locationId) {

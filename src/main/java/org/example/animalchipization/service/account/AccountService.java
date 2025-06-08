@@ -5,7 +5,6 @@ import org.example.animalchipization.dto.account.AccountDtoOut;
 import org.example.animalchipization.dto.account.AccountSearchCriteria;
 import org.example.animalchipization.entities.Account;
 import org.example.animalchipization.service.account.impl.AccountServiceImpl;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;

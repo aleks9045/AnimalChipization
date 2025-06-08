@@ -1,6 +1,7 @@
 package org.example.animalchipization.service.animal.impl;
 
 import jakarta.persistence.criteria.JoinType;
+import lombok.RequiredArgsConstructor;
 import org.example.animalchipization.dto.animal.*;
 import org.example.animalchipization.entities.*;
 import org.example.animalchipization.mappers.animal.AnimalMapper;
@@ -9,8 +10,6 @@ import org.example.animalchipization.service.JpaSpecificationBuilder;
 import org.example.animalchipization.service.animal.AnimalService;
 import org.example.animalchipization.service.animal.AnimalValidator;
 import org.example.animalchipization.service.location.LocationValidator;
-import org.example.animalchipization.service.location.impl.LocationValidatorImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -25,6 +24,7 @@ import java.util.Set;
  * @author Aleksey
  */
 @Service
+@RequiredArgsConstructor
 public class AnimalServiceImpl implements AnimalService {
 
     private final AnimalRepository animalRepository;
@@ -32,13 +32,6 @@ public class AnimalServiceImpl implements AnimalService {
     private final AnimalValidator animalValidator;
     private final LocationValidator locationValidator;
 
-    @Autowired
-    public AnimalServiceImpl(AnimalRepository animalRepository, AnimalMapper animalMapper, AnimalValidator animalValidator, LocationValidator locationValidator) {
-        this.animalRepository = animalRepository;
-        this.animalMapper = animalMapper;
-        this.animalValidator = animalValidator;
-        this.locationValidator = locationValidator;
-    }
 
 
     @Override

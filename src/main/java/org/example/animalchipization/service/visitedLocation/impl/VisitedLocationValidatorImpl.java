@@ -1,5 +1,6 @@
 package org.example.animalchipization.service.visitedLocation.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.example.animalchipization.entities.Animal;
 import org.example.animalchipization.entities.Location;
 import org.example.animalchipization.entities.VisitedLocation;
@@ -17,13 +18,10 @@ import java.util.Objects;
  * @author Aleksey
  */
 @Component
+@RequiredArgsConstructor
 public class VisitedLocationValidatorImpl implements VisitedLocationValidator {
 
     private final AnimalRepository animalRepository;
-
-    public VisitedLocationValidatorImpl(AnimalRepository animalRepository) {
-        this.animalRepository = animalRepository;
-    }
 
     public Animal validateAndGetAnimalWithVisitedLocations(Long animalId) {
         return animalRepository.findJoinedWithVisitedLocationById(animalId)

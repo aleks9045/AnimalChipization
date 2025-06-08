@@ -1,5 +1,6 @@
 package org.example.animalchipization.service.account.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.example.animalchipization.dto.account.AccountDtoIn;
 import org.example.animalchipization.dto.account.AccountDtoOut;
 import org.example.animalchipization.dto.account.AccountSearchCriteria;
@@ -13,7 +14,6 @@ import org.example.animalchipization.service.JpaSpecificationBuilder;
 import org.example.animalchipization.service.account.AccountService;
 import org.example.animalchipization.service.account.AccountValidator;
 import org.example.animalchipization.service.auth.util.UserAuthentication;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -26,18 +26,13 @@ import java.util.List;
  * @author Aleksey
  */
 @Service
+@RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
+
     private final AccountMapper accountMapper;
     private final AccountRepository accountRepository;
     private final AccountValidator accountValidator;
 
-
-    @Autowired
-    public AccountServiceImpl(AccountMapper accountMapper, AccountRepository accountRepository, AccountValidator accountValidator) {
-        this.accountMapper = accountMapper;
-        this.accountRepository = accountRepository;
-        this.accountValidator = accountValidator;
-    }
 
     @Override
     public AccountDtoOut getAccount(Integer accountId) {
@@ -46,7 +41,6 @@ public class AccountServiceImpl implements AccountService {
 
         return accountMapper.toDto(account);
     }
-
 
     @Override
     public AccountDtoOut addAccount(AccountDtoIn accountDtoIn) {

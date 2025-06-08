@@ -3,7 +3,6 @@ package org.example.animalchipization.service.account;
 import org.example.animalchipization.entities.Account;
 import org.example.animalchipization.service.Validator;
 
-import java.util.Optional;
 
 /**
  * @author Aleksey

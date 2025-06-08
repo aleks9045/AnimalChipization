@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
+import lombok.RequiredArgsConstructor;
 import org.example.animalchipization.dto.animal.*;
 import org.example.animalchipization.dto.animal.AnimalDtoOut;
 import org.example.animalchipization.dto.animalType.UpdateAnimalTypeDto;
@@ -15,7 +16,6 @@ import org.example.animalchipization.enums.AnimalLifeStatus;
 import org.example.animalchipization.service.visitedLocation.VisitedLocationService;
 import org.example.animalchipization.service.animal.AnimalService;
 import org.example.animalchipization.service.animalTypeRelation.AnimalTypeRelationsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -32,17 +32,12 @@ import java.util.List;
 @RestController
 @RequestMapping("animals")
 @Tag(name = "animals")
+@RequiredArgsConstructor
 public class AnimalController {
     private final AnimalService animalService;
     private final AnimalTypeRelationsService animalTypeRelationsService;
     private final VisitedLocationService visitedLocationService;
 
-    @Autowired
-    public AnimalController(AnimalService animalService, AnimalTypeRelationsService animalTypeRelationsService, VisitedLocationService visitedLocationService) {
-        this.animalService = animalService;
-        this.animalTypeRelationsService = animalTypeRelationsService;
-        this.visitedLocationService = visitedLocationService;
-    }
 
     @GetMapping("/{animalId}")
     @Validated
@@ -61,7 +56,6 @@ public class AnimalController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(animalDtoOut);
     }
-
 
     @PutMapping("/{animalId}")
     @Validated

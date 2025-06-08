@@ -1,5 +1,6 @@
 package org.example.animalchipization.service.animal.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.example.animalchipization.dto.animal.AnimalDtoUpdate;
 import org.example.animalchipization.entities.Animal;
 import org.example.animalchipization.entities.AnimalType;
@@ -24,19 +25,14 @@ import java.util.Set;
  * @author Aleksey
  */
 @Component
+@RequiredArgsConstructor
 public class AnimalValidatorImpl implements AnimalValidator {
+
     private final AnimalRepository animalRepository;
     private final AnimalTypeRepository animalTypeRepository;
     private final AccountRepository accountRepository;
     private final LocationRepository locationRepository;
 
-
-    public AnimalValidatorImpl(AnimalRepository animalRepository, AnimalTypeRepository animalTypeRepository, AccountRepository accountRepository, LocationRepository locationRepository) {
-        this.animalRepository = animalRepository;
-        this.animalTypeRepository = animalTypeRepository;
-        this.accountRepository = accountRepository;
-        this.locationRepository = locationRepository;
-    }
 
     @Override
     public Animal validateAndGetById(Long animalId) {

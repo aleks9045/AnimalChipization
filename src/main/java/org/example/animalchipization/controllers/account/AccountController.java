@@ -4,11 +4,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
+import lombok.RequiredArgsConstructor;
 import org.example.animalchipization.dto.account.AccountDtoIn;
 import org.example.animalchipization.dto.account.AccountDtoOut;
 import org.example.animalchipization.dto.account.AccountSearchCriteria;
 import org.example.animalchipization.service.account.AccountService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -24,13 +24,11 @@ import java.util.List;
 @RestController
 @RequestMapping("accounts")
 @Tag(name = "accounts")
+@RequiredArgsConstructor
 public class AccountController {
+
     private final AccountService accountService;
 
-    @Autowired
-    public AccountController(AccountService accountService) {
-        this.accountService = accountService;
-    }
 
     @GetMapping("/{accountId}")
     @Validated
@@ -40,7 +38,6 @@ public class AccountController {
 
         return ResponseEntity.status(HttpStatus.OK).body(accountDtoOut);
     }
-
 
     @PutMapping("/{accountId}")
     @Validated
@@ -79,5 +76,4 @@ public class AccountController {
 
         return ResponseEntity.status(HttpStatus.OK).body(accountDtoOutList);
     }
-
 }
