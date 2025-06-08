@@ -15,7 +15,7 @@ import org.example.animalchipization.entities.Account;
 /**
  * Represents account data transfer object
  *
- * <p>Used to validate input data in requests via jakarta validation<br>
+ * <p>Used to validate input data in requests via jakarta validation<br><br>
  * All fields must be not null or blank<br>
  * Includes schemas definitions for display in swagger
  *

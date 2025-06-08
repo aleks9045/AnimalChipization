@@ -12,14 +12,16 @@ import org.example.animalchipization.entities.Animal;
 import org.example.animalchipization.validation.annotation.NoDuplicates;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Represents animal data transfer object
  *
- * <p>Used to validate input data in requests via jakarta validation<br>
- * All fields must be not null or blank<br>
- * Includes schemas definitions for display in swagger
+ * <p>Used to validate input data in requests via jakarta validation<br><br>
+ * All fields must be not null<br>
+ * Includes schemas definitions for display in swagger<br>
+ * Weight, length and height must be positive<br>
+ * Each id field must be strictly greater than 0<br>
+ * List of animal types must not contain duplicates values
  *
  * @see Animal Animal entity
  * @author Aleksey

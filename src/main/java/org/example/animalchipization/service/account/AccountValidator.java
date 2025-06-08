@@ -1,37 +1,26 @@
 package org.example.animalchipization.service.account;
 
 import org.example.animalchipization.entities.Account;
-import org.example.animalchipization.enums.errors.AccountError;
-import org.example.animalchipization.exception.entities.AccountException;
-import org.example.animalchipization.repository.AccountRepository;
-import org.springframework.stereotype.Component;
+import org.example.animalchipization.service.Validator;
+
+import java.util.Optional;
 
 /**
  * @author Aleksey
  */
-@Component
-public class AccountValidator {
+public interface AccountValidator extends Validator<Account> {
 
-    private final AccountRepository accountRepository;
+    Account validateAndGetByEmail(String email);
 
-    public AccountValidator(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
-    }
+    Account getByEmail(String email);
 
-    public Account validateAndGetAccount(Integer accountId) {
-        return accountRepository.findById((long) accountId)
-                .orElseThrow(() -> new AccountException(AccountError.ACCOUNT_NOT_FOUND));
-    }
+    void validateAndAuthenticateAccountById(Long accountId);
 
-    public void checkEmailAlreadyExistence(String email) {
-        if (accountRepository.findAllByEmail(email).size() == 2) {
-            throw new AccountException(AccountError.ACCOUNT_WITH_EMAIL_ALREADY_EXISTS);
-        }
-    }
+    void authenticateAccount(Account account);
 
-    public void checkAccountExistence(Integer accountId) {
-        if (!accountRepository.existsById((long) accountId)) {
-            throw new AccountException(AccountError.ACCOUNT_NOT_FOUND);
-        }
-    }
+    void checkAuthorized();
+
+    void checkEmailAlreadyExistenceForAdd(String email);
+
+    void checkEmailAlreadyExistenceForUpdate(String email);
 }

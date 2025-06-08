@@ -4,14 +4,15 @@ import org.example.animalchipization.dto.account.AccountDtoIn;
 import org.example.animalchipization.dto.account.AccountDtoOut;
 import org.example.animalchipization.dto.account.AccountSearchCriteria;
 import org.example.animalchipization.entities.Account;
-import org.example.animalchipization.enums.errors.AccountError;
-import org.example.animalchipization.exception.entities.AccountException;
+import org.example.animalchipization.entities.Account_;
+import org.example.animalchipization.enums.errors.BadRequestError;
+import org.example.animalchipization.exception.RequestException;
 import org.example.animalchipization.mappers.AccountMapper;
 import org.example.animalchipization.repository.AccountRepository;
 import org.example.animalchipization.service.JpaSpecificationBuilder;
 import org.example.animalchipization.service.account.AccountService;
 import org.example.animalchipization.service.account.AccountValidator;
-import org.example.animalchipization.service.auth.UserAuthentication;
+import org.example.animalchipization.service.auth.util.UserAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,42 +42,47 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDtoOut getAccount(Integer accountId) {
 
-        Account account = accountValidator.validateAndGetAccount(accountId);
+        Account account = accountValidator.validateAndGetById((long) accountId);
 
         return accountMapper.toDto(account);
     }
 
 
     @Override
-    @Transactional
     public AccountDtoOut addAccount(AccountDtoIn accountDtoIn) {
+        /* Make "/registration" permitAll in security config and uncomment this method call
+         * to throw custom error.
+         */
+//        accountValidator.checkAuthorized();
 
-        accountValidator.checkEmailAlreadyExistence(accountDtoIn.getEmail());
+        accountValidator.checkEmailAlreadyExistenceForAdd(accountDtoIn.getEmail());
 
-        String hash = UserAuthentication.hashEmailAndPassword(
+        String hash = UserAuthentication.encodeEmailAndPassword(
                 accountDtoIn.getEmail(),
                 accountDtoIn.getPassword());
 
         Account account = accountMapper.toEntity(accountDtoIn);
-        account.setHash(hash);
-        accountRepository.save(account);
+        account.setBase64(hash);
+        Account savedAccount = accountRepository.save(account);
 
-        return accountMapper.toDto(account);
+        return accountMapper.toDto(savedAccount);
     }
 
     @Override
     @Transactional
     public AccountDtoOut updateAccount(Integer accountId, AccountDtoIn accountDtoIn) {
 
-        accountValidator.checkEmailAlreadyExistence(accountDtoIn.getEmail());
+        accountValidator.validateAndAuthenticateAccountById((long) accountId);
 
-        String hash = UserAuthentication.hashEmailAndPassword(
+        accountValidator.checkEmailAlreadyExistenceForUpdate(accountDtoIn.getEmail());
+
+        String hash = UserAuthentication.encodeEmailAndPassword(
                 accountDtoIn.getEmail(),
                 accountDtoIn.getPassword());
 
         Account account = accountMapper.toEntity(accountDtoIn);
         account.setAccountId(accountId);
-        account.setHash(hash);
+        account.setBase64(hash);
         accountRepository.save(account);
 
         return accountMapper.toDto(account);
@@ -85,11 +91,12 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void deleteAccountById(Integer accountId) {
 
-        accountValidator.checkAccountExistence(accountId);
+        accountValidator.validateAndAuthenticateAccountById((long) accountId);
+
         try {
             accountRepository.deleteById((long) accountId);
         } catch (Exception e) {
-            throw new AccountException(AccountError.ACCOUNT_STILL_LINKED);
+            throw new RequestException(BadRequestError.ACCOUNT_STILL_LINKED);
         }
     }
 
@@ -98,11 +105,14 @@ public class AccountServiceImpl implements AccountService {
                                              Pageable pageable) {
 
         Specification<Account> spec = Specification.where(
-                JpaSpecificationBuilder.<Account>likeString("firstName", accountSearchCriteria.firstName())
+                JpaSpecificationBuilder.<Account>likeString(
+                        Account_.FIRST_NAME, accountSearchCriteria.firstName())
         ).and(
-                JpaSpecificationBuilder.likeString("lastName", accountSearchCriteria.lastName())
+                JpaSpecificationBuilder.likeString(
+                        Account_.LAST_NAME, accountSearchCriteria.lastName())
         ).and(
-                JpaSpecificationBuilder.likeString("email", accountSearchCriteria.email())
+                JpaSpecificationBuilder.likeString(
+                        Account_.EMAIL, accountSearchCriteria.email())
         );
 
         Page<Account> accountPage = accountRepository.findAll(spec, pageable);

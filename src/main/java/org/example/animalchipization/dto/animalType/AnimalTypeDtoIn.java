@@ -13,8 +13,10 @@ import org.example.animalchipization.entities.AnimalType;
 /**
  * Represents animal type data transfer object
  *
- * <p>Used to validate input data in requests via jakarta validation<br>
+ * <p>Used to validate input data in requests via jakarta validation<br><br>
  * All fields must be not null or blank<br>
+ * Id field must be strictly greater than 0<br>
+ *
  * Includes schemas definitions for display in swagger
  *
  * @see AnimalType Animal type entity

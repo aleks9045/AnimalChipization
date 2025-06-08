@@ -1,15 +1,17 @@
 package org.example.animalchipization.dto.animal;
 
 import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import org.example.animalchipization.entities.Account;
+import org.example.animalchipization.entities.Animal;
 import org.example.animalchipization.enums.AnimalGender;
 import org.example.animalchipization.enums.AnimalLifeStatus;
 
 import java.time.Instant;
 
 /**
+ * Contains all fields that participates in search process for {@link Animal} entity
+ * <p>All fields might be null
+ *
  * @author Aleksey
  */
 public record AnimalSearchCriteria (

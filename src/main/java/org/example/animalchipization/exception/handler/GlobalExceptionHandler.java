@@ -1,29 +1,33 @@
 package org.example.animalchipization.exception.handler;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.example.animalchipization.exception.dto.ApiError;
-import org.example.animalchipization.exception.EntityException;
+import org.example.animalchipization.exception.RequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
 
 import java.time.Instant;
 
 /**
  * Global exception handler
  *
+ * <p>Handles RequestException that throws in service package<br>
+ * Handles AccessDeniedException and AuthenticationException that throws by spring security framework<br>
+ *
+ * Generates standardized responses using {@link ApiError} record
+ *
  * @author Aleksey
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    /**
-     * Can't use common interface, because this annotation requires: 'Class<? extends Throwable>'<br>
-     * So use abstract class EntityException
-     */
-    @ExceptionHandler(EntityException.class)
-    public ResponseEntity<ApiError> handleEntityException(EntityException ex,
-                                                          WebRequest request) {
+
+    @ExceptionHandler(RequestException.class)
+    public ResponseEntity<ApiError> handleRequestException(RequestException ex,
+                                                           HttpServletRequest request) {
         HttpStatus httpStatus = ex.getHttpStatus();
 
         ApiError apiError = this.buildApiError(httpStatus, ex, request);
@@ -31,13 +35,36 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(httpStatus).body(apiError);
     }
 
-    private ApiError buildApiError(HttpStatus httpStatus, EntityException ex, WebRequest request) {
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ApiError> handleAccessDeniedException(SecurityException ex,
+                                                            HttpServletRequest request) {
+
+        HttpStatus httpStatus = HttpStatus.FORBIDDEN;
+
+        ApiError apiError = this.buildApiError(httpStatus, ex, request);
+
+        return ResponseEntity.status(httpStatus).body(apiError);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ApiError> handleSecurityException(SecurityException ex,
+                                                            HttpServletRequest request) {
+
+        HttpStatus httpStatus = HttpStatus.UNAUTHORIZED;
+
+        ApiError apiError = this.buildApiError(httpStatus, ex, request);
+
+        return ResponseEntity.status(httpStatus).body(apiError);
+    }
+
+    private ApiError buildApiError(HttpStatus httpStatus, Exception ex, HttpServletRequest request) {
         return new ApiError(
                 httpStatus.value(),
                 httpStatus.getReasonPhrase(),
                 ex.getMessage(),
-                request.getDescription(false).replace("uri=", ""),
+                request.getRequestURI().replace("uri=", ""),
                 Instant.now()
         );
     }
+
 }
