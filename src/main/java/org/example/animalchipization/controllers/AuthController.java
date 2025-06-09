@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.animalchipization.dto.account.AccountDtoIn;
 import org.example.animalchipization.dto.account.AccountDtoOut;
 import org.example.animalchipization.service.account.AccountService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +28,6 @@ public class AuthController {
 
         var accountDtoOut = accountService.addAccount(accountDtoIn);
 
-        return ResponseEntity.ok(accountDtoOut);
+        return ResponseEntity.status(HttpStatus.CREATED).body(accountDtoOut);
     }
 }
