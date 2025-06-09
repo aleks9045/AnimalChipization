@@ -8,6 +8,7 @@ import org.example.animalchipization.enums.errors.BadRequestError;
 import org.example.animalchipization.enums.errors.NotFoundError;
 import org.example.animalchipization.exception.RequestException;
 import org.example.animalchipization.repository.AnimalRepository;
+import org.example.animalchipization.repository.VisitedLocationRepository;
 import org.example.animalchipization.service.visitedLocation.VisitedLocationValidator;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +23,7 @@ import java.util.Objects;
 public class VisitedLocationValidatorImpl implements VisitedLocationValidator {
 
     private final AnimalRepository animalRepository;
+    private final VisitedLocationRepository visitedLocationRepository;
 
     public Animal validateAndGetAnimalWithVisitedLocations(Long animalId) {
         return animalRepository.findJoinedWithVisitedLocationById(animalId)
@@ -95,28 +97,44 @@ public class VisitedLocationValidatorImpl implements VisitedLocationValidator {
         }
     }
 
-    public VisitedLocation checkAndGetRemoval(Animal animal, Long visitedLocationId) {
+    public void checkAndRemove(Animal animal, Long visitedLocationId) {
 
         List<VisitedLocation> visitedLocations = animal.getVisitedLocations();
 
         int listSize = visitedLocations.size();
 
         for (int i = 0; i < listSize; i++) {
+            var currentElement = visitedLocations.get(i);
 
-            if (visitedLocations.get(i).getVisitedLocationPointId().equals(visitedLocationId)) {
+            if (currentElement.getVisitedLocationPointId().equals(visitedLocationId)) {
 
                 if (i > 0 && i < listSize - 1)
-
                     this.checkLocationEqualLocation(
                             visitedLocations.get(i - 1).getLocation(),
                             visitedLocations.get(i + 1).getLocation()
                     );
 
-                if (i == 0 && listSize > 1) this.checkLocationEqualLocation(
-                        animal.getChippingLocationId(),
-                        visitedLocations.get(i + 1).getLocation()
-                );
-                return visitedLocations.get(i);
+                if (i == 0 && listSize > 1 &&
+                        animal.getChippingLocationId()
+                                .equals(visitedLocations.get(i + 1).getLocation())) {
+
+                    // Remove visited location link from animal and location entities,
+                    // also remove it directly from database
+                    var nextElement = visitedLocations.get(i + 1);
+                    var location = animal.getVisitedLocations().get(i + 1).getLocation();
+
+                    animal.getVisitedLocations().remove(nextElement);
+                    location.getVisitedLocations().remove(nextElement);
+
+                    visitedLocationRepository.delete(nextElement);
+                }
+                var location = animal.getVisitedLocations().get(i).getLocation();
+
+                animal.getVisitedLocations().remove(currentElement);
+                location.getVisitedLocations().remove(currentElement);
+
+                visitedLocationRepository.delete(currentElement);
+                return;
             }
         }
         throw new RequestException(NotFoundError.VISITED_LOCATION_NOT_FOUND);

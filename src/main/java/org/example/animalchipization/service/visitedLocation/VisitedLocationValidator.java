@@ -3,13 +3,6 @@ package org.example.animalchipization.service.visitedLocation;
 import org.example.animalchipization.entities.Animal;
 import org.example.animalchipization.entities.Location;
 import org.example.animalchipization.entities.VisitedLocation;
-import org.example.animalchipization.enums.errors.BadRequestError;
-import org.example.animalchipization.enums.errors.NotFoundError;
-import org.example.animalchipization.exception.RequestException;
-import org.example.animalchipization.service.Validator;
-
-import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Aleksey
@@ -29,6 +22,6 @@ public interface VisitedLocationValidator {
             Long visitedLocationId,
             Location location);
 
-    VisitedLocation checkAndGetRemoval(Animal animal, Long visitedLocationId);
+    void checkAndRemove(Animal animal, Long visitedLocationId);
 
 }

@@ -117,11 +117,8 @@ public class VisitedLocationServiceImpl implements VisitedLocationService {
 
         Animal existingAnimal = visitedLocationValidator.validateAndGetAnimalWithVisitedLocations(animalId);
 
-        VisitedLocation visitedLocation = visitedLocationValidator.checkAndGetRemoval(
+        visitedLocationValidator.checkAndRemove(
                 existingAnimal, visitedLocationId);
-
-        existingAnimal.getVisitedLocations().remove(visitedLocation);
-        visitedLocation.setAnimal(null);
 
     }
 }
