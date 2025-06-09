@@ -17,19 +17,19 @@ import java.util.Set;
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(exclude = {"visitedLocations"})
 @ToString(exclude = {"visitedLocations"})
+@Entity
 @Table(name = "location",
         indexes = {
-        @Index(name = "idx_location_id", columnList = "location_id")
+                @Index(name = "idx_location_id", columnList = "location_id")
         },
         uniqueConstraints = {
-        @UniqueConstraint(name = "location_cords_unique", columnNames = {"latitude", "longitude"})
+                @UniqueConstraint(name = "location_cords_unique", columnNames = {"latitude", "longitude"})
         }
-    )
-@Entity
+)
 public class Location {
+
     @Id
     @SequenceGenerator(name = "location_id_seq", sequenceName = "location_seq_id", allocationSize = 10)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "location_seq_id")

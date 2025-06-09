@@ -17,13 +17,12 @@ import java.util.Set;
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(exclude = {"animals"})
 @ToString(exclude = {"animals"})
+@Entity
 @Table(name = "animal_type", indexes = {
         @Index(name = "idx_animal_type_id", columnList = "animal_type_id")
 })
-@Entity
 public class AnimalType {
 
     @Id

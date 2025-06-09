@@ -19,13 +19,12 @@ import java.time.temporal.ChronoUnit;
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(exclude = {"animal", "location"})
 @ToString(exclude = {"animal", "location"})
+@Entity
 @Table(name = "visited_location", indexes = {
         @Index(name = "idx_visit_time", columnList = "visit_time")
 })
-@Entity
 public class VisitedLocation {
 
     @Id

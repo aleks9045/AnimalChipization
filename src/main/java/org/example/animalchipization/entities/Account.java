@@ -18,7 +18,6 @@ import java.util.Set;
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(exclude = {"animals"})
 @ToString(exclude = {"animals"})
 @Entity
