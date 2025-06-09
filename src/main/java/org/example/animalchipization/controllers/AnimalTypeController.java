@@ -1,4 +1,4 @@
-package org.example.animalchipization.controllers.animalType;
+package org.example.animalchipization.controllers;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
@@ -28,16 +28,16 @@ public class AnimalTypeController {
     @Validated
     public ResponseEntity<AnimalTypeDtoOut> getAnimalTypeById(@PathVariable @Positive @Min(1) Long animalTypeId) {
 
-        AnimalTypeDtoOut animalTypeDtoOut = animalTypeService.getAnimalType(animalTypeId);
+        var animalTypeDtoOut = animalTypeService.getAnimalType(animalTypeId);
 
-        return ResponseEntity.status(HttpStatus.OK).body(animalTypeDtoOut);
+        return ResponseEntity.ok(animalTypeDtoOut);
     }
 
     @PostMapping
     @Validated
     public ResponseEntity<AnimalTypeDtoOut> addAnimalType(@Validated @RequestBody AnimalTypeDtoIn animalTypeDtoIn) {
 
-        AnimalTypeDtoOut animalTypeDtoOut = animalTypeService.addAnimalType(animalTypeDtoIn);
+        var animalTypeDtoOut = animalTypeService.addAnimalType(animalTypeDtoIn);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(animalTypeDtoOut);
     }
@@ -47,9 +47,9 @@ public class AnimalTypeController {
     public ResponseEntity<AnimalTypeDtoOut> updateAnimalTypeById(@PathVariable @Positive @Min(1) Long animalTypeId,
                                                              @Validated @RequestBody AnimalTypeDtoIn animalTypeDtoIn) {
 
-        AnimalTypeDtoOut animalTypeDtoOut = animalTypeService.updateAnimalType(animalTypeId, animalTypeDtoIn);
+        var animalTypeDtoOut = animalTypeService.updateAnimalType(animalTypeId, animalTypeDtoIn);
 
-        return ResponseEntity.status(HttpStatus.OK).body(animalTypeDtoOut);
+        return ResponseEntity.ok(animalTypeDtoOut);
     }
 
     @DeleteMapping("/{animalTypeId}")

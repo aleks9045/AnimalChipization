@@ -10,10 +10,6 @@ import lombok.Setter;
 /**
  * Represents visited location data transfer object
  *
- * <p>Used to update visited location entity<br><br>
- * All fields must be not null<br>
- * Each id field must be strictly greater than 0
- *
  * @author Aleksey
  */
 @AllArgsConstructor

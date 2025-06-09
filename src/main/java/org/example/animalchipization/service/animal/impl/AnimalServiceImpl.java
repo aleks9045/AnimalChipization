@@ -33,12 +33,11 @@ public class AnimalServiceImpl implements AnimalService {
     private final LocationValidator locationValidator;
 
 
-
     @Override
     @Transactional
     public AnimalDtoOut getAnimal(Long animalId) {
 
-        Animal animal = animalValidator.validateAndGetById(animalId);
+        var animal = animalValidator.validateAndGetById(animalId);
 
         return animalMapper.toDto(animal);
     }
@@ -51,9 +50,9 @@ public class AnimalServiceImpl implements AnimalService {
 
         locationValidator.checkExistence(animalDtoIn.getChippingLocationId());
 
-        Set<AnimalType> animalTypes = animalValidator.validateAndGetAnimalTypes(animalDtoIn.getAnimalTypes());
+        var animalTypes = animalValidator.validateAndGetAnimalTypes(animalDtoIn.getAnimalTypes());
 
-        Animal animal = animalMapper.toEntity(animalDtoIn);
+        var animal = animalMapper.toEntity(animalDtoIn);
         animal.setAnimalTypes(animalTypes);
 
         animalRepository.save(animal);
@@ -65,7 +64,7 @@ public class AnimalServiceImpl implements AnimalService {
     @Transactional
     public AnimalDtoOut updateAnimal(Long animalId, AnimalDtoUpdate animalDtoUpdate) {
 
-        Animal existingAnimal = animalValidator.validateAndGetById(animalId);
+        var existingAnimal = animalValidator.validateAndGetById(animalId);
 
         animalValidator.checkChipperExistence(animalDtoUpdate.getChipperId());
         animalValidator.checkChippingLocationExistence(animalDtoUpdate.getChippingLocationId());
@@ -96,7 +95,7 @@ public class AnimalServiceImpl implements AnimalService {
     @Transactional
     public List<AnimalDtoOut> searchAnimals(AnimalSearchCriteria animalSearchCriteria, Pageable pageable) {
 
-        Specification<Animal> spec = Specification.where(
+        var spec = Specification.where(
                 JpaSpecificationBuilder.<Animal>dateTimeFrom(
                         Animal_.CHIPPING_DATE_TIME,
                         animalSearchCriteria.startDateTime())
@@ -125,7 +124,7 @@ public class AnimalServiceImpl implements AnimalService {
                         Animal_.GENDER,
                         animalSearchCriteria.gender())
         );
-        Page<Animal> animalPage = animalRepository.findAll(spec, pageable);
+        var animalPage = animalRepository.findAll(spec, pageable);
 
 
         return animalPage.map(animalMapper::toDto).getContent();

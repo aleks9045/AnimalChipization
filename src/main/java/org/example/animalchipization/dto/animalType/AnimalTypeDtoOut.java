@@ -11,12 +11,8 @@ import org.example.animalchipization.entities.AnimalType;
 /**
  * Represents animal type data transfer object
  *
- * <p>Used to display output data in responses<br><br>
- * All fields must be not null or blank<br>
- * Id field must be strictly greater than 0
- *
- * @see AnimalType Animal type entity
  * @author Aleksey
+ * @see AnimalType Animal type entity
  */
 @AllArgsConstructor
 @Setter
@@ -29,7 +25,6 @@ public class AnimalTypeDtoOut {
     @Min(1)
     private Long id;
 
-    @NotNull
     @NotBlank
     @Size(max = 255)
     private String type;

@@ -10,14 +10,8 @@ import org.example.animalchipization.entities.Location;
 /**
  * Represents location data transfer object
  *
- * <p>Used to display output data in responses<br><br>
- * All fields must be not null or blank<br>
- * Id field must be strictly greater than 0<br>
- * Latitude field must be greater than -90 and less than 90<br>
- * Longitude field must be greater than -180 and less than 180<br>
- *
- * @see Location Location entity
  * @author Aleksey
+ * @see Location Location entity
  */
 @AllArgsConstructor
 @Setter

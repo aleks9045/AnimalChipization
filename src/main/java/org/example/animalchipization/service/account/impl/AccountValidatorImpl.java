@@ -38,7 +38,7 @@ public class AccountValidatorImpl implements AccountValidator {
 
     @Override
     public void validateAndAuthenticateAccountById(Long accountId) {
-        Account account = accountRepository.findById((long) accountId)
+        var account = accountRepository.findById((long) accountId)
                 .orElseThrow(() -> new RequestException(ForbiddenError.ACCOUNT_NOT_FOUND));
 
         this.authenticateAccount(account);
@@ -65,14 +65,15 @@ public class AccountValidatorImpl implements AccountValidator {
 
     @Override
     public Account validateAndGetByEmail(String email) {
-        Account account = this.getByEmail(email);
+        var account = this.getByEmail(email);
         this.authenticateAccount(account);
         return account;
     }
 
     @Override
     public void checkAuthorized() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+
         if (auth != null && auth.isAuthenticated() &&
                 !(auth instanceof AnonymousAuthenticationToken)) {
             throw new RequestException(ForbiddenError.ACCOUNT_ALREADY_AUTHORIZED);
@@ -81,7 +82,8 @@ public class AccountValidatorImpl implements AccountValidator {
 
     @Override
     public void checkEmailAlreadyExistenceForAdd(String email) {
-        Optional<Account> account = accountRepository.findByEmail(email);
+        var account = accountRepository.findByEmail(email);
+
         if (account.isPresent()) {
             throw new RequestException(ConflictError.ACCOUNT_WITH_EMAIL_ALREADY_EXISTS);
         }
@@ -89,7 +91,8 @@ public class AccountValidatorImpl implements AccountValidator {
 
     @Override
     public void checkEmailAlreadyExistenceForUpdate(String email) {
-        Optional<Account> account = accountRepository.findByEmail(email);
+        var account = accountRepository.findByEmail(email);
+
         if (account.isPresent() && !account.get().getEmail().equals(email)) {
             throw new RequestException(ConflictError.ACCOUNT_WITH_EMAIL_ALREADY_EXISTS);
         }

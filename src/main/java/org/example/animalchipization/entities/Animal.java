@@ -22,7 +22,6 @@ import java.util.Set;
  * <p>
  * Stores base information of animal (weight, length, height, gender)<br>
  *
- * <p>Mapped with "animal" table in the database.
  *
  * @author Aleksey
  */

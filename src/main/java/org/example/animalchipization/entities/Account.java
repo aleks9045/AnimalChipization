@@ -9,9 +9,8 @@ import java.util.Set;
 /**
  * Represents a user account entity.<br>
  * Contains personal identification information (first name, last name, email)
- * and authentication credentials (password).
+ * and authentication credentials (base64 string).
  *
- * <p>Mapped to the "account" table in the database.
  *
  * @author Aleksey
  */

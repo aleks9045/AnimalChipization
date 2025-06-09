@@ -29,7 +29,7 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public LocationDtoOut getLocation(Long locationId) {
 
-        Location location = locationValidator.validateAndGetById(locationId);
+        var location = locationValidator.validateAndGetById(locationId);
 
         return locationMapper.toDto(location);
     }
@@ -42,8 +42,8 @@ public class LocationServiceImpl implements LocationService {
                 locationDtoIn.getLongitude()
         );
 
-        Location location = locationMapper.toEntity(locationDtoIn);
-        Location savedLocation = locationRepository.save(location);
+        var location = locationMapper.toEntity(locationDtoIn);
+        var savedLocation = locationRepository.save(location);
 
         return locationMapper.toDto(savedLocation);
     }
@@ -54,7 +54,7 @@ public class LocationServiceImpl implements LocationService {
 
         locationValidator.checkExistence(locationId);
 
-        Location location = locationMapper.toEntity(locationDtoIn);
+        var location = locationMapper.toEntity(locationDtoIn);
         location.setLocationId(locationId);
         locationRepository.save(location);
 

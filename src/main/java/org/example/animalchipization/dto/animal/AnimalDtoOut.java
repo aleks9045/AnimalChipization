@@ -23,13 +23,8 @@ import java.util.Set;
 /**
  * Represents animal data transfer object
  *
- * <p>Used to display output data in responses<br><br>
- * All fields must be not null excepts deathDateTime<br>
- * Weight, length and height must be positive<br>
- * Each id field must be strictly greater than 0
- *
- * @see Animal Animal entity
  * @author Aleksey
+ * @see Animal Animal entity
  */
 @AllArgsConstructor
 @Setter

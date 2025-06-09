@@ -12,9 +12,6 @@ import java.util.Set;
  * <p>Has Many-to-Many relationships with {@link Animal}<br>
  * Stores string that determine animal type
  *
- * <p>Mapped with "animal_type" table in the database.
- *
- *
  * @author Aleksey
  */
 @Setter

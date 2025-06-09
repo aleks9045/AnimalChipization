@@ -13,6 +13,7 @@ import java.time.Instant;
  */
 @Schema(description = "Standardized error response returned by API when something goes wrong")
 public record ApiError(
+
         @Schema(description = "HTTP status code of the error",
                 example = "404")
         int status,
@@ -31,5 +32,4 @@ public record ApiError(
 
         @Schema(description = "Timestamp when the error occurred in ISO-8601 format",
                 example = "2025-10-01T12:00:00Z")
-        Instant timestamp) {
-}
+        Instant timestamp) {}

@@ -12,8 +12,6 @@ import java.util.Set;
  * <p>Has Many-to-Many relationship with {@link Animal} entity<br>
  * Stores coordinates (latitude and longitude)
  *
- * <p>Mapped with "location" table in the database.
- *
  * @author Aleksey
  */
 @Setter

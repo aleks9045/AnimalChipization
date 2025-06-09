@@ -14,7 +14,6 @@ import java.time.temporal.ChronoUnit;
  * <p>Is an intermediary table for {@link Animal} and {@link Location} entities<br>
  * Stores animal and location id and definite where and when was animal
  *
- * <p>Mapped with "visited_location" table in the database.
  * @author Aleksey
  */
 @Setter

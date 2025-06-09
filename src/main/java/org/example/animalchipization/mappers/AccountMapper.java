@@ -9,8 +9,6 @@ import org.mapstruct.NullValueMappingStrategy;
 
 /**
  * Mapper for {@link Account} entity
- * <p>Converting one object to another by transfer first object fields to second object
- * using setters and getters
  *
  * @author Aleksey
  */
