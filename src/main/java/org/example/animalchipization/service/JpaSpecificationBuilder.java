@@ -15,11 +15,13 @@ import java.util.Optional;
 public class JpaSpecificationBuilder {
 
     public static <T> Specification<T> likeString(String fieldName, String value) {
-        if (value == null) return null;
-        return ((root, query, criteriaBuilder) ->
+        if (value == null || value.isEmpty()) {
+            return null;
+        }
+        return (root, query, criteriaBuilder) ->
                 criteriaBuilder.like(
                         criteriaBuilder.lower(root.get(fieldName)),
-                        "%" + value.toLowerCase() + "%"));
+                        "%" + value.toLowerCase() + "%");
     }
 
     public static <T> Specification<T> equal(String fieldName, Object value) {
@@ -48,8 +50,8 @@ public class JpaSpecificationBuilder {
     }
 
     public static <T> Specification<T> join(String joinFieldName,
-                                                      String comparisonFieldName,
-                                                      Object value, JoinType joinType) {
+                                            String comparisonFieldName,
+                                            Object value, JoinType joinType) {
         if (value == null) return null;
         return (root, query, criteriaBuilder) -> {
             Join<?, ?> join = root.join(joinFieldName, joinType);

@@ -37,7 +37,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDtoOut getAccount(Integer accountId) {
 
-        Account account = accountValidator.validateAndGetById((long) accountId);
+        var account = accountValidator.validateAndGetById((long) accountId);
 
         return accountMapper.toDto(account);
     }
@@ -51,13 +51,13 @@ public class AccountServiceImpl implements AccountService {
 
         accountValidator.checkEmailAlreadyExistenceForAdd(accountDtoIn.getEmail());
 
-        String hash = UserAuthentication.encodeEmailAndPassword(
+        var hash = UserAuthentication.encodeEmailAndPassword(
                 accountDtoIn.getEmail(),
                 accountDtoIn.getPassword());
 
-        Account account = accountMapper.toEntity(accountDtoIn);
+        var account = accountMapper.toEntity(accountDtoIn);
         account.setBase64(hash);
-        Account savedAccount = accountRepository.save(account);
+        var savedAccount = accountRepository.save(account);
 
         return accountMapper.toDto(savedAccount);
     }
@@ -70,11 +70,11 @@ public class AccountServiceImpl implements AccountService {
 
         accountValidator.checkEmailAlreadyExistenceForUpdate(accountDtoIn.getEmail());
 
-        String hash = UserAuthentication.encodeEmailAndPassword(
+        var hash = UserAuthentication.encodeEmailAndPassword(
                 accountDtoIn.getEmail(),
                 accountDtoIn.getPassword());
 
-        Account account = accountMapper.toEntity(accountDtoIn);
+        var account = accountMapper.toEntity(accountDtoIn);
         account.setAccountId(accountId);
         account.setBase64(hash);
         accountRepository.save(account);
@@ -98,19 +98,18 @@ public class AccountServiceImpl implements AccountService {
     public List<AccountDtoOut> searchAccount(AccountSearchCriteria accountSearchCriteria,
                                              Pageable pageable) {
 
-        Specification<Account> spec = Specification.where(
-                JpaSpecificationBuilder.<Account>likeString(
-                        Account_.FIRST_NAME, accountSearchCriteria.firstName())
-        ).and(
-                JpaSpecificationBuilder.likeString(
-                        Account_.LAST_NAME, accountSearchCriteria.lastName())
-        ).and(
-                JpaSpecificationBuilder.likeString(
-                        Account_.EMAIL, accountSearchCriteria.email())
+        int limit = pageable.getPageSize();
+        long offset = pageable.getOffset();
+        System.out.println(limit);
+        System.out.println(offset);
+        List<Account> accountList = accountRepository.searchAccountsByFirstNameAndLastNameAndEmail(
+                accountSearchCriteria.firstName(),
+                accountSearchCriteria.lastName(),
+                accountSearchCriteria.email(),
+                limit,
+                offset
         );
 
-        Page<Account> accountPage = accountRepository.findAll(spec, pageable);
-
-        return accountPage.map(accountMapper::toDto).getContent();
+        return accountList.stream().map(accountMapper::toDto).toList();
     }
 }

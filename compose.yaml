@@ -13,9 +13,9 @@ services:
         condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL", "curl -f -s http://localhost:8080/actuator/health || exit 1"]
-      interval: 5s
+      interval: 1s
       timeout: 3s
-      retries: 5
+      retries: 20
       start_period: 60s
     networks:
       - default
@@ -35,9 +35,9 @@ services:
       - default
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
-      interval: 2s
+      interval: 1s
       timeout: 3s
-      retries: 5
+      retries: 20
       start_period: 60s
 
   tests:
@@ -54,8 +54,6 @@ services:
     environment:
       SERVER_URL: http://webapi:8080
       STAGE: all
-
-
 
 
 volumes:

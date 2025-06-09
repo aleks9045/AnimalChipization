@@ -71,7 +71,7 @@ public class AccountController {
 
         List<AccountDtoOut> accountDtoOutList = accountService.searchAccount(
                 accountSearchCriteria,
-                PageRequest.of(from, size, Sort.by("accountId"))
+                PageRequest.of(from, size)
         );
 
         return ResponseEntity.status(HttpStatus.OK).body(accountDtoOutList);
