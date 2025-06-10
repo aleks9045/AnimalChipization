@@ -11,7 +11,7 @@ import org.example.animalchipization.repository.VisitedLocationRepository;
 import org.example.animalchipization.service.animal.AnimalValidator;
 import org.example.animalchipization.service.location.LocationValidator;
 import org.example.animalchipization.service.visitedLocation.VisitedLocationService;
-import org.example.animalchipization.service.JpaSpecificationBuilder;
+import org.example.animalchipization.repository.JpaSpecificationBuilder;
 import org.example.animalchipization.service.visitedLocation.VisitedLocationValidator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

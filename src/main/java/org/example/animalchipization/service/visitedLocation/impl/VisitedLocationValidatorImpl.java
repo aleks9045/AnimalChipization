@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Objects;
 
+import static org.apache.commons.lang3.BooleanUtils.isFalse;
+
 /**
  * @author Aleksey
  */
@@ -39,7 +41,7 @@ public class VisitedLocationValidatorImpl implements VisitedLocationValidator {
 
         List<VisitedLocation> visitedLocations = animal.getVisitedLocations();
 
-        if (!visitedLocations.isEmpty()) {
+        if (isFalse(visitedLocations.isEmpty())) {
             VisitedLocation latterVisitedLocation =
                     visitedLocations.get(visitedLocations.size() - 1);
 
@@ -74,8 +76,7 @@ public class VisitedLocationValidatorImpl implements VisitedLocationValidator {
 
                 if (i == 0) this.checkLocationEqualLocation(
                         location,
-                        animal.getChippingLocationId()
-                );
+                        animal.getChippingLocationId());
 
                 return visitedLocations.get(i);
             }
@@ -111,8 +112,7 @@ public class VisitedLocationValidatorImpl implements VisitedLocationValidator {
                 if (i > 0 && i < listSize - 1)
                     this.checkLocationEqualLocation(
                             visitedLocations.get(i - 1).getLocation(),
-                            visitedLocations.get(i + 1).getLocation()
-                    );
+                            visitedLocations.get(i + 1).getLocation());
 
                 if (i == 0 && listSize > 1 &&
                         animal.getChippingLocationId()

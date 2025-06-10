@@ -20,7 +20,7 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"visitedLocations"})
+@EqualsAndHashCode(exclude = {"locationId", "visitedLocations"})
 @ToString(exclude = {"visitedLocations"})
 @Table(name = "location",
         indexes = {

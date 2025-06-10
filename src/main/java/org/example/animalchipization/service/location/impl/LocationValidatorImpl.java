@@ -9,6 +9,8 @@ import org.example.animalchipization.repository.LocationRepository;
 import org.example.animalchipization.service.location.LocationValidator;
 import org.springframework.stereotype.Component;
 
+import static org.apache.commons.lang3.BooleanUtils.isFalse;
+
 /**
  * @author Aleksey
  */
@@ -36,7 +38,7 @@ public class LocationValidatorImpl implements LocationValidator {
 
     @Override
     public void checkExistence(Long locationId) {
-        if (!locationRepository.existsById(locationId)) {
+        if (isFalse(locationRepository.existsById(locationId))) {
             throw new RequestException(NotFoundError.LOCATION_NOT_FOUND);
         }
     }

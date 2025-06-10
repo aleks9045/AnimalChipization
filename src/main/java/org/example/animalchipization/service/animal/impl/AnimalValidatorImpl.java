@@ -1,6 +1,7 @@
 package org.example.animalchipization.service.animal.impl;
 
 import lombok.RequiredArgsConstructor;
+import static org.apache.commons.lang3.BooleanUtils.*;
 import org.example.animalchipization.dto.animal.AnimalDtoUpdate;
 import org.example.animalchipization.entity.Animal;
 import org.example.animalchipization.entity.AnimalType;
@@ -46,7 +47,7 @@ public class AnimalValidatorImpl implements AnimalValidator {
 
     @Override
     public void checkExistence(Long animalId) {
-        if (!animalRepository.existsById(animalId)) {
+        if (isFalse(animalRepository.existsById(animalId))) {
             throw new RequestException(NotFoundError.ANIMAL_NOT_FOUND);
         }
     }
@@ -68,14 +69,14 @@ public class AnimalValidatorImpl implements AnimalValidator {
 
     @Override
     public void checkChipperExistence(Integer chipperId) {
-        if (!accountRepository.existsAccountByAccountId(chipperId)) {
+        if (isFalse(accountRepository.existsAccountByAccountId(chipperId))) {
             throw new RequestException(NotFoundError.ANIMAL_CHIPPER_NOT_FOUND);
         }
     }
 
     @Override
     public void checkChippingLocationExistence(Long locationId) {
-        if (!locationRepository.existsLocationByLocationId(locationId)) {
+        if (isFalse(locationRepository.existsLocationByLocationId(locationId))) {
             throw new RequestException(NotFoundError.ANIMAL_CHIPPING_LOCATION_NOT_FOUND);
         }
     }
@@ -101,7 +102,7 @@ public class AnimalValidatorImpl implements AnimalValidator {
 
         int firstElementIndex = 0;
 
-        if (!animal.getVisitedLocations().isEmpty() &&
+        if (isFalse(animal.getVisitedLocations().isEmpty()) &&
                 // Getting first visited location
                 animal.getVisitedLocations().get(firstElementIndex).getLocation().getLocationId()
                         .equals(animalDtoUpdate.getChippingLocationId())) {
@@ -113,7 +114,7 @@ public class AnimalValidatorImpl implements AnimalValidator {
     @Override
     public void checkVisitedLocationsEmpty(Long animalId) {
 
-        if (!animalRepository.findVisitedLocationsByAnimalId(animalId).isEmpty()) {
+        if (isFalse(animalRepository.findVisitedLocationsByAnimalId(animalId).isEmpty())) {
             throw new RequestException(BadRequestError.ANIMAL_HAS_LEFT_CHIPPING_LOCATION);
         }
     }

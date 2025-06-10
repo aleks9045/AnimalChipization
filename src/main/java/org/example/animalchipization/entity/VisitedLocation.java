@@ -21,7 +21,7 @@ import java.time.temporal.ChronoUnit;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"animal", "location"})
+@EqualsAndHashCode(exclude = {"visitedLocationPointId", "animal", "location"})
 @ToString(exclude = {"animal", "location"})
 @Table(name = "visited_location", indexes = {
         @Index(name = "idx_visit_time", columnList = "visit_time")

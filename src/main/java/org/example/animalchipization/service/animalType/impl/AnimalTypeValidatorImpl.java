@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Set;
 
+import static org.apache.commons.lang3.BooleanUtils.isFalse;
+
 /**
  * @author Aleksey
  */
@@ -31,7 +33,7 @@ public class AnimalTypeValidatorImpl implements AnimalTypeValidator {
 
     @Override
     public void checkExistence(Long animalTypeId) {
-        if (!animalTypeRepository.existsById(animalTypeId)) {
+        if (isFalse(animalTypeRepository.existsById(animalTypeId))) {
             throw new RequestException(NotFoundError.ANIMAL_TYPE_NOT_FOUND);
         }
     }
@@ -45,7 +47,7 @@ public class AnimalTypeValidatorImpl implements AnimalTypeValidator {
 
     @Override
     public void validateTypes(Set<AnimalType> animalTypeSet, AnimalType animalType) {
-        if (!animalTypeSet.contains(animalType)) {
+        if (isFalse(animalTypeSet.contains(animalType))) {
             throw new RequestException(NotFoundError.ANIMAL_TYPE_NOT_FOUND);
         }
         if (animalTypeSet.size() == 1) {

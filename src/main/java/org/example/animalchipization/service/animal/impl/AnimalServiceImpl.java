@@ -7,7 +7,7 @@ import org.example.animalchipization.dto.animal.*;
 import org.example.animalchipization.entity.*;
 import org.example.animalchipization.mapper.animal.AnimalMapper;
 import org.example.animalchipization.repository.*;
-import org.example.animalchipization.service.JpaSpecificationBuilder;
+import org.example.animalchipization.repository.JpaSpecificationBuilder;
 import org.example.animalchipization.service.animal.AnimalService;
 import org.example.animalchipization.service.animal.AnimalValidator;
 import org.example.animalchipization.service.location.LocationValidator;

@@ -1,8 +1,8 @@
-package org.example.animalchipization.validation.annotation;
+package org.example.animalchipization.annotation.annotation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import org.example.animalchipization.validation.validator.NoDuplicatesValidator;
+import org.example.animalchipization.annotation.validator.NoDuplicatesValidator;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -30,7 +30,7 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"chipperId", "chippingLocationId", "animalTypes", "visitedLocations"})
+@EqualsAndHashCode(exclude = {"animalId", "chipperId", "chippingLocationId", "animalTypes", "visitedLocations"})
 @ToString(exclude = {"chipperId", "chippingLocationId", "animalTypes", "visitedLocations"})
 @Table(name = "animal", indexes = {
         @Index(name = "idx_animal_id", columnList = "animal_id")

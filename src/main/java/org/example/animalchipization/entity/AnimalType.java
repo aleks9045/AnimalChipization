@@ -21,7 +21,7 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"animals"})
+@EqualsAndHashCode(exclude = {"animalTypeId", "animals"})
 @ToString(exclude = {"animals"})
 @Table(name = "animal_type", indexes = {
         @Index(name = "idx_animal_type_id", columnList = "animal_type_id")

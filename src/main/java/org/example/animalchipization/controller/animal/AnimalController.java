@@ -33,6 +33,7 @@ import java.util.List;
 @Tag(name = "animals")
 @RequiredArgsConstructor
 public class AnimalController {
+
     private final AnimalService animalService;
     private final AnimalTypeRelationsService animalTypeRelationsService;
     private final VisitedLocationService visitedLocationService;
@@ -82,13 +83,15 @@ public class AnimalController {
             @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
             @RequestParam(defaultValue = "10") @Positive @Min(1) Integer size) {
 
-        AnimalSearchCriteria animalSearchCriteria = new AnimalSearchCriteria(
-                startDateTime,
-                endDateTime,
-                chipperId,
-                chippingLocationId,
-                lifeStatus,
-                gender);
+        AnimalSearchCriteria animalSearchCriteria = AnimalSearchCriteria.builder()
+                .startDateTime(startDateTime)
+                .endDateTime(endDateTime)
+                .chipperId(chipperId)
+                .chippingLocationId(chippingLocationId)
+                .lifeStatus(lifeStatus)
+                .gender(gender)
+                .build();
+
 
         List<AnimalDtoOut> animalDtoOutList = animalService.searchAnimals(
                 animalSearchCriteria,

@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.animalchipization.security.provider.CustomAuthProvider;
-import org.example.animalchipization.service.auth.util.Base64Coder;
+import org.example.animalchipization.util.Base64Coder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+
+import static org.apache.commons.lang3.BooleanUtils.isFalse;
 
 /**
  * Filter for spring security
@@ -67,7 +69,7 @@ public class CustomAuthFilter extends OncePerRequestFilter {
             return;
         }
         // Allows to have no authorization header only for registration endpoint
-        else if (!request.getRequestURI().startsWith("/registration")) {
+        else if (isFalse(request.getRequestURI().startsWith("/registration"))) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }

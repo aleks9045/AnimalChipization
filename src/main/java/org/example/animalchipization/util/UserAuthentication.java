@@ -1,4 +1,4 @@
-package org.example.animalchipization.service.auth.util;
+package org.example.animalchipization.util;
 
 /**
  * @author Aleksey

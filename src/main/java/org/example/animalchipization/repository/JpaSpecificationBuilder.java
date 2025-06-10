@@ -1,4 +1,4 @@
-package org.example.animalchipization.service;
+package org.example.animalchipization.repository;
 
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
@@ -6,7 +6,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
-import java.util.Optional;
 
 /**
  * @author Aleksey

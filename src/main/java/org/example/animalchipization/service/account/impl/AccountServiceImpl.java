@@ -12,7 +12,7 @@ import org.example.animalchipization.mapper.AccountMapper;
 import org.example.animalchipization.repository.AccountRepository;
 import org.example.animalchipization.service.account.AccountService;
 import org.example.animalchipization.service.account.AccountValidator;
-import org.example.animalchipization.service.auth.util.UserAuthentication;
+import org.example.animalchipization.util.UserAuthentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

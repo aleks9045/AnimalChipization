@@ -1,10 +1,10 @@
-package org.example.animalchipization.validation.validator;
+package org.example.animalchipization.annotation.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.example.animalchipization.enums.error.ConflictError;
 import org.example.animalchipization.exception.RequestException;
-import org.example.animalchipization.validation.annotation.NoDuplicates;
+import org.example.animalchipization.annotation.annotation.NoDuplicates;
 
 import java.util.Collection;
 import java.util.HashSet;
