@@ -96,12 +96,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<AccountDtoOut> searchAccount(AccountSearchCriteria accountSearchCriteria,
-                                             Pageable pageable) {
+                                             int limit, int offset) {
 
-        int limit = pageable.getPageSize();
-        long offset = pageable.getOffset();
-        System.out.println(limit);
-        System.out.println(offset);
         List<Account> accountList = accountRepository.searchAccountsByFirstNameAndLastNameAndEmail(
                 accountSearchCriteria.firstName(),
                 accountSearchCriteria.lastName(),

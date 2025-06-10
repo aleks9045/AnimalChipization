@@ -60,8 +60,8 @@ public class AccountController {
             @RequestParam(required = false) String firstName,
             @RequestParam(required = false) String lastName,
             @RequestParam(required = false) String email,
-            @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
-            @RequestParam(defaultValue = "10") @Positive @Min(1) Integer size) {
+            @RequestParam(defaultValue = "0") @PositiveOrZero int from,
+            @RequestParam(defaultValue = "10") @Positive @Min(1) int size) {
 
         AccountSearchCriteria accountSearchCriteria = new AccountSearchCriteria(
                 firstName,
@@ -71,7 +71,7 @@ public class AccountController {
 
         List<AccountDtoOut> accountDtoOutList = accountService.searchAccount(
                 accountSearchCriteria,
-                PageRequest.of(from, size)
+                size, from
         );
 
         return ResponseEntity.status(HttpStatus.OK).body(accountDtoOutList);

@@ -93,7 +93,7 @@ public class AnimalController {
 
         List<AnimalDtoOut> animalDtoOutList = animalService.searchAnimals(
                 animalSearchCriteria,
-                PageRequest.of(from, size, Sort.by("animalId")));
+                size, from);
 
         return ResponseEntity.status(HttpStatus.OK).body(animalDtoOutList);
     }

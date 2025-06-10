@@ -37,16 +37,14 @@ public interface AccountRepository extends
             ((lower(a.last_name) LIKE '%' || lower(:lastName) || '%') OR (:lastName is null)) AND
             ((lower(a.email) LIKE '%' || lower(:email) || '%') OR (:email is null))
             ORDER BY a.account_id ASC
-            OFFSET :offset
             LIMIT :limit
+            OFFSET :offset
             """, nativeQuery = true)
     List<Account> searchAccountsByFirstNameAndLastNameAndEmail(
             @Param("firstName") String firstName,
             @Param("lastName") String lastName,
             @Param("email") String email,
             @Param("limit") int limit,
-            @Param("offset") long offset
-    );
+            @Param("offset") int offset);
 
-    Page<Account> findAll(Specification<Account> spec, Pageable pageable);
 }

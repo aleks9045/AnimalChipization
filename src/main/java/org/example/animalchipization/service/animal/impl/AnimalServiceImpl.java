@@ -1,6 +1,7 @@
 package org.example.animalchipization.service.animal.impl;
 
-import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
 import org.example.animalchipization.dto.animal.*;
 import org.example.animalchipization.entities.*;
@@ -10,8 +11,6 @@ import org.example.animalchipization.service.JpaSpecificationBuilder;
 import org.example.animalchipization.service.animal.AnimalService;
 import org.example.animalchipization.service.animal.AnimalValidator;
 import org.example.animalchipization.service.location.LocationValidator;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +30,7 @@ public class AnimalServiceImpl implements AnimalService {
     private final AnimalMapper animalMapper;
     private final AnimalValidator animalValidator;
     private final LocationValidator locationValidator;
-
+    private final EntityManager entityManager;
 
 
     @Override
@@ -94,7 +93,7 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Override
     @Transactional
-    public List<AnimalDtoOut> searchAnimals(AnimalSearchCriteria animalSearchCriteria, Pageable pageable) {
+    public List<AnimalDtoOut> searchAnimals(AnimalSearchCriteria animalSearchCriteria, int limit, int offset) {
 
         Specification<Animal> spec = Specification.where(
                 JpaSpecificationBuilder.<Animal>dateTimeFrom(
@@ -125,10 +124,24 @@ public class AnimalServiceImpl implements AnimalService {
                         Animal_.GENDER,
                         animalSearchCriteria.gender())
         );
-        Page<Animal> animalPage = animalRepository.findAll(spec, pageable);
 
+        var cb = entityManager.getCriteriaBuilder();
 
-        return animalPage.map(animalMapper::toDto).getContent();
+        var criteriaQuery = cb.createQuery(Animal.class);
+        var root = criteriaQuery.from(Animal.class);
+        var predicate = spec.toPredicate(root, criteriaQuery, cb);
+
+        if (predicate == null) criteriaQuery.select(root);
+        else criteriaQuery.where(predicate);
+        criteriaQuery.orderBy(cb.asc(root.get(Animal_.ANIMAL_ID)));
+
+        var typedQuery = entityManager.createQuery(criteriaQuery)
+                .setFirstResult(offset)
+                .setMaxResults(limit);
+
+        var animals = typedQuery.getResultStream();
+
+        return animals.map(animalMapper::toDto).toList();
     }
 
 }
