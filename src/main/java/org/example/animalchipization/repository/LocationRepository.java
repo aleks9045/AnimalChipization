@@ -1,7 +1,7 @@
 package org.example.animalchipization.repository;
 
 
-import org.example.animalchipization.entities.Location;
+import org.example.animalchipization.entity.Location;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;

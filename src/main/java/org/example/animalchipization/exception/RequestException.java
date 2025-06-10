@@ -1,7 +1,7 @@
 package org.example.animalchipization.exception;
 
 import lombok.Getter;
-import org.example.animalchipization.enums.errors.EnumError;
+import org.example.animalchipization.enums.error.EnumError;
 import org.springframework.http.HttpStatus;
 
 /**

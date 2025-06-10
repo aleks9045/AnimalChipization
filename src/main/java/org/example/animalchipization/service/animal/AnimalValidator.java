@@ -1,9 +1,9 @@
 package org.example.animalchipization.service.animal;
 
 import org.example.animalchipization.dto.animal.AnimalDtoUpdate;
-import org.example.animalchipization.entities.Animal;
-import org.example.animalchipization.entities.AnimalType;
-import org.example.animalchipization.entities.Location;
+import org.example.animalchipization.entity.Animal;
+import org.example.animalchipization.entity.AnimalType;
+import org.example.animalchipization.entity.Location;
 import org.example.animalchipization.service.Validator;
 
 import java.util.List;

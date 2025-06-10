@@ -1,6 +1,6 @@
 package org.example.animalchipization.service.account;
 
-import org.example.animalchipization.entities.Account;
+import org.example.animalchipization.entity.Account;
 import org.example.animalchipization.service.Validator;
 
 

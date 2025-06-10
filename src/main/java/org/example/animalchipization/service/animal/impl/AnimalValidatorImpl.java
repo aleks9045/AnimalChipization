@@ -2,16 +2,15 @@ package org.example.animalchipization.service.animal.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.example.animalchipization.dto.animal.AnimalDtoUpdate;
-import org.example.animalchipization.entities.Animal;
-import org.example.animalchipization.entities.AnimalType;
-import org.example.animalchipization.entities.Location;
-import org.example.animalchipization.entities.VisitedLocation;
+import org.example.animalchipization.entity.Animal;
+import org.example.animalchipization.entity.AnimalType;
+import org.example.animalchipization.entity.Location;
+import org.example.animalchipization.entity.VisitedLocation;
 import org.example.animalchipization.enums.AnimalLifeStatus;
-import org.example.animalchipization.enums.errors.BadRequestError;
-import org.example.animalchipization.enums.errors.NotFoundError;
+import org.example.animalchipization.enums.error.BadRequestError;
+import org.example.animalchipization.enums.error.NotFoundError;
 import org.example.animalchipization.exception.RequestException;
 import org.example.animalchipization.repository.*;
-import org.example.animalchipization.service.Validator;
 import org.example.animalchipization.service.animal.AnimalValidator;
 import org.springframework.stereotype.Component;
 

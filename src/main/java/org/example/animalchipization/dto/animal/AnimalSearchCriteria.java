@@ -1,8 +1,7 @@
 package org.example.animalchipization.dto.animal;
 
 import jakarta.annotation.Nullable;
-import org.example.animalchipization.entities.Account;
-import org.example.animalchipization.entities.Animal;
+import org.example.animalchipization.entity.Animal;
 import org.example.animalchipization.enums.AnimalGender;
 import org.example.animalchipization.enums.AnimalLifeStatus;
 

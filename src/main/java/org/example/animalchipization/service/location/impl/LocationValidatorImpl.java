@@ -1,12 +1,11 @@
 package org.example.animalchipization.service.location.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.example.animalchipization.entities.Location;
-import org.example.animalchipization.enums.errors.ConflictError;
-import org.example.animalchipization.enums.errors.NotFoundError;
+import org.example.animalchipization.entity.Location;
+import org.example.animalchipization.enums.error.ConflictError;
+import org.example.animalchipization.enums.error.NotFoundError;
 import org.example.animalchipization.exception.RequestException;
 import org.example.animalchipization.repository.LocationRepository;
-import org.example.animalchipization.service.Validator;
 import org.example.animalchipization.service.location.LocationValidator;
 import org.springframework.stereotype.Component;
 

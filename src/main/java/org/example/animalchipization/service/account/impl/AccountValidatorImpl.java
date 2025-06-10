@@ -1,14 +1,13 @@
 package org.example.animalchipization.service.account.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.example.animalchipization.entities.Account;
-import org.example.animalchipization.enums.errors.ConflictError;
-import org.example.animalchipization.enums.errors.ForbiddenError;
-import org.example.animalchipization.enums.errors.NotFoundError;
+import org.example.animalchipization.entity.Account;
+import org.example.animalchipization.enums.error.ConflictError;
+import org.example.animalchipization.enums.error.ForbiddenError;
+import org.example.animalchipization.enums.error.NotFoundError;
 import org.example.animalchipization.exception.RequestException;
 import org.example.animalchipization.repository.AccountRepository;
 import org.example.animalchipization.security.provider.CustomAuthProvider;
-import org.example.animalchipization.service.Validator;
 import org.example.animalchipization.service.account.AccountValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;

@@ -2,7 +2,7 @@ package org.example.animalchipization.validation.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.example.animalchipization.enums.errors.ConflictError;
+import org.example.animalchipization.enums.error.ConflictError;
 import org.example.animalchipization.exception.RequestException;
 import org.example.animalchipization.validation.annotation.NoDuplicates;
 
