@@ -34,7 +34,6 @@ public class VisitedLocationServiceImpl implements VisitedLocationService {
     private final VisitedLocationValidator visitedLocationValidator;
 
 
-
     @Override
     @Transactional
     public List<VisitedLocationDtoOut> searchLocations(

@@ -55,7 +55,7 @@ public class AnimalValidatorImpl implements AnimalValidator {
 
     @Override
     public void checkAlive(Animal animal) {
-        if (animal.getLifeStatus() == AnimalLifeStatus.DEAD) {
+        if (animal.getLifeStatus().equals(AnimalLifeStatus.DEAD)) {
             throw new RequestException(BadRequestError.ANIMAL_ALREADY_DEAD);
         }
     }
@@ -96,8 +96,8 @@ public class AnimalValidatorImpl implements AnimalValidator {
     @Override
     public void checkAnimalUpdate(Animal animal, AnimalDtoUpdate animalDtoUpdate) {
 
-        if (animal.getLifeStatus() == AnimalLifeStatus.DEAD &&
-                animalDtoUpdate.getLifeStatus() == AnimalLifeStatus.ALIVE) {
+        if (animal.getLifeStatus().equals(AnimalLifeStatus.DEAD) &&
+                animalDtoUpdate.getLifeStatus().equals(AnimalLifeStatus.ALIVE)) {
             throw new RequestException(BadRequestError.ANIMAL_ALREADY_DEAD);
         }
 
@@ -122,7 +122,7 @@ public class AnimalValidatorImpl implements AnimalValidator {
 
     @Override
     public void setDeathTimeIfDead(Animal animal) {
-        if (animal.getLifeStatus() == AnimalLifeStatus.DEAD && animal.getDeathDateTime() == null) {
+        if (animal.getLifeStatus().equals(AnimalLifeStatus.DEAD) && animal.getDeathDateTime() == null) {
             animal.setDeathDateTime(Instant.now().truncatedTo(ChronoUnit.MICROS));
         }
     }
