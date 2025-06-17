@@ -1,9 +1,8 @@
 package org.example.animalchipization.service.animal;
 
 import org.example.animalchipization.dto.animal.*;
-import org.example.animalchipization.entities.Animal;
+import org.example.animalchipization.entity.Animal;
 import org.example.animalchipization.service.animal.impl.AnimalServiceImpl;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 

@@ -8,8 +8,8 @@ import lombok.Setter;
 import lombok.ToString;
 import org.example.animalchipization.enums.AnimalGender;
 
-import org.example.animalchipization.entities.Animal;
-import org.example.animalchipization.validation.annotation.NoDuplicates;
+import org.example.animalchipization.entity.Animal;
+import org.example.animalchipization.annotation.annotation.NoDuplicates;
 
 import java.util.List;
 

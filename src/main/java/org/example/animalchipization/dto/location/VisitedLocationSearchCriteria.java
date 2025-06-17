@@ -1,8 +1,7 @@
 package org.example.animalchipization.dto.location;
 
 import jakarta.annotation.Nullable;
-import org.example.animalchipization.entities.Animal;
-import org.example.animalchipization.entities.VisitedLocation;
+import org.example.animalchipization.entity.VisitedLocation;
 
 import java.time.Instant;
 

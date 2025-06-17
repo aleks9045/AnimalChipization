@@ -8,6 +8,8 @@ services:
       - .env
     ports:
       - "8080:8080"
+    volumes:
+      - logs:/logs
     depends_on:
       database:
         condition: service_healthy
@@ -58,6 +60,7 @@ services:
 
 volumes:
   database_data:
+  logs:
 
 networks:
   default:

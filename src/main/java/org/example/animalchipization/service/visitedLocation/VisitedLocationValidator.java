@@ -1,8 +1,8 @@
 package org.example.animalchipization.service.visitedLocation;
 
-import org.example.animalchipization.entities.Animal;
-import org.example.animalchipization.entities.Location;
-import org.example.animalchipization.entities.VisitedLocation;
+import org.example.animalchipization.entity.Animal;
+import org.example.animalchipization.entity.Location;
+import org.example.animalchipization.entity.VisitedLocation;
 
 /**
  * @author Aleksey

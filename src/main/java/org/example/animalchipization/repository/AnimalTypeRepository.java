@@ -1,7 +1,7 @@
 package org.example.animalchipization.repository;
 
 
-import org.example.animalchipization.entities.AnimalType;
+import org.example.animalchipization.entity.AnimalType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

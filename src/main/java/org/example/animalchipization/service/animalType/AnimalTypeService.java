@@ -2,7 +2,7 @@ package org.example.animalchipization.service.animalType;
 
 import org.example.animalchipization.dto.animalType.AnimalTypeDtoIn;
 import org.example.animalchipization.dto.animalType.AnimalTypeDtoOut;
-import org.example.animalchipization.entities.AnimalType;
+import org.example.animalchipization.entity.AnimalType;
 import org.example.animalchipization.service.animalType.impl.AnimalTypeServiceImpl;
 
 /**

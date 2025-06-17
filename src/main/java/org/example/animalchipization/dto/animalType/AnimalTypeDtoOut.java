@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.example.animalchipization.entities.AnimalType;
+import org.example.animalchipization.entity.AnimalType;
 
 /**
  * Represents animal type data transfer object

@@ -2,7 +2,7 @@ package org.example.animalchipization.dto.account;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.*;
-import org.example.animalchipization.entities.Account;
+import org.example.animalchipization.entity.Account;
 
 
 /**
