@@ -15,12 +15,8 @@ import org.example.animalchipization.entity.Account;
 /**
  * Represents account data transfer object
  *
- * <p>Used to validate input data in requests via jakarta validation<br><br>
- * All fields must be not null or blank<br>
- * Includes schemas definitions for display in swagger
- *
- * @see Account Account entity
  * @author Aleksey
+ * @see Account Account entity
  */
 @AllArgsConstructor
 @Setter
@@ -29,23 +25,23 @@ import org.example.animalchipization.entity.Account;
 public class AccountDtoIn {
 
     @Schema(description = "first name", maxLength = 255, example = "John", type = "String")
-    @NotNull @NotBlank
+    @NotBlank
     @Size(max = 255)
     private String firstName;
 
     @Schema(description = "last name", maxLength = 255, example = "Doe", type = "String")
-    @NotNull @NotBlank
+    @NotBlank
     @Size(max = 255)
     private String lastName;
 
     @Schema(description = "email", maxLength = 255, example = "example@gmail.com", type = "String")
-    @NotNull @NotBlank
+    @NotBlank
     @Size(max = 255)
     @Email
     private String email;
 
     @Schema(description = "password", maxLength = 255, example = "password", type = "String")
-    @NotNull @NotBlank
+    @NotBlank
     @Size(max = 255)
     private String password;
 }

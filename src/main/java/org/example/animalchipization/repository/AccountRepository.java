@@ -12,8 +12,6 @@ import java.util.Optional;
 
 /**
  * Works with Account entity
- * <p>Extends JpaRepository, so it has a set of ready-made methods<br>
- * Also Extends JpaSpecificationExecutor for specifications execution
  *
  * @author Aleksey
  * @see Account Location entity

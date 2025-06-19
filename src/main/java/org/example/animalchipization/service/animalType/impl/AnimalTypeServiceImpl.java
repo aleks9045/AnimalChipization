@@ -26,7 +26,7 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
     @Override
     public AnimalTypeDtoOut getAnimalType(Long animalTypeId) {
 
-        AnimalType animalType = animalTypeValidator.validateAndGetById(animalTypeId);
+        var animalType = animalTypeValidator.validateAndGetById(animalTypeId);
 
         return animalTypeMapper.toDto(animalType);
     }
@@ -36,8 +36,8 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
 
         animalTypeValidator.checkExistence(animalTypeDtoIn.getType());
 
-        AnimalType animalType = animalTypeMapper.toEntity(animalTypeDtoIn);
-        AnimalType savedType = animalTypeRepository.save(animalType);
+        var animalType = animalTypeMapper.toEntity(animalTypeDtoIn);
+        var savedType = animalTypeRepository.save(animalType);
 
         return animalTypeMapper.toDto(savedType);
     }
@@ -49,7 +49,7 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
         animalTypeValidator.checkExistence(animalTypeId);
         animalTypeValidator.checkExistence(animalTypeDtoIn.getType());
 
-        AnimalType animalType = animalTypeMapper.toEntity(animalTypeDtoIn);
+        var animalType = animalTypeMapper.toEntity(animalTypeDtoIn);
         animalType.setAnimalTypeId(animalTypeId);
         animalTypeRepository.save(animalType);
 
@@ -59,7 +59,7 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
     @Override
     public void deleteAnimalTypeById(Long animalTypeId) {
 
-        AnimalType animalType = animalTypeValidator.validateAndGetById(animalTypeId);
+        var animalType = animalTypeValidator.validateAndGetById(animalTypeId);
 
         animalTypeValidator.checkLinked(animalType);
 

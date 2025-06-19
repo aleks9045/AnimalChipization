@@ -40,7 +40,7 @@ public class AnimalValidatorImpl implements AnimalValidator {
         Animal animal = animalRepository.findJoinedWithAllExceptVisitedLocationById(animalId)
                 .orElseThrow(() -> new RequestException(NotFoundError.ANIMAL_NOT_FOUND));
 
-        List<VisitedLocation> visitedLocations = animalRepository.findVisitedLocationsByAnimalId(animalId);
+        var visitedLocations = animalRepository.findVisitedLocationsByAnimalId(animalId);
 
         animal.setVisitedLocations(visitedLocations);
         return animal;
@@ -84,7 +84,7 @@ public class AnimalValidatorImpl implements AnimalValidator {
 
     @Override
     public Set<AnimalType> validateAndGetAnimalTypes(List<Long> animalTypeSet) {
-        Set<AnimalType> animalTypes = new HashSet<>(
+        var animalTypes = new HashSet<>(
                 animalTypeRepository.findAllById(animalTypeSet)
         );
         if (animalTypes.size() < animalTypeSet.size()) {

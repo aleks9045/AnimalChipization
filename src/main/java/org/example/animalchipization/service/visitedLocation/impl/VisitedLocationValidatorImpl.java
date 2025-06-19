@@ -39,7 +39,7 @@ public class VisitedLocationValidatorImpl implements VisitedLocationValidator {
 
     public void checkLatterFromAnimal(Animal animal, Location location) {
 
-        List<VisitedLocation> visitedLocations = animal.getVisitedLocations();
+        var visitedLocations = animal.getVisitedLocations();
 
         if (isFalse(visitedLocations.isEmpty())) {
             VisitedLocation latterVisitedLocation =
@@ -62,7 +62,7 @@ public class VisitedLocationValidatorImpl implements VisitedLocationValidator {
             Long visitedLocationId,
             Location location) {
 
-        List<VisitedLocation> visitedLocations = animal.getVisitedLocations();
+        var visitedLocations = animal.getVisitedLocations();
 
         int listSize = visitedLocations.size();
 
@@ -100,7 +100,7 @@ public class VisitedLocationValidatorImpl implements VisitedLocationValidator {
 
     public void checkAndRemove(Animal animal, Long visitedLocationId) {
 
-        List<VisitedLocation> visitedLocations = animal.getVisitedLocations();
+        var visitedLocations = animal.getVisitedLocations();
 
         int listSize = visitedLocations.size();
 

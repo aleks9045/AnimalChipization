@@ -12,21 +12,17 @@ import java.util.Set;
  * <p>Has Many-to-Many relationships with {@link Animal}<br>
  * Stores string that determine animal type
  *
- * <p>Mapped with "animal_type" table in the database.
- *
- *
  * @author Aleksey
  */
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(exclude = {"animalTypeId", "animals"})
 @ToString(exclude = {"animals"})
+@Entity
 @Table(name = "animal_type", indexes = {
         @Index(name = "idx_animal_type_id", columnList = "animal_type_id")
 })
-@Entity
 public class AnimalType {
 
     @Id

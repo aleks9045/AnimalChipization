@@ -10,8 +10,6 @@ import org.mapstruct.MappingTarget;
 
 /**
  * Mapper for {@link Animal} entity
- * <p>Converting one object to another by transfer first object fields to second object
- * using setters and getters
  *
  * @author Aleksey
  */

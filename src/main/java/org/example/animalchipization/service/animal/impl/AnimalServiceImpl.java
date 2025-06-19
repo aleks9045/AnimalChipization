@@ -35,7 +35,7 @@ public class AnimalServiceImpl implements AnimalService {
     @Transactional
     public AnimalDtoOut getAnimal(Long animalId) {
 
-        Animal animal = animalValidator.validateAndGetById(animalId);
+        var animal = animalValidator.validateAndGetById(animalId);
 
         return animalMapper.toDto(animal);
     }
@@ -48,9 +48,9 @@ public class AnimalServiceImpl implements AnimalService {
 
         locationValidator.checkExistence(animalDtoIn.getChippingLocationId());
 
-        Set<AnimalType> animalTypes = animalValidator.validateAndGetAnimalTypes(animalDtoIn.getAnimalTypes());
+        var animalTypes = animalValidator.validateAndGetAnimalTypes(animalDtoIn.getAnimalTypes());
 
-        Animal animal = animalMapper.toEntity(animalDtoIn);
+        var animal = animalMapper.toEntity(animalDtoIn);
         animal.setAnimalTypes(animalTypes);
 
         animalRepository.save(animal);
@@ -62,7 +62,7 @@ public class AnimalServiceImpl implements AnimalService {
     @Transactional
     public AnimalDtoOut updateAnimal(Long animalId, AnimalDtoUpdate animalDtoUpdate) {
 
-        Animal existingAnimal = animalValidator.validateAndGetById(animalId);
+        var existingAnimal = animalValidator.validateAndGetById(animalId);
 
         animalValidator.checkChipperExistence(animalDtoUpdate.getChipperId());
         animalValidator.checkChippingLocationExistence(animalDtoUpdate.getChippingLocationId());
@@ -91,8 +91,7 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Override
     @Transactional
-    public List<AnimalDtoOut> searchAnimals(AnimalSearchCriteria animalSearchCriteria,
-                                            int limit, int offset) {
+    public List<AnimalDtoOut> searchAnimals(AnimalSearchCriteria animalSearchCriteria, int limit, int offset) {
 
         Specification<Animal> spec =
                 SpecificationFactory.buildAnimalSearchSpec(animalSearchCriteria);

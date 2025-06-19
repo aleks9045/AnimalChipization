@@ -17,6 +17,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
+springdoc:
+  show-actuator: true
 
 logging:
   level:

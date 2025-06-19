@@ -8,15 +8,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.example.animalchipization.entities.AnimalType;
 
 /**
  * Represents animal type data transfer object
  *
- * <p>Used to update animal entity<br><br>
- * All fields must be not null<br>
- * Each id field must be strictly greater than 0
- *
  * @author Aleksey
+ * @see AnimalType Animal entity
  */
 @AllArgsConstructor
 @Setter

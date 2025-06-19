@@ -12,15 +12,8 @@ import org.example.animalchipization.entity.Location;
 /**
  * Represents location data transfer object
  *
- * <p>Used to validate input data in requests via jakarta validation<br><br>
- * All fields must be not null<br>
- * Latitude field must be greater than -90 and less than 90<br>
- * Longitude field must be greater than -180 and less than 180<br>
- *
- * Includes schemas definitions for display in swagger
- *
- * @see Location Location entity
  * @author Aleksey
+ * @see Location Location entity
  */
 @AllArgsConstructor
 @Setter

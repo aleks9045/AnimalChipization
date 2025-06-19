@@ -22,20 +22,18 @@ import java.util.Set;
  * <p>
  * Stores base information of animal (weight, length, height, gender)<br>
  *
- * <p>Mapped with "animal" table in the database.
  *
  * @author Aleksey
  */
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(exclude = {"animalId", "chipperId", "chippingLocationId", "animalTypes", "visitedLocations"})
 @ToString(exclude = {"chipperId", "chippingLocationId", "animalTypes", "visitedLocations"})
+@Entity
 @Table(name = "animal", indexes = {
         @Index(name = "idx_animal_id", columnList = "animal_id")
 })
-@Entity
 public class Animal {
 
     @Id

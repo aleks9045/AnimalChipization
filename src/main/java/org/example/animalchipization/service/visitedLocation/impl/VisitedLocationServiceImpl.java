@@ -43,7 +43,7 @@ public class VisitedLocationServiceImpl implements VisitedLocationService {
         Specification<VisitedLocation> spec =
                 SpecificationFactory.buildVisitedLocationSearchSpec(visitedLocationSearchCriteria);
 
-        Page<VisitedLocation> visitedLocationPage = visitedLocationRepository.findAll(spec, pageable);
+        var visitedLocationPage = visitedLocationRepository.findAll(spec, pageable);
 
         return visitedLocationPage.map(visitedLocationMapper::toDto).getContent();
     }
@@ -52,17 +52,18 @@ public class VisitedLocationServiceImpl implements VisitedLocationService {
     @Transactional
     public VisitedLocationDtoOut addVisitedLocationToAnimal(Long animalId, Long locationId) {
 
-        Animal existingAnimal = visitedLocationValidator.validateAndGetAnimalWithAllLocations(animalId);
+        var existingAnimal = visitedLocationValidator.validateAndGetAnimalWithAllLocations(animalId);
 
-        Location existingLocation = locationValidator.validateAndGetById(locationId);
+        var existingLocation = locationValidator.validateAndGetById(locationId);
 
         animalValidator.checkAlive(existingAnimal);
         animalValidator.checkVisitedLocationAddition(existingAnimal, existingLocation);
 
         visitedLocationValidator.checkLatterFromAnimal(existingAnimal, existingLocation);
 
-        VisitedLocation visitedLocation =
-                new VisitedLocation(null, existingAnimal, existingLocation);
+        var visitedLocation = new VisitedLocation();
+        visitedLocation.setAnimal(existingAnimal);
+        visitedLocation.setLocation(existingLocation);
 
         visitedLocationRepository.save(visitedLocation);
 
@@ -75,13 +76,13 @@ public class VisitedLocationServiceImpl implements VisitedLocationService {
             Long animalId,
             UpdateVisitedLocationDto updateVisitedLocationDto) {
 
-        Location existingLocation = locationValidator.validateAndGetById(
+        var existingLocation = locationValidator.validateAndGetById(
                 updateVisitedLocationDto.getLocationPointId()
         );
 
-        Animal existingAnimal = visitedLocationValidator.validateAndGetAnimalWithAllLocations(animalId);
+        var existingAnimal = visitedLocationValidator.validateAndGetAnimalWithAllLocations(animalId);
 
-        VisitedLocation existingVisitedLocation = visitedLocationValidator.validateAndGetFromAnimal(
+        var existingVisitedLocation = visitedLocationValidator.validateAndGetFromAnimal(
                 existingAnimal,
                 updateVisitedLocationDto.getVisitedLocationPointId(),
                 existingLocation);
@@ -100,7 +101,7 @@ public class VisitedLocationServiceImpl implements VisitedLocationService {
     @Transactional
     public void removeVisitedLocationFromAnimal(Long animalId, Long visitedLocationId) {
 
-        Animal existingAnimal = visitedLocationValidator.validateAndGetAnimalWithVisitedLocations(animalId);
+        var existingAnimal = visitedLocationValidator.validateAndGetAnimalWithVisitedLocations(animalId);
 
         visitedLocationValidator.checkAndRemove(
                 existingAnimal, visitedLocationId);

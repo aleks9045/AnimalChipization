@@ -1,4 +1,4 @@
-package org.example.animalchipization.controller.account;
+package org.example.animalchipization.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
@@ -32,22 +32,24 @@ public class AccountController {
     @Validated
     public ResponseEntity<AccountDtoOut> getAccountById(@PathVariable @Positive @Min(1) Integer accountId) {
 
-        AccountDtoOut accountDtoOut = accountService.getAccount(accountId);
+        var accountDtoOut = accountService.getAccount(accountId);
 
-        return ResponseEntity.status(HttpStatus.OK).body(accountDtoOut);
+        return ResponseEntity.ok(accountDtoOut);
     }
 
     @PutMapping("/{accountId}")
     @Validated
-    public ResponseEntity<AccountDtoOut> updateAccountById(@PathVariable @Positive @Min(1) Integer accountId,
-                                                           @Validated @RequestBody AccountDtoIn accountDtoIn) {
+    public ResponseEntity<AccountDtoOut> updateAccountById(
+            @PathVariable @Positive @Min(1) Integer accountId,
+            @Validated @RequestBody AccountDtoIn accountDtoIn) {
 
-        AccountDtoOut accountDtoOut = accountService.updateAccount(accountId, accountDtoIn);
+        var accountDtoOut = accountService.updateAccount(accountId, accountDtoIn);
 
-        return ResponseEntity.status(HttpStatus.OK).body(accountDtoOut);
+        return ResponseEntity.ok(accountDtoOut);
     }
 
     @DeleteMapping("/{accountId}")
+    @ResponseStatus(HttpStatus.OK)
     @Validated
     public void deleteAccountById(@PathVariable @Positive @Min(1) Integer accountId) {
         accountService.deleteAccountById(accountId);
@@ -61,17 +63,17 @@ public class AccountController {
             @RequestParam(defaultValue = "0") @PositiveOrZero int from,
             @RequestParam(defaultValue = "10") @Positive @Min(1) int size) {
 
-        AccountSearchCriteria accountSearchCriteria = new AccountSearchCriteria(
+        var accountSearchCriteria = new AccountSearchCriteria(
                 firstName,
                 lastName,
                 email
         );
 
-        List<AccountDtoOut> accountDtoOutList = accountService.searchAccount(
+        var accountDtoOutList = accountService.searchAccount(
                 accountSearchCriteria,
                 size, from
         );
 
-        return ResponseEntity.status(HttpStatus.OK).body(accountDtoOutList);
+        return ResponseEntity.ok(accountDtoOutList);
     }
 }

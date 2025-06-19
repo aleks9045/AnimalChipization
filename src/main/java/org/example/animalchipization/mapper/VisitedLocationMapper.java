@@ -7,6 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 /**
+ * Mapper for {@link VisitedLocation} entity
  * @author Aleksey
  */
 @Mapper

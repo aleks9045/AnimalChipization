@@ -31,11 +31,11 @@ public class AnimalTypeRelationsServiceImpl implements AnimalTypeRelationsServic
     @Transactional
     public AnimalDtoOut addTypeToAnimal(Long animalId, Long animalTypeId) {
 
-        Animal existingAnimal = animalValidator.validateAndGetById(animalId);
+        var existingAnimal = animalValidator.validateAndGetById(animalId);
 
-        AnimalType existingType = animalTypeValidator.validateAndGetById(animalTypeId);
+        var existingType = animalTypeValidator.validateAndGetById(animalTypeId);
 
-        Set<AnimalType> existingAnimalTypes = existingAnimal.getAnimalTypes();
+        var existingAnimalTypes = existingAnimal.getAnimalTypes();
 
         animalTypeValidator.checkTypesDuplicatesType(existingAnimalTypes, existingType);
 
@@ -53,15 +53,15 @@ public class AnimalTypeRelationsServiceImpl implements AnimalTypeRelationsServic
     @Transactional
     public AnimalDtoOut replaceTypeInAnimal(Long animalId, UpdateAnimalTypeDto updateAnimalTypeDto) {
 
-        Animal existingAnimal = animalValidator.validateAndGetById(animalId);
+        var existingAnimal = animalValidator.validateAndGetById(animalId);
 
-        AnimalType existingType = animalTypeValidator.validateAndGetById(
+        var existingType = animalTypeValidator.validateAndGetById(
                 updateAnimalTypeDto.getOldTypeId());
 
-        AnimalType newType = animalTypeValidator.validateAndGetById(
+        var newType = animalTypeValidator.validateAndGetById(
                 updateAnimalTypeDto.getNewTypeId());
 
-        Set<AnimalType> existingAnimalTypes = existingAnimal.getAnimalTypes();
+        var existingAnimalTypes = existingAnimal.getAnimalTypes();
 
         animalTypeValidator.validateTypes(existingAnimalTypes, existingType);
         animalTypeValidator.checkTypesDuplicatesType(existingAnimalTypes, newType);
@@ -80,11 +80,11 @@ public class AnimalTypeRelationsServiceImpl implements AnimalTypeRelationsServic
     @Transactional
     public AnimalDtoOut removeTypeFromAnimal(Long animalId, Long animalTypeId) {
 
-        Animal existingAnimal = animalValidator.validateAndGetById(animalId);
+        var existingAnimal = animalValidator.validateAndGetById(animalId);
 
-        AnimalType existingType = animalTypeValidator.validateAndGetById(animalTypeId);
+        var existingType = animalTypeValidator.validateAndGetById(animalTypeId);
 
-        Set<AnimalType> existingAnimalTypes = existingAnimal.getAnimalTypes();
+        var existingAnimalTypes = existingAnimal.getAnimalTypes();
 
         animalTypeValidator.validateTypes(existingAnimalTypes, existingType);
 

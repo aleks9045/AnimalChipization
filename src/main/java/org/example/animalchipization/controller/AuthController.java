@@ -1,4 +1,4 @@
-package org.example.animalchipization.controller.auth;
+package org.example.animalchipization.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class AuthController {
     @Validated
     public ResponseEntity<AccountDtoOut> registerAccount(@Validated @RequestBody AccountDtoIn accountDtoIn) {
 
-        AccountDtoOut accountDtoOut = accountService.addAccount(accountDtoIn);
+        var accountDtoOut = accountService.addAccount(accountDtoIn);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(accountDtoOut);
     }

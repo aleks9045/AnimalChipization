@@ -1,4 +1,4 @@
-package org.example.animalchipization.controller.location;
+package org.example.animalchipization.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
@@ -28,31 +28,33 @@ public class LocationController {
     @Validated
     public ResponseEntity<LocationDtoOut> getLocationById(@PathVariable @Positive @Min(1) Long locationId) {
 
-        LocationDtoOut locationDtoOut = locationService.getLocation(locationId);
+        var locationDtoOut = locationService.getLocation(locationId);
 
-        return ResponseEntity.status(HttpStatus.OK).body(locationDtoOut);
+        return ResponseEntity.ok(locationDtoOut);
     }
 
     @PostMapping
     @Validated
     public ResponseEntity<LocationDtoOut> addLocation(@Validated @RequestBody LocationDtoIn locationDtoIn) {
 
-        LocationDtoOut locationDtoOut = locationService.addLocation(locationDtoIn);
+        var locationDtoOut = locationService.addLocation(locationDtoIn);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(locationDtoOut);
     }
 
     @PutMapping("/{locationId}")
     @Validated
-    public ResponseEntity<LocationDtoOut> updateLocationById(@PathVariable @Positive @Min(1) Long locationId,
-                                                             @Validated @RequestBody LocationDtoIn locationDtoIn) {
+    public ResponseEntity<LocationDtoOut> updateLocationById(
+            @PathVariable @Positive @Min(1) Long locationId,
+            @Validated @RequestBody LocationDtoIn locationDtoIn) {
 
-        LocationDtoOut locationDtoOut = locationService.updateLocation(locationId, locationDtoIn);
+        var locationDtoOut = locationService.updateLocation(locationId, locationDtoIn);
 
-        return ResponseEntity.status(HttpStatus.OK).body(locationDtoOut);
+        return ResponseEntity.ok(locationDtoOut);
     }
 
     @DeleteMapping("/{locationId}")
+    @ResponseStatus(HttpStatus.OK)
     @Validated
     public void deleteLocationById(@PathVariable @Positive @Min(1) Long locationId) {
         locationService.deleteLocationById(locationId);

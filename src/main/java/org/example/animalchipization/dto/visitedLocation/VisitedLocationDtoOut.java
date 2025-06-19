@@ -7,15 +7,15 @@ import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.animalchipization.entities.VisitedLocation;
 
 import java.time.Instant;
 
 /**
  * Represents visited location data transfer object
- * All fields must be not null<br>
- * Each id field must be strictly greater than 0
  *
  * @author Aleksey
+ * @see VisitedLocation Animal entity
  */
 @AllArgsConstructor
 @Setter

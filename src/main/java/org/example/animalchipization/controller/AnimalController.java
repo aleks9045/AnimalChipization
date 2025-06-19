@@ -1,4 +1,4 @@
-package org.example.animalchipization.controller.animal;
+package org.example.animalchipization.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
@@ -43,30 +43,33 @@ public class AnimalController {
     @Validated
     public ResponseEntity<AnimalDtoOut> getAnimalById(@PathVariable @Positive @Min(1) Long animalId) {
 
-        AnimalDtoOut animalDtoOut = animalService.getAnimal(animalId);
+        var animalDtoOut = animalService.getAnimal(animalId);
 
-        return ResponseEntity.status(HttpStatus.OK).body(animalDtoOut);
+        return ResponseEntity.ok(animalDtoOut);
     }
 
     @PostMapping
     @Validated
     public ResponseEntity<AnimalDtoOut> addAnimal(@Validated @RequestBody AnimalDtoIn animalDtoIn) {
 
-        AnimalDtoOut animalDtoOut = animalService.addAnimal(animalDtoIn);
+        var animalDtoOut = animalService.addAnimal(animalDtoIn);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(animalDtoOut);
     }
 
     @PutMapping("/{animalId}")
     @Validated
-    public ResponseEntity<AnimalDtoOut> updateAnimalById(@PathVariable @Positive @Min(1) Long animalId,
-                                                         @Validated @RequestBody AnimalDtoUpdate animalDtoUpdate) {
+    public ResponseEntity<AnimalDtoOut> updateAnimalById(
+            @PathVariable @Positive @Min(1) Long animalId,
+            @Validated @RequestBody AnimalDtoUpdate animalDtoUpdate) {
 
-        AnimalDtoOut animalDtoOut = animalService.updateAnimal(animalId, animalDtoUpdate);
-        return ResponseEntity.status(HttpStatus.OK).body(animalDtoOut);
+        var animalDtoOut = animalService.updateAnimal(animalId, animalDtoUpdate);
+
+        return ResponseEntity.ok(animalDtoOut);
     }
 
     @DeleteMapping("/{animalId}")
+    @ResponseStatus(HttpStatus.OK)
     @Validated
     public void deleteAnimalById(@PathVariable @Positive @Min(1) Long animalId) {
         animalService.deleteAnimalById(animalId);
@@ -92,12 +95,11 @@ public class AnimalController {
                 .gender(gender)
                 .build();
 
-
-        List<AnimalDtoOut> animalDtoOutList = animalService.searchAnimals(
+        var animalDtoOutList = animalService.searchAnimals(
                 animalSearchCriteria,
                 size, from);
 
-        return ResponseEntity.status(HttpStatus.OK).body(animalDtoOutList);
+        return ResponseEntity.ok(animalDtoOutList);
     }
 
     @PostMapping("/{animalId}/types/{typeId}")
@@ -105,7 +107,7 @@ public class AnimalController {
     public ResponseEntity<AnimalDtoOut> addTypeToAnimal(@PathVariable @Positive @Min(1) Long animalId,
                                                       @PathVariable @Positive @Min(1) Long typeId) {
 
-        AnimalDtoOut animalDtoOut = animalTypeRelationsService.addTypeToAnimal(animalId, typeId);
+        var animalDtoOut = animalTypeRelationsService.addTypeToAnimal(animalId, typeId);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(animalDtoOut);
     }
@@ -115,9 +117,9 @@ public class AnimalController {
     public ResponseEntity<AnimalDtoOut> replaceTypeInAnimal(@PathVariable @Positive @Min(1) Long animalId,
                                                          @Validated @RequestBody UpdateAnimalTypeDto updateAnimalTypeDto) {
 
-        AnimalDtoOut animalDtoOut = animalTypeRelationsService.replaceTypeInAnimal(animalId, updateAnimalTypeDto);
+        var animalDtoOut = animalTypeRelationsService.replaceTypeInAnimal(animalId, updateAnimalTypeDto);
 
-        return ResponseEntity.status(HttpStatus.OK).body(animalDtoOut);
+        return ResponseEntity.ok(animalDtoOut);
     }
 
     @DeleteMapping("/{animalId}/types/{typeId}")
@@ -125,9 +127,9 @@ public class AnimalController {
     public ResponseEntity<AnimalDtoOut> removeTypeFromAnimal(@PathVariable @Positive @Min(1) Long animalId,
                                                          @PathVariable @Positive @Min(1) Long typeId) {
 
-        AnimalDtoOut animalDtoOut = animalTypeRelationsService.removeTypeFromAnimal(animalId, typeId);
+        var animalDtoOut = animalTypeRelationsService.removeTypeFromAnimal(animalId, typeId);
 
-        return ResponseEntity.status(HttpStatus.OK).body(animalDtoOut);
+        return ResponseEntity.ok(animalDtoOut);
     }
 
     @GetMapping("{animalId}/locations")
@@ -139,17 +141,17 @@ public class AnimalController {
             @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
             @RequestParam(defaultValue = "10") @Positive @Min(1) Integer size) {
 
-        VisitedLocationSearchCriteria VisitedLocationSearchCriteria = new VisitedLocationSearchCriteria(
+        var VisitedLocationSearchCriteria = new VisitedLocationSearchCriteria(
                 animalId,
                 startDateTime,
                 endDateTime
         );
 
-        List<VisitedLocationDtoOut> locationDtoOut = visitedLocationService.searchLocations(
+        var locationDtoOut = visitedLocationService.searchLocations(
                 VisitedLocationSearchCriteria,
                 PageRequest.of(from, size));
 
-        return ResponseEntity.status(HttpStatus.OK).body(locationDtoOut);
+        return ResponseEntity.ok(locationDtoOut);
     }
 
     @PostMapping("/{animalId}/locations/{pointId}")
@@ -158,7 +160,7 @@ public class AnimalController {
             @PathVariable @Positive @Min(1) Long animalId,
             @PathVariable @Positive @Min(1) Long pointId) {
 
-        VisitedLocationDtoOut VisitedLocationDtoOut = visitedLocationService.addVisitedLocationToAnimal(animalId, pointId);
+        var VisitedLocationDtoOut = visitedLocationService.addVisitedLocationToAnimal(animalId, pointId);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(VisitedLocationDtoOut);
     }
@@ -169,19 +171,19 @@ public class AnimalController {
             @PathVariable @Positive @Min(1) Long animalId,
             @Validated @RequestBody UpdateVisitedLocationDto updateVisitedLocationDto) {
 
-        VisitedLocationDtoOut VisitedLocationDtoOut = visitedLocationService.replaceVisitedLocationInAnimal(animalId, updateVisitedLocationDto);
+        var VisitedLocationDtoOut = visitedLocationService.replaceVisitedLocationInAnimal(animalId, updateVisitedLocationDto);
 
-        return ResponseEntity.status(HttpStatus.OK).body(VisitedLocationDtoOut);
+        return ResponseEntity.ok(VisitedLocationDtoOut);
     }
 
     @DeleteMapping("/{animalId}/locations/{visitedPointId}")
+    @ResponseStatus(HttpStatus.OK)
     @Validated
-    public ResponseEntity<VisitedLocationDtoOut> removeVisitedLocationFromAnimal(
+    public void removeVisitedLocationFromAnimal(
             @PathVariable @Positive @Min(1) Long animalId,
             @PathVariable @Positive @Min(1) Long visitedPointId) {
 
         visitedLocationService.removeVisitedLocationFromAnimal(animalId, visitedPointId);
 
-        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

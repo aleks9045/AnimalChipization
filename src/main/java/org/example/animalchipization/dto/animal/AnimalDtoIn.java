@@ -16,15 +16,8 @@ import java.util.List;
 /**
  * Represents animal data transfer object
  *
- * <p>Used to validate input data in requests via jakarta validation<br><br>
- * All fields must be not null<br>
- * Includes schemas definitions for display in swagger<br>
- * Weight, length and height must be positive<br>
- * Each id field must be strictly greater than 0<br>
- * List of animal types must not contain duplicates values
- *
- * @see Animal Animal entity
  * @author Aleksey
+ * @see Animal Animal entity
  */
 @AllArgsConstructor
 @Setter
@@ -64,7 +57,6 @@ public class AnimalDtoIn {
     private Long chippingLocationId;
 
     @Schema(description = "animal types", example = "[1]")
-    @NotNull
     @NotEmpty
     @NoDuplicates
     private List<@Positive @Min(1) Long> animalTypes;

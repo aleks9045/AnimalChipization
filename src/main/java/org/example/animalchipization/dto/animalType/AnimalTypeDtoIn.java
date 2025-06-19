@@ -13,14 +13,8 @@ import org.example.animalchipization.entity.AnimalType;
 /**
  * Represents animal type data transfer object
  *
- * <p>Used to validate input data in requests via jakarta validation<br><br>
- * All fields must be not null or blank<br>
- * Id field must be strictly greater than 0<br>
- *
- * Includes schemas definitions for display in swagger
- *
- * @see AnimalType Animal type entity
  * @author Aleksey
+ * @see AnimalType Animal type entity
  */
 @AllArgsConstructor
 @Setter
@@ -29,7 +23,7 @@ import org.example.animalchipization.entity.AnimalType;
 public class AnimalTypeDtoIn {
 
     @Schema(description = "animal type", example = "big")
-    @NotNull @NotBlank
+    @NotBlank
     @Size(max = 255)
     private String type;
 }
