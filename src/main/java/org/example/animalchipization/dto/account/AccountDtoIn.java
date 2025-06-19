@@ -10,7 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.example.animalchipization.entities.Account;
+import org.example.animalchipization.entity.Account;
 
 /**
  * Represents account data transfer object

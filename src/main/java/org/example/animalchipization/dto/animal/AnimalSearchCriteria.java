@@ -1,8 +1,8 @@
 package org.example.animalchipization.dto.animal;
 
 import jakarta.annotation.Nullable;
-import org.example.animalchipization.entities.Account;
-import org.example.animalchipization.entities.Animal;
+import lombok.Builder;
+import org.example.animalchipization.entity.Animal;
 import org.example.animalchipization.enums.AnimalGender;
 import org.example.animalchipization.enums.AnimalLifeStatus;
 
@@ -14,6 +14,7 @@ import java.time.Instant;
  *
  * @author Aleksey
  */
+@Builder
 public record AnimalSearchCriteria (
         @Nullable Instant startDateTime,
         @Nullable Instant endDateTime,

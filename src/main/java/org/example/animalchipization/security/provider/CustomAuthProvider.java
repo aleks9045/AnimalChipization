@@ -1,9 +1,9 @@
 package org.example.animalchipization.security.provider;
 
 import lombok.RequiredArgsConstructor;
-import org.example.animalchipization.entities.Account;
+import org.example.animalchipization.entity.Account;
 import org.example.animalchipization.service.account.impl.AccountValidatorImpl;
-import org.example.animalchipization.service.auth.util.UserAuthentication;
+import org.example.animalchipization.util.UserAuthentication;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

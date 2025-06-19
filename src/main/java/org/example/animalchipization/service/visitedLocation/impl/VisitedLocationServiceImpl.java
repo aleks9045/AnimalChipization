@@ -1,18 +1,17 @@
 package org.example.animalchipization.service.visitedLocation.impl;
 
-import jakarta.persistence.criteria.JoinType;
 import lombok.RequiredArgsConstructor;
 import org.example.animalchipization.dto.location.VisitedLocationSearchCriteria;
 import org.example.animalchipization.dto.visitedLocation.UpdateVisitedLocationDto;
 import org.example.animalchipization.dto.visitedLocation.VisitedLocationDtoOut;
-import org.example.animalchipization.entities.*;
-import org.example.animalchipization.mappers.VisitedLocationMapper;
+import org.example.animalchipization.entity.*;
+import org.example.animalchipization.mapper.VisitedLocationMapper;
 import org.example.animalchipization.repository.VisitedLocationRepository;
 import org.example.animalchipization.service.animal.AnimalValidator;
 import org.example.animalchipization.service.location.LocationValidator;
 import org.example.animalchipization.service.visitedLocation.VisitedLocationService;
-import org.example.animalchipization.service.JpaSpecificationBuilder;
 import org.example.animalchipization.service.visitedLocation.VisitedLocationValidator;
+import org.example.animalchipization.repository.SpecificationFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -35,28 +34,14 @@ public class VisitedLocationServiceImpl implements VisitedLocationService {
     private final VisitedLocationValidator visitedLocationValidator;
 
 
-
     @Override
     @Transactional
     public List<VisitedLocationDtoOut> searchLocations(
-            VisitedLocationSearchCriteria VisitedLocationSearchCriteria,
+            VisitedLocationSearchCriteria visitedLocationSearchCriteria,
             Pageable pageable) {
 
-        var spec = Specification.where(
-                JpaSpecificationBuilder.<VisitedLocation>join(
-                        VisitedLocation_.ANIMAL,
-                        Animal_.ANIMAL_ID,
-                        VisitedLocationSearchCriteria.animalId(),
-                        JoinType.INNER)
-        ).and(
-                JpaSpecificationBuilder.dateTimeFrom(
-                        VisitedLocation_.DATE_TIME_OF_VISIT_LOCATION_POINT,
-                        VisitedLocationSearchCriteria.startDateTime())
-        ).and(
-                JpaSpecificationBuilder.dateTimeTo(
-                        VisitedLocation_.DATE_TIME_OF_VISIT_LOCATION_POINT,
-                        VisitedLocationSearchCriteria.endDateTime())
-        );
+        Specification<VisitedLocation> spec =
+                SpecificationFactory.buildVisitedLocationSearchSpec(visitedLocationSearchCriteria);
 
         var visitedLocationPage = visitedLocationRepository.findAll(spec, pageable);
 

@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.example.animalchipization.entities.Location;
+import org.example.animalchipization.entity.Location;
 
 /**
  * Represents location data transfer object

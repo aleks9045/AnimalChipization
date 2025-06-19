@@ -1,6 +1,6 @@
 package org.example.animalchipization.repository;
 
-import org.example.animalchipization.entities.VisitedLocation;
+import org.example.animalchipization.entity.VisitedLocation;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

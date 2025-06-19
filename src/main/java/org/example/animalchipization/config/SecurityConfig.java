@@ -1,6 +1,6 @@
 package org.example.animalchipization.config;
 
-import org.example.animalchipization.security.filters.CustomAuthFilter;
+import org.example.animalchipization.security.filter.CustomAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

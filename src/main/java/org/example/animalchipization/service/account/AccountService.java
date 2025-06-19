@@ -3,9 +3,8 @@ package org.example.animalchipization.service.account;
 import org.example.animalchipization.dto.account.AccountDtoIn;
 import org.example.animalchipization.dto.account.AccountDtoOut;
 import org.example.animalchipization.dto.account.AccountSearchCriteria;
-import org.example.animalchipization.entities.Account;
+import org.example.animalchipization.entity.Account;
 import org.example.animalchipization.service.account.impl.AccountServiceImpl;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -52,12 +51,12 @@ public interface AccountService {
 
     /**
      * Search accounts entries from database
-     *
      * @param accountSearchCriteria account search criteria DTO
-     * @param pageable Pageable object
+     * @param limit limit
+     * @param offset offset
      * @return List of Account DTO for output
      */
     List<AccountDtoOut> searchAccount(AccountSearchCriteria accountSearchCriteria,
-                                      Pageable pageable);
+                                      int limit, int offset);
 
 }

@@ -1,11 +1,11 @@
 package org.example.animalchipization.service.visitedLocation.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.example.animalchipization.entities.Animal;
-import org.example.animalchipization.entities.Location;
-import org.example.animalchipization.entities.VisitedLocation;
-import org.example.animalchipization.enums.errors.BadRequestError;
-import org.example.animalchipization.enums.errors.NotFoundError;
+import org.example.animalchipization.entity.Animal;
+import org.example.animalchipization.entity.Location;
+import org.example.animalchipization.entity.VisitedLocation;
+import org.example.animalchipization.enums.error.BadRequestError;
+import org.example.animalchipization.enums.error.NotFoundError;
 import org.example.animalchipization.exception.RequestException;
 import org.example.animalchipization.repository.AnimalRepository;
 import org.example.animalchipization.repository.VisitedLocationRepository;
@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;
+
+import static org.apache.commons.lang3.BooleanUtils.isFalse;
 
 /**
  * @author Aleksey
@@ -39,7 +41,7 @@ public class VisitedLocationValidatorImpl implements VisitedLocationValidator {
 
         var visitedLocations = animal.getVisitedLocations();
 
-        if (!visitedLocations.isEmpty()) {
+        if (isFalse(visitedLocations.isEmpty())) {
             VisitedLocation latterVisitedLocation =
                     visitedLocations.get(visitedLocations.size() - 1);
 
@@ -74,8 +76,7 @@ public class VisitedLocationValidatorImpl implements VisitedLocationValidator {
 
                 if (i == 0) this.checkLocationEqualLocation(
                         location,
-                        animal.getChippingLocationId()
-                );
+                        animal.getChippingLocationId());
 
                 return visitedLocations.get(i);
             }
@@ -111,8 +112,7 @@ public class VisitedLocationValidatorImpl implements VisitedLocationValidator {
                 if (i > 0 && i < listSize - 1)
                     this.checkLocationEqualLocation(
                             visitedLocations.get(i - 1).getLocation(),
-                            visitedLocations.get(i + 1).getLocation()
-                    );
+                            visitedLocations.get(i + 1).getLocation());
 
                 if (i == 0 && listSize > 1 &&
                         animal.getChippingLocationId()

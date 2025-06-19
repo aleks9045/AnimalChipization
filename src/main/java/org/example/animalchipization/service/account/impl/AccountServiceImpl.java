@@ -4,19 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.example.animalchipization.dto.account.AccountDtoIn;
 import org.example.animalchipization.dto.account.AccountDtoOut;
 import org.example.animalchipization.dto.account.AccountSearchCriteria;
-import org.example.animalchipization.entities.Account;
-import org.example.animalchipization.entities.Account_;
-import org.example.animalchipization.enums.errors.BadRequestError;
+import org.example.animalchipization.entity.Account;
+import org.example.animalchipization.entity.Account_;
+import org.example.animalchipization.enums.error.BadRequestError;
 import org.example.animalchipization.exception.RequestException;
-import org.example.animalchipization.mappers.AccountMapper;
+import org.example.animalchipization.mapper.AccountMapper;
 import org.example.animalchipization.repository.AccountRepository;
-import org.example.animalchipization.service.JpaSpecificationBuilder;
 import org.example.animalchipization.service.account.AccountService;
 import org.example.animalchipization.service.account.AccountValidator;
-import org.example.animalchipization.service.auth.util.UserAuthentication;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
+import org.example.animalchipization.util.UserAuthentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -96,21 +92,16 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<AccountDtoOut> searchAccount(AccountSearchCriteria accountSearchCriteria,
-                                             Pageable pageable) {
+                                             int limit, int offset) {
 
-        var spec = Specification.where(
-                JpaSpecificationBuilder.<Account>likeString(
-                        Account_.FIRST_NAME, accountSearchCriteria.firstName())
-        ).and(
-                JpaSpecificationBuilder.likeString(
-                        Account_.LAST_NAME, accountSearchCriteria.lastName())
-        ).and(
-                JpaSpecificationBuilder.likeString(
-                        Account_.EMAIL, accountSearchCriteria.email())
+        List<Account> accountList = accountRepository.searchAccountsByFirstNameAndLastNameAndEmail(
+                accountSearchCriteria.firstName(),
+                accountSearchCriteria.lastName(),
+                accountSearchCriteria.email(),
+                limit,
+                offset
         );
 
-        var accountPage = accountRepository.findAll(spec, pageable);
-
-        return accountPage.map(accountMapper::toDto).getContent();
+        return accountList.stream().map(accountMapper::toDto).toList();
     }
 }

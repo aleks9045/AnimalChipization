@@ -1,9 +1,8 @@
 package org.example.animalchipization.service.animal;
 
 import org.example.animalchipization.dto.animal.*;
-import org.example.animalchipization.entities.Animal;
+import org.example.animalchipization.entity.Animal;
 import org.example.animalchipization.service.animal.impl.AnimalServiceImpl;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -51,10 +50,11 @@ public interface AnimalService {
      * Search animal entries from database
      *
      * @param animalSearchCriteria animal search criteria DTO
-     * @param pageable Pageable object
+     * @param limit limit
+     * @param offset offset
      * @return List of Animal DTO for output
      */
     List<AnimalDtoOut> searchAnimals(AnimalSearchCriteria animalSearchCriteria,
-                                     Pageable pageable);
+                                     int limit, int offset);
 
 }

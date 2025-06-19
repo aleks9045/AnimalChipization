@@ -1,14 +1,13 @@
 package org.example.animalchipization.service.account.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.example.animalchipization.entities.Account;
-import org.example.animalchipization.enums.errors.ConflictError;
-import org.example.animalchipization.enums.errors.ForbiddenError;
-import org.example.animalchipization.enums.errors.NotFoundError;
+import org.example.animalchipization.entity.Account;
+import org.example.animalchipization.enums.error.ConflictError;
+import org.example.animalchipization.enums.error.ForbiddenError;
+import org.example.animalchipization.enums.error.NotFoundError;
 import org.example.animalchipization.exception.RequestException;
 import org.example.animalchipization.repository.AccountRepository;
 import org.example.animalchipization.security.provider.CustomAuthProvider;
-import org.example.animalchipization.service.Validator;
 import org.example.animalchipization.service.account.AccountValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -18,6 +17,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
+
+import static org.apache.commons.lang3.BooleanUtils.isFalse;
 
 /**
  * @author Aleksey
@@ -31,7 +32,7 @@ public class AccountValidatorImpl implements AccountValidator {
 
     @Override
     public void authenticateAccount(Account account) {
-        if (!account.getEmail().equals(CustomAuthProvider.getCurrentUserEmail())) {
+        if (isFalse(account.getEmail().equals(CustomAuthProvider.getCurrentUserEmail()))) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
     }
@@ -52,7 +53,7 @@ public class AccountValidatorImpl implements AccountValidator {
 
     @Override
     public void checkExistence(Long accountId) {
-        if (!accountRepository.existsById(accountId)) {
+        if (isFalse(accountRepository.existsById(accountId))) {
             throw new RequestException(ForbiddenError.ACCOUNT_NOT_FOUND);
         }
     }
@@ -75,7 +76,7 @@ public class AccountValidatorImpl implements AccountValidator {
         var auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (auth != null && auth.isAuthenticated() &&
-                !(auth instanceof AnonymousAuthenticationToken)) {
+                isFalse((auth instanceof AnonymousAuthenticationToken))) {
             throw new RequestException(ForbiddenError.ACCOUNT_ALREADY_AUTHORIZED);
         }
     }
@@ -93,7 +94,7 @@ public class AccountValidatorImpl implements AccountValidator {
     public void checkEmailAlreadyExistenceForUpdate(String email) {
         var account = accountRepository.findByEmail(email);
 
-        if (account.isPresent() && !account.get().getEmail().equals(email)) {
+        if (account.isPresent() && isFalse(account.get().getEmail().equals(email))) {
             throw new RequestException(ConflictError.ACCOUNT_WITH_EMAIL_ALREADY_EXISTS);
         }
     }

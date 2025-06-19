@@ -2,17 +2,18 @@ package org.example.animalchipization.service.animalType.impl;
 
 
 import lombok.RequiredArgsConstructor;
-import org.example.animalchipization.entities.AnimalType;
-import org.example.animalchipization.enums.errors.BadRequestError;
-import org.example.animalchipization.enums.errors.ConflictError;
-import org.example.animalchipization.enums.errors.NotFoundError;
+import org.example.animalchipization.entity.AnimalType;
+import org.example.animalchipization.enums.error.BadRequestError;
+import org.example.animalchipization.enums.error.ConflictError;
+import org.example.animalchipization.enums.error.NotFoundError;
 import org.example.animalchipization.exception.RequestException;
 import org.example.animalchipization.repository.AnimalTypeRepository;
-import org.example.animalchipization.service.Validator;
 import org.example.animalchipization.service.animalType.AnimalTypeValidator;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
+
+import static org.apache.commons.lang3.BooleanUtils.isFalse;
 
 /**
  * @author Aleksey
@@ -32,7 +33,7 @@ public class AnimalTypeValidatorImpl implements AnimalTypeValidator {
 
     @Override
     public void checkExistence(Long animalTypeId) {
-        if (!animalTypeRepository.existsById(animalTypeId)) {
+        if (isFalse(animalTypeRepository.existsById(animalTypeId))) {
             throw new RequestException(NotFoundError.ANIMAL_TYPE_NOT_FOUND);
         }
     }
@@ -46,7 +47,7 @@ public class AnimalTypeValidatorImpl implements AnimalTypeValidator {
 
     @Override
     public void validateTypes(Set<AnimalType> animalTypeSet, AnimalType animalType) {
-        if (!animalTypeSet.contains(animalType)) {
+        if (isFalse(animalTypeSet.contains(animalType))) {
             throw new RequestException(NotFoundError.ANIMAL_TYPE_NOT_FOUND);
         }
         if (animalTypeSet.size() == 1) {
