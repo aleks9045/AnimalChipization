@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.example.animalchipization.entities.VisitedLocation;
+import org.example.animalchipization.entity.VisitedLocation;
 
 import java.time.Instant;
 

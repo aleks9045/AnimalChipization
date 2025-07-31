@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.example.animalchipization.entities.Animal;
+import org.example.animalchipization.entity.Animal;
 import org.example.animalchipization.enums.AnimalGender;
 import org.example.animalchipization.enums.AnimalLifeStatus;
 
